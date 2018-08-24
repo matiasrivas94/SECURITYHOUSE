@@ -3,6 +3,7 @@ package com.example.matiasezequiel.security_house;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -40,6 +41,10 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        //Infla el AlarmasFragment como Fragment principal
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.contenedor,new AlarmasFragment()).commit();
     }
 
     @Override
@@ -80,18 +85,24 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
+        FragmentManager fragmentManager = getSupportFragmentManager();
+
         if (id == R.id.nav_camera) {
-            // Handle the camera action
+            AlarmasFragment alarmas = new AlarmasFragment();
+            fragmentManager.beginTransaction().replace(R.id.contenedor,alarmas, alarmas.getTag()).commit();
         } else if (id == R.id.nav_gallery) {
-
+            CamarasFragment camaras = new CamarasFragment();
+            fragmentManager.beginTransaction().replace(R.id.contenedor,camaras, camaras.getTag()).commit();
         } else if (id == R.id.nav_slideshow) {
-
+            //nada
         } else if (id == R.id.nav_manage) {
-
+            //nada
         } else if (id == R.id.nav_share) {
-
+            ContactoFragment contacto = new ContactoFragment();
+            fragmentManager.beginTransaction().replace(R.id.contenedor, contacto, contacto.getTag()).commit();
         } else if (id == R.id.nav_send) {
-
+            QuienesSomosFragment somos = new QuienesSomosFragment();
+            fragmentManager.beginTransaction().replace(R.id.contenedor, somos, somos.getTag()).commit();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
