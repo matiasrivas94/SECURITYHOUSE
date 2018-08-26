@@ -7,6 +7,14 @@
 
     <!-- TODO: Update blank fragment layout -->
 
+    <Button
+        android:id="@+id/btnCrearAlarma"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="130dp"
+        android:layout_marginTop="300dp"
+        android:text="Crear Alarma" />
+
     <TextView
         android:id="@+id/textCrearAlarma"
         android:layout_width="wrap_content"
@@ -15,4 +23,12 @@
         android:text="Crear Alarma"
         android:textSize="42sp"
         android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/etNombre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Name" />
 </FrameLayout>
