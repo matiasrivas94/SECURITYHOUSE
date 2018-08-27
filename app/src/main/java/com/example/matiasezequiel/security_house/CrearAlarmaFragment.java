@@ -8,11 +8,15 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 
 public class CrearAlarmaFragment extends Fragment {
+	
+	Spinner opciones;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -31,6 +35,12 @@ public class CrearAlarmaFragment extends Fragment {
                 fr.commit();
             }
         });
+		
+		opciones =(Spinner)v.findViewById(R.id.sp01);
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this.getActivity(), R.array.opciones, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.preference_category);
+        opciones.setAdapter(adapter);
 
         return v;
     }
