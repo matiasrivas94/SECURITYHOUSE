@@ -4,13 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".CrearAlarmaFragment">
+    android:background="@mipmap/fondo1">
 
-    <!-- TODO: Update blank fragment layout -->
-    <LinearLayout
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
+        android:layout_height="80sp"
+        android:background="@color/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:orientation="horizontal">
 
         <TextView
             android:id="@+id/textCrearAlarma"
@@ -18,40 +20,56 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="Crear Alarma"
-            android:textSize="42sp"
-            android:textStyle="bold" />
+            android:textSize="35sp"
+            android:textStyle="bold"
+            android:textColor="#f5f5f5" />
+
+    </android.support.v7.widget.Toolbar>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="77sp"
+        android:orientation="vertical">
+
+
         <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Nombre:" />
+            android:text="Nombre:"
+            android:textColor="@android:color/white" />
 
         <EditText
             android:id="@+id/ETNombre"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="textPersonName" />
+            android:inputType="textPersonName"
+            android:textColor="@android:color/white" />
 
         <TextView
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Tipo" />
+            android:text="Tipo"
+            android:textColor="@android:color/white" />
 
         <Spinner
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:id="@+id/sp01"
-			android:layout_below="@+id/tvTitulo"
-			android:layout_margin="15dp">
-		</Spinner>
+            android:id="@+id/sp01"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvTitulo"
+            android:layout_margin="15dp"
+            android:background="#cfd8dc"
+            android:textColor="@android:color/white"></Spinner>
 
         <TextView
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Numero de Teléfono:" />
+            android:text="Numero de Teléfono:"
+            android:textColor="@android:color/white" />
 
         <EditText
             android:id="@+id/ETNumTelefono"
@@ -64,7 +82,8 @@
             android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Cantidad de Sensores:" />
+            android:text="Cantidad de Sensores:"
+            android:textColor="@android:color/white" />
 
         <EditText
             android:id="@+id/ETCantSensores"
@@ -72,11 +91,13 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName" />
+
         <TextView
             android:id="@+id/textView5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Cantidad de Zonas:" />
+            android:text="Cantidad de Zonas:"
+            android:textColor="@android:color/white" />
 
         <EditText
             android:id="@+id/ETCantZonas"

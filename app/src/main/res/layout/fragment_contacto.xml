@@ -5,14 +5,25 @@
     android:layout_height="match_parent"
     tools:context=".ContactoFragment">
 
-    <!-- TODO: Update blank fragment layout -->
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="70sp"
+        android:background="@color/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/textContacto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="CONTACTO"
-        android:textSize="42sp"
-        android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textContacto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Contacto"
+            android:textSize="33sp"
+            android:textStyle="bold" />
+
+    </android.support.v7.widget.Toolbar>
+
+
 </FrameLayout>
