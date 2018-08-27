@@ -14,4 +14,12 @@
         android:textSize="42sp"
         android:visibility="visible"/>
 
+    <Button
+        android:id="@+id/btnCrearCamara"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="150dp"
+        android:layout_marginTop="300sp"
+        android:text="Crear Camara" />
+
 </FrameLayout>
