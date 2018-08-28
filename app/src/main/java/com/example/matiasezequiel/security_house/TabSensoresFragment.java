@@ -24,7 +24,7 @@ public class TabSensoresFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 FragmentTransaction fr = getFragmentManager().beginTransaction();
-                fr.replace(R.id.contenedor, new CrearSensorFragment());
+                fr.replace(R.id.contenedor, new CrearSensorFragment()).addToBackStack(null);
                 fr.commit();
             }
         });

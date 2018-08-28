@@ -25,7 +25,7 @@ public class TabCamarasFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 FragmentTransaction fr = getFragmentManager().beginTransaction();
-                fr.replace(R.id.contenedor, new CrearCamarasFragment());
+                fr.replace(R.id.contenedor, new CrearCamarasFragment()).addToBackStack(null);
                 fr.commit();
             }
         });
