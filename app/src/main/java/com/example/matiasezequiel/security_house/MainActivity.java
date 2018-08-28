@@ -79,6 +79,8 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -89,24 +91,33 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_camera) {
             AlarmasFragment alarmas = new AlarmasFragment();
-            fragmentManager.beginTransaction().replace(R.id.contenedor,alarmas, alarmas.getTag()).commit();
+            fragmentManager.beginTransaction().replace(R.id.contenedor,alarmas, alarmas.getTag()).addToBackStack(null)
+                    .commit();
         } else if (id == R.id.nav_gallery) {
             CamarasFragment camaras = new CamarasFragment();
-            fragmentManager.beginTransaction().replace(R.id.contenedor,camaras, camaras.getTag()).commit();
+            fragmentManager.beginTransaction().replace(R.id.contenedor,camaras, camaras.getTag()).addToBackStack(null)
+                    .commit();
         } else if (id == R.id.nav_slideshow) {
             //nada
         } else if (id == R.id.nav_manage) {
             //nada
         } else if (id == R.id.nav_share) {
             ContactoFragment contacto = new ContactoFragment();
-            fragmentManager.beginTransaction().replace(R.id.contenedor, contacto, contacto.getTag()).commit();
+            fragmentManager.beginTransaction().replace(R.id.contenedor, contacto, contacto.getTag()).addToBackStack(null)
+                    .commit();
         } else if (id == R.id.nav_send) {
             QuienesSomosFragment somos = new QuienesSomosFragment();
-            fragmentManager.beginTransaction().replace(R.id.contenedor, somos, somos.getTag()).commit();
+            fragmentManager.beginTransaction().replace(R.id.contenedor, somos, somos.getTag()).addToBackStack(null)
+                    .commit();
         }
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+
+
+
     }
+
 }

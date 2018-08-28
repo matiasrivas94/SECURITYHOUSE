@@ -23,7 +23,7 @@ public class AlarmasFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 FragmentTransaction fr = getFragmentManager().beginTransaction();
-                fr.replace(R.id.contenedor, new CrearAlarmaFragment());
+                fr.replace(R.id.contenedor, new CrearAlarmaFragment()).addToBackStack(null);
                 fr.commit();
             }
         });
