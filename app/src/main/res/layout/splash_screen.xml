@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/Splash"
-    android:background="@drawable/final_splash"
+    android:background="@drawable/final_splash1"
     tools:context="SplashScreenActivity">
 
 </RelativeLayout>

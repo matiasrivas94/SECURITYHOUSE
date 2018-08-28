@@ -4,10 +4,11 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
+import android.widget.Button;
 
 
 public class TabZonasFragment extends Fragment {
@@ -17,7 +18,19 @@ public class TabZonasFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_tab_zonas, container, false);
+        View v = inflater.inflate(R.layout.fragment_tab_zonas, container, false);
+
+        Button btnCrearZona =(Button)v.findViewById(R.id.btnCrearZona);
+        btnCrearZona.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction fr = getFragmentManager().beginTransaction();
+                fr.replace(R.id.contenedor, new CrearZonaFragment()).addToBackStack(null);
+                fr.commit();
+            }
+        });
+
+        return v;
     }
 
 }

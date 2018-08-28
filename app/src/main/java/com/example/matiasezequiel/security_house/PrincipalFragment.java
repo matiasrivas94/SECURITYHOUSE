@@ -39,7 +39,7 @@ public class PrincipalFragment extends Fragment {
 
         // Set up the ViewPager with the sections adapter.
         ViewPager mViewPager = (ViewPager) view.findViewById(R.id.pager);
-        mViewPager.setAdapter(new PagerAdapter(getFragmentManager(),3));
+        mViewPager.setAdapter(new PagerAdapter(getFragmentManager(),2));
 
         TabLayout tabLayout = (TabLayout) view.findViewById(R.id.tabs);
 
@@ -63,12 +63,9 @@ public class PrincipalFragment extends Fragment {
 
             switch (position) {
                 case 0:
-                    TabSensoresFragment tab1 = new TabSensoresFragment();
-                    return tab1;
-                case 1:
                     TabZonasFragment tab2 = new TabZonasFragment();
                     return tab2;
-                case 2:
+                case 1:
                     TabCamarasFragment tab3 = new TabCamarasFragment();
                     return tab3;
                 default:
@@ -78,7 +75,7 @@ public class PrincipalFragment extends Fragment {
 
         @Override
         public int getCount() {
-            return 3;
+            return 2;
         }
     }
 }

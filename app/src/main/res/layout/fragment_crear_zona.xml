@@ -3,9 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CrearSensorFragment">
-
-
+    tools:context=".CrearZonaFragment">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -20,9 +18,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="fragment crear sensor"
             android:textColor="#f5f5f5"
+            android:text="fragment crear zona"
             android:textSize="33sp" />
 
     </android.support.v7.widget.Toolbar>
+
 </FrameLayout>

@@ -20,8 +20,8 @@ public class TabCamarasFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_tab_camaras, container, false);
 
-        Button btnCrearAlarma =(Button)v.findViewById(R.id.btnCrearCamara);
-        btnCrearAlarma.setOnClickListener(new View.OnClickListener() {
+        Button btnCrearCamara =(Button)v.findViewById(R.id.btnCrearCamara);
+        btnCrearCamara.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FragmentTransaction fr = getFragmentManager().beginTransaction();
