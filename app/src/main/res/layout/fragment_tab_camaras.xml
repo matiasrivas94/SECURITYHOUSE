@@ -10,16 +10,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:text="tab camaras"
+        android:text="tab camaras PRO"
         android:textSize="42sp"
         android:visibility="visible"/>
 
-    <Button
-        android:id="@+id/btnCrearCamara"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="150dp"
-        android:layout_marginTop="300sp"
-        android:text="Crear Camara" />
 
 </FrameLayout>

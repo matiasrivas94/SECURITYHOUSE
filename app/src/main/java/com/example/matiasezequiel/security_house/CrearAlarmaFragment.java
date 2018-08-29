@@ -43,7 +43,7 @@ public class CrearAlarmaFragment extends Fragment {
                 FragmentTransaction fr = getFragmentManager().beginTransaction();
                 fr.replace(R.id.contenedor, new PrincipalFragment()).addToBackStack(null);
                 fr.commit();
-                agregar(v);
+                //agregar(v);
             }
         });
 		
@@ -56,8 +56,8 @@ public class CrearAlarmaFragment extends Fragment {
         return v;
     }
 
-    public void agregar(View v){
-        if(ComprobarCampos()){
+    /*public void agregar(View v){
+        //if(ComprobarCampos()){
             String nom,numTel,tipo;
             int cantSen,cantZona;
 
@@ -92,13 +92,13 @@ public class CrearAlarmaFragment extends Fragment {
         opciones.setSelection(0);
         cantSensores.setText("");
         cantZonas.setText("");
-    }
+   // }
     public boolean ComprobarCampos(){
         if(nombre.getText().toString().isEmpty() || numTelefono.getText().toString().isEmpty() || cantSensores.getText().toString().isEmpty() || cantZonas.getText().toString().isEmpty()){
             return false;
         }else{
             return true;
         }
-    }
+    }*/
 
 }

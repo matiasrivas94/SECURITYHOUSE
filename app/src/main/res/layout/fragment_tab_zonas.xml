@@ -6,20 +6,18 @@
     tools:context=".TabZonasFragment">
 
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="tab zonas"
-        android:textSize="42sp"
-        android:visibility="visible"/>
-
     <Button
         android:id="@+id/btnCrearZona"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="150dp"
-        android:layout_marginTop="300sp"
+        android:layout_marginTop="450dp"
         android:text="Crear Zona" />
+
+    <ListView
+        android:id="@+id/listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="77dp" />
 
 </FrameLayout>
