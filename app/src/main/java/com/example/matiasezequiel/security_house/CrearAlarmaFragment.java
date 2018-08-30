@@ -39,9 +39,9 @@ public class CrearAlarmaFragment extends Fragment {
         btnCrearAlarma.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //FragmentTransaction fr = getFragmentManager().beginTransaction();
-                //fr.replace(R.id.contenedor, new PrincipalFragment()).addToBackStack(null);
-                //fr.commit();
+                FragmentTransaction fr = getFragmentManager().beginTransaction();
+                fr.replace(R.id.contenedor, new PrincipalFragment()).addToBackStack(null);
+                fr.commit();
                 agregar(v);
             }
         });
