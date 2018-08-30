@@ -32,7 +32,7 @@ public class AlarmasFragment extends Fragment {
         View v=inflater.inflate(R.layout.fragment_alarmas, container, false);
 
         lista = (ListView) v.findViewById(R.id.LVMostrar);
-        
+
         llenarLista();
 
         return v;
