@@ -20,7 +20,7 @@ import android.widget.Toast;
 public class CrearAlarmaFragment extends Fragment {
 	
 	Spinner opciones;
-    private EditText nombre, numTelefono, cantSensores, cantZonas;
+    EditText nombre, numTelefono, cantZonas;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -33,21 +33,19 @@ public class CrearAlarmaFragment extends Fragment {
         opciones = (Spinner) v.findViewById(R.id.SPTipo);
 
         numTelefono = (EditText) v.findViewById(R.id.ETNumTelefono);
-        cantSensores = (EditText) v.findViewById(R.id.ETCantSensores);
         cantZonas = (EditText) v.findViewById(R.id.ETCantZonas);
 
         Button btnCrearAlarma =(Button)v.findViewById(R.id.btnCrearAlarma);
         btnCrearAlarma.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentTransaction fr = getFragmentManager().beginTransaction();
-                fr.replace(R.id.contenedor, new PrincipalFragment()).addToBackStack(null);
-                fr.commit();
-                //agregar(v);
+                //FragmentTransaction fr = getFragmentManager().beginTransaction();
+                //fr.replace(R.id.contenedor, new PrincipalFragment()).addToBackStack(null);
+                //fr.commit();
+                agregar(v);
             }
         });
-		
-		opciones =(Spinner)v.findViewById(R.id.SPTipo);
+
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this.getActivity(), R.array.opciones, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.preference_category);
@@ -56,16 +54,14 @@ public class CrearAlarmaFragment extends Fragment {
         return v;
     }
 
-    /*public void agregar(View v){
-        //if(ComprobarCampos()){
-            String nom,numTel,tipo;
-            int cantSen,cantZona;
+    public void agregar(View v){
+        if(ComprobarCampos()){
+            String nom,numTel,tipo,cantZona;
 
             nom = nombre.getText().toString();
             numTel = numTelefono.getText().toString();
             tipo = opciones.getSelectedItem().toString();
-            cantSen = Integer.parseInt(cantSensores.getText().toString());
-            cantZona = Integer.parseInt(cantZonas.getText().toString());
+            cantZona = cantZonas.getText().toString();
 
             //sqlite bh = new sqlite(AgregarActivity.this,"usuarios",null,1);
             AlarmaSQLite bd = new AlarmaSQLite(this.getActivity(),"alarma",null,1);
@@ -75,6 +71,7 @@ public class CrearAlarmaFragment extends Fragment {
                 con.put("nombre",nom);
                 con.put("tipo",tipo);
                 con.put("numTelefono",numTel);
+                con.put("cantZonas",cantZona);
 
                 long insertado = db.insert("alarma",null,con);
                 if(insertado>0){
@@ -90,15 +87,14 @@ public class CrearAlarmaFragment extends Fragment {
         nombre.setText("");
         numTelefono.setText("");
         opciones.setSelection(0);
-        cantSensores.setText("");
         cantZonas.setText("");
-   // }
+   }
     public boolean ComprobarCampos(){
-        if(nombre.getText().toString().isEmpty() || numTelefono.getText().toString().isEmpty() || cantSensores.getText().toString().isEmpty() || cantZonas.getText().toString().isEmpty()){
+        if(nombre.getText().toString().isEmpty() || numTelefono.getText().toString().isEmpty() || cantZonas.getText().toString().isEmpty()){
             return false;
         }else{
             return true;
         }
-    }*/
+    }
 
 }

@@ -38,22 +38,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Nombre:"
-            android:textColor="#000000" />
+            android:textColor="@android:color/black" />
 
         <EditText
             android:id="@+id/ETNombre"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="textPersonName"
-            android:textColor="#000000" />
+            android:inputType="textPersonName" />
 
         <TextView
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Tipo"
-            android:textColor="#000000" />
+            android:textColor="@android:color/black" />
 
         <Spinner
             android:id="@+id/SPTipo"
@@ -62,31 +61,17 @@
             android:layout_below="@+id/tvTitulo"
             android:layout_margin="15dp"
             android:background="#cfd8dc"
-            android:textColor="#000000"></Spinner>
+            android:textColor="@android:color/white"></Spinner>
 
         <TextView
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Numero de Teléfono:"
-            android:textColor="#000000" />
+            android:textColor="@android:color/black" />
 
         <EditText
             android:id="@+id/ETNumTelefono"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName" />
-
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Cantidad de Sensores:"
-            android:textColor="#000000" />
-
-        <EditText
-            android:id="@+id/ETCantSensores"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -97,7 +82,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Cantidad de Zonas:"
-            android:textColor="#000000" />
+            android:textColor="@android:color/black" />
 
         <EditText
             android:id="@+id/ETCantZonas"
