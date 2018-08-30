@@ -5,8 +5,10 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +23,8 @@ public class CrearAlarmaFragment extends Fragment {
 	
 	Spinner opciones;
     private EditText nombre, numTelefono, cantSensores, cantZonas;
+
+    MainActivity mainActivity = (MainActivity)getActivity();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -53,9 +57,46 @@ public class CrearAlarmaFragment extends Fragment {
         adapter.setDropDownViewResource(android.R.layout.preference_category);
         opciones.setAdapter(adapter);
 
+
+
         return v;
     }
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser && isResumed()) {
+            onResume();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (!getUserVisibleHint()) {
+            return;
+        }
+
+        MainActivity mainActivity = (MainActivity) getActivity();
+        if (mainActivity != null) {
+
+            mainActivity.hideFloatingActionButton(); //oculto boton
+
+            FloatingActionButton fab = mainActivity.findViewById(R.id.fab);
+
+            //fab.setImageResource(R.drawable.ic_); //Cambiar icono
+
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    /*FragmentTransaction fr = getFragmentManager().beginTransaction();
+                    fr.replace(R.id.contenedor, new CrearAlarmaFragment()).addToBackStack(null);
+                    fr.commit();*/
+                    //NUEVA FUNCIONALIDAD
+                }
+            });
+        }
+    }
     /*public void agregar(View v){
         //if(ComprobarCampos()){
             String nom,numTel,tipo;

@@ -3,6 +3,7 @@ package com.example.matiasezequiel.security_house;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
@@ -33,17 +34,43 @@ public class AlarmasFragment extends Fragment {
         ArrayAdapter arrayAdapter = new ArrayAdapter(this.getActivity(), android.R.layout.simple_list_item_1, arrayList);
         list.setAdapter(arrayAdapter);
 
-        Button btnCrearAlarma =(Button)v.findViewById(R.id.btnNuevaAlarma);
-        btnCrearAlarma.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentTransaction fr = getFragmentManager().beginTransaction();
-                fr.replace(R.id.contenedor, new CrearAlarmaFragment()).addToBackStack(null);
-                fr.commit();
-            }
-        });
 
         return v;
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser && isResumed()) {
+            onResume();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (!getUserVisibleHint()) {
+            return;
+        }
+
+        MainActivity mainActivity = (MainActivity) getActivity();
+        if (mainActivity != null) {
+
+            mainActivity.showFloatingActionButton(); //fuerza la visibilidad
+
+            FloatingActionButton fab = mainActivity.findViewById(R.id.fab);
+
+            //fab.setImageResource(R.drawable.ic_send_black_24dp); //Cambiar icono
+
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    FragmentTransaction fr = getFragmentManager().beginTransaction();
+                    fr.replace(R.id.contenedor, new CrearAlarmaFragment()).addToBackStack(null);
+                    fr.commit();
+                }
+            });
+        }
     }
 
 
