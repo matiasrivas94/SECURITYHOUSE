@@ -32,16 +32,7 @@ public class AlarmasFragment extends Fragment {
         View v=inflater.inflate(R.layout.fragment_alarmas, container, false);
 
         lista = (ListView) v.findViewById(R.id.LVMostrar);
-
-        Button btnCrearAlarma =(Button)v.findViewById(R.id.btnNuevaAlarma);
-        btnCrearAlarma.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentTransaction fr = getFragmentManager().beginTransaction();
-                fr.replace(R.id.contenedor, new CrearAlarmaFragment()).addToBackStack(null);
-                fr.commit();
-            }
-        });
+        
         llenarLista();
 
         return v;
