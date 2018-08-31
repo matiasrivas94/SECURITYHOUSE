@@ -23,5 +23,46 @@
             android:textSize="33sp"
             android:textStyle="bold" />
 
+
     </android.support.v7.widget.Toolbar>
+
+    <TextView
+        android:id="@+id/contenido"
+        android:layout_width="wrap_content"
+        android:layout_height="464dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="45dp"
+        android:text="
+            Bienvenidos a Security House, una aplicacion para dispositivos Android.
+            Esta app es para brindar seguridad a su hogar y a su familia las 24 hs,
+            mediante el uso de alarmas, sensores y camaras.
+            Este tipo de seguridad es muy demandada.
+
+            El origen de esta aplicacion fue cuando a uno de los integrantes vivio una
+            'PESADILLA'. Un dia la alarma de su vecina empeso a sonar, la alarma duro
+            aproximadamente cuatro horas debido a que no se encontraba en su casa, hasta
+            que llego y la apago aproximadamente a las 5 a.m. Afortunadamente no hubo
+            incidente o algun peligro dentro y fuera de la casa.
+            Fue ahi cuando la idea surgio de poder apagar la alarma desde un celular sin
+            importar donde se encontraba.
+
+            A medida que pasaban los dias se iban sumando ideas para la app, como el control
+            de camaras y poder por todos por el celular.
+
+            Esta aplicacion esta formada por tres integrantes:
+            Mauricio Nuñez
+            Matias Rivas
+            Damian Villarreal
+            Estudiantes de la Universidad de la Punta, San Luis, Argentina.
+            Carrera: Tecnico en desarrollador de Software.
+
+            Contactos:
+            mauryntvg7@gmail.com
+            matiasrivas202@gmail.com
+            villarreal.damian97@gmail.com
+            "
+        android:textAlignment="center"
+        android:textSize="13sp" />
+
+
 </FrameLayout>
