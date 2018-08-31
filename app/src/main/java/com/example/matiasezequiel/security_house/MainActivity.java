@@ -124,7 +124,9 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_slideshow) {
             //nada
         } else if (id == R.id.nav_manage) {
-            //nada
+            ConfigFragment config = new ConfigFragment();
+            fragmentManager.beginTransaction().replace(R.id.contenedor,config, config.getTag()).addToBackStack(null)
+                    .commit();
         } else if (id == R.id.nav_share) {
             ContactoFragment contacto = new ContactoFragment();
             fragmentManager.beginTransaction().replace(R.id.contenedor, contacto, contacto.getTag()).addToBackStack(null)

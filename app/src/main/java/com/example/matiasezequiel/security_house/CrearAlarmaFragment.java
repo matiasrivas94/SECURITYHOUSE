@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
@@ -21,6 +22,7 @@ public class CrearAlarmaFragment extends Fragment {
 	
 	Spinner opciones;
     EditText nombre, numTelefono, cantZonas;
+    MainActivity mainActivity = (MainActivity)getActivity();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -94,6 +96,36 @@ public class CrearAlarmaFragment extends Fragment {
             return false;
         }else{
             return true;
+        }
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser && isResumed()) {
+            onResume();
+        }
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (!getUserVisibleHint()) {
+            return;
+        }
+        MainActivity mainActivity = (MainActivity) getActivity();
+        if (mainActivity != null) {
+            mainActivity.hideFloatingActionButton(); //oculto boton
+            FloatingActionButton fab = mainActivity.findViewById(R.id.fab);
+            //fab.setImageResource(R.drawable.ic_); //Cambiar icono
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    /*FragmentTransaction fr = getFragmentManager().beginTransaction();
+                    fr.replace(R.id.contenedor, new CrearAlarmaFragment()).addToBackStack(null);
+                    fr.commit();*/
+                    //NUEVA FUNCIONALIDAD
+                }
+            });
         }
     }
 

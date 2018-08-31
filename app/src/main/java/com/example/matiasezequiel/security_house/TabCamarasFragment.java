@@ -1,8 +1,11 @@
 package com.example.matiasezequiel.security_house;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
@@ -23,5 +26,6 @@ public class TabCamarasFragment extends Fragment {
 
         return v;
     }
+
 
 }
