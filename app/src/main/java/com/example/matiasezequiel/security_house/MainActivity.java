@@ -121,9 +121,7 @@ public class MainActivity extends AppCompatActivity
             CamarasFragment camaras = new CamarasFragment();
             fragmentManager.beginTransaction().replace(R.id.contenedor,camaras, camaras.getTag()).addToBackStack(null)
                     .commit();
-        } else if (id == R.id.nav_slideshow) {
-            //nada
-        } else if (id == R.id.nav_manage) {
+        }  else if (id == R.id.nav_manage) {
             ConfigFragment config = new ConfigFragment();
             fragmentManager.beginTransaction().replace(R.id.contenedor,config, config.getTag()).addToBackStack(null)
                     .commit();

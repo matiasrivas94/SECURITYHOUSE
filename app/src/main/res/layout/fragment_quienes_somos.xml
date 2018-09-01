@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".QuienesSomosFragment">
+    tools:context=".QuienesSomosFragment"
+    android:background="@mipmap/fondo1">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -18,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Quienes somos?"
+            android:text="Acerca de"
             android:textColor="#f5f5f5"
             android:textSize="33sp"
             android:textStyle="bold" />
@@ -26,43 +27,66 @@
 
     </android.support.v7.widget.Toolbar>
 
-    <TextView
-        android:id="@+id/contenido"
-        android:layout_width="wrap_content"
-        android:layout_height="464dp"
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="60dp"
+        android:rowCount="4">
+
+        <TextView
+            android:id="@+id/text1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_column="0"
+            android:layout_gravity="left"
+            android:layout_marginLeft="7dp"
+            android:layout_marginTop="20dp"
+            android:padding="20dp"
+            android:text=" Bienvenidos a Security House."
+            android:textAlignment="center"
+            android:textColor="#f5f5f5"
+            android:textSize="22dp" />
+
+        <TextView
+            android:id="@+id/text2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_column="0"
+            android:layout_gravity="center"
+            android:layout_row="1"
+            android:padding="10dp"
+            android:text="
+            Una aplicacion para dispositivos Android v6+. Esta app es para brindar seguridad a su hogar ya su familia las 24 hs,mediante el uso dealarmas, sensores y camaras. Este tipo de seguridad es muy demandada"
+            android:textColor="#f5f5f5" />
+
+        <TextView
+            android:id="@+id/text3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_column="0"
+            android:layout_marginTop="110dp"
+            android:layout_row="1"
+            android:layout_gravity="left"
+            android:text="
+            Esta aplicacion esta formada por tres integrantes:\n
+            Mauricio Nuñez \n
+            Matias Rivas\n
+            Damian Villarreal.} \n
+            Estudiantes de la carrera \n
+            Tecnicatura Desarrollador de Software. \n
+            Universidad de la Punta, San Luis, Argentina."
+            android:textColor="#f5f5f5" />
+
+
+    </GridLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="238dp"
         android:layout_gravity="center"
-        android:layout_marginTop="45dp"
-        android:text="
-            Bienvenidos a Security House, una aplicacion para dispositivos Android.
-            Esta app es para brindar seguridad a su hogar y a su familia las 24 hs,
-            mediante el uso de alarmas, sensores y camaras.
-            Este tipo de seguridad es muy demandada.
-
-            El origen de esta aplicacion fue cuando a uno de los integrantes vivio una
-            'PESADILLA'. Un dia la alarma de su vecina empeso a sonar, la alarma duro
-            aproximadamente cuatro horas debido a que no se encontraba en su casa, hasta
-            que llego y la apago aproximadamente a las 5 a.m. Afortunadamente no hubo
-            incidente o algun peligro dentro y fuera de la casa.
-            Fue ahi cuando la idea surgio de poder apagar la alarma desde un celular sin
-            importar donde se encontraba.
-
-            A medida que pasaban los dias se iban sumando ideas para la app, como el control
-            de camaras y poder por todos por el celular.
-
-            Esta aplicacion esta formada por tres integrantes:
-            Mauricio Nuñez
-            Matias Rivas
-            Damian Villarreal
-            Estudiantes de la Universidad de la Punta, San Luis, Argentina.
-            Carrera: Tecnico en desarrollador de Software.
-
-            Contactos:
-            mauryntvg7@gmail.com
-            matiasrivas202@gmail.com
-            villarreal.damian97@gmail.com
-            "
-        android:textAlignment="center"
-        android:textSize="13sp" />
+        android:layout_marginTop="180dp"
+        android:padding="50dp"
+        android:src="@drawable/logo_ulp" />
 
 
 </FrameLayout>
