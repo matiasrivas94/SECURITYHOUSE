@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@mipmap/fondo1"
     tools:context=".ContactoFragment">
 
     <android.support.v7.widget.Toolbar
@@ -19,12 +20,106 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:textColor="#f5f5f5"
+            android:textColor="#8e8e8e"
             android:text="Contacto"
             android:textSize="33sp"
             android:textStyle="bold" />
 
     </android.support.v7.widget.Toolbar>
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="77dp"
+        android:padding="10dp"
+        android:rowCount="15">
+
+        <TextView
+            android:id="@+id/textNombreContacto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:text="Nombre"
+            android:textColor="#f5f5f5"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/etNombreContacto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_column="0"
+            android:layout_gravity="left"
+            android:layout_marginTop="10dp"
+            android:layout_row="1"
+            android:background="#f5f5f5" />
+
+        <TextView
+            android:id="@+id/textEmail"
+            android:layout_width="190dp"
+            android:layout_height="wrap_content"
+            android:layout_column="0"
+            android:layout_gravity="left"
+            android:layout_marginTop="10dp"
+            android:layout_row="2"
+            android:text="Email"
+            android:textColor="#f5f5f5"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/etEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_column="0"
+            android:layout_gravity="left"
+            android:layout_marginTop="10dp"
+            android:layout_row="3"
+            android:background="#f5f5f5" />
+
+        <TextView
+            android:id="@+id/txtMje"
+            android:layout_width="190dp"
+            android:layout_height="wrap_content"
+            android:layout_column="0"
+            android:layout_gravity="left"
+            android:layout_marginTop="10dp"
+            android:layout_row="4"
+            android:text="Mensaje"
+            android:textColor="#f5f5f5"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+
+        <EditText
+            android:id="@+id/etMensajeContacto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_column="0"
+            android:layout_gravity="left"
+            android:layout_marginTop="10dp"
+            android:layout_row="5"
+            android:height="150dp"
+            android:background="#f5f5f5"
+            android:inputType="textMultiLine"
+            android:overScrollMode="always"
+            android:padding="15dp"
+            android:scrollbarStyle="insideInset"
+            android:scrollbars="vertical" />
+
+        <Button android:id="@+id/btnEnviarMensaje"
+            android:layout_width="180dp"
+            android:layout_column="0"
+            android:layout_gravity="center"
+            android:layout_row="6"
+            android:height="50dp"
+            android:layout_marginTop="14dp"
+            android:textColor="#f5f5f5"
+            android:text="Enviar"
+            android:background="@drawable/shape"/>
+
+
+    </GridLayout>
 
 
 </FrameLayout>
