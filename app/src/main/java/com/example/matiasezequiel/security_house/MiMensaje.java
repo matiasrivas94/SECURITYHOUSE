@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.telephony.SmsManager;
 import android.telephony.SmsMessage;
 import android.util.Log;
 import android.widget.Toast;
@@ -12,6 +13,10 @@ import android.widget.Toast;
 
 public class MiMensaje extends BroadcastReceiver {
 
+    String idMensaje;
+    String TextoMensaje;
+
+    //Recibir y Leer Mensajes
     @Override
     public void onReceive(Context context, Intent intent){
 
@@ -35,20 +40,29 @@ public class MiMensaje extends BroadcastReceiver {
                     mensajes[i] = SmsMessage.createFromPdu((byte[])pdus[i]);
                 }
 
-                String idMensaje = mensajes[i].getOriginatingAddress();// https://developer.android.com/reference/android/telephony/SmsMessage#getOriginatingAddress()
-                String TextoMensaje = mensajes[i].getMessageBody();// Devuelve el cuerpo del mensaje como una Cadena, si existe y está basada en texto.
+                idMensaje = mensajes[i].getOriginatingAddress();// https://developer.android.com/reference/android/telephony/SmsMessage#getOriginatingAddress()
+                TextoMensaje = mensajes[i].getMessageBody();// Devuelve el cuerpo del mensaje como una Cadena, si existe y está basada en texto.
 
                     Log.i("ReceptorSMS","Remitente: "+idMensaje);
                     Log.i("ReceptorSMS", "Mensaje: "+ TextoMensaje);
 
                 //Funcion para recuperar el ultimo caracter(entero) del mensaje para saber que ZONA hay actividad
-                 if((mensajes[i].getOriginatingAddress()).equals("+5492664857207") ||
-                         (mensajes[i].getOriginatingAddress()).equals("02664857207"))
+                 if((mensajes[i].getOriginatingAddress()).equals(idMensaje))
                  {
                      char ultimo = TextoMensaje.charAt(TextoMensaje.length()-1);
+                     if((((int)ultimo >= 1) && ((int)ultimo <= 6)))
                      Toast.makeText(context, "Zona"+ultimo, Toast.LENGTH_LONG).show();
                 }
             }
         }
+    }
+
+    //Enviar Mensajes
+    public void enviarMensaje(String numero, String mensaje)
+    {
+        SmsManager sms = SmsManager.getDefault();
+        sms.sendTextMessage(numero, null, mensaje, null, null);
+        //Toast.makeText(context, "SEND", Toast.LENGTH_LONG).show();
+
     }
 }
