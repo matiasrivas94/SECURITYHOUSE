@@ -19,7 +19,8 @@ import android.widget.Toast;
 
 
 public class CrearAlarmaFragment extends Fragment {
-	
+
+    MiMensaje mm = new MiMensaje();
 	Spinner opciones;
     EditText nombre, numTelefono, cantZonas;
     MainActivity mainActivity = (MainActivity)getActivity();
@@ -35,6 +36,8 @@ public class CrearAlarmaFragment extends Fragment {
         opciones = (Spinner) v.findViewById(R.id.SPTipo);
 
         numTelefono = (EditText) v.findViewById(R.id.ETNumTelefono);
+       // mm.idMensaje = numTelefono.toString();
+
         cantZonas = (EditText) v.findViewById(R.id.ETCantZonas);
 
         Button btnCrearAlarma =(Button)v.findViewById(R.id.btnCrearAlarma);
