@@ -16,14 +16,17 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
 
 public class AlarmasFragment extends Fragment {
     //cosas del ListView Alarmas
-    private ArrayList<Alarma> alarmas = new ArrayList<>();
     private ListView lista;
+    TextView tvTitulo;
 
     ListView list;
     @Override
@@ -33,6 +36,7 @@ public class AlarmasFragment extends Fragment {
         View v=inflater.inflate(R.layout.fragment_alarmas, container, false);
 
         lista = (ListView) v.findViewById(R.id.LVMostrar);
+        tvTitulo = (TextView)v.findViewById(R.id.tvTitulo);
 
         llenarLista();
 
@@ -42,16 +46,19 @@ public class AlarmasFragment extends Fragment {
     public void llenarLista(){
         //conexion a la base de datos
         AlarmaSQLite bh = new AlarmaSQLite(this.getActivity(),"alarma",null,1);
+        ArrayList<Alarma> alarmas = new ArrayList<>();
         if(bh!=null){
             Log.d("","Paso por el if");
             SQLiteDatabase db = bh.getReadableDatabase();
             Cursor c = db.rawQuery("SELECT * FROM alarma",null);
             if(c.moveToFirst()){
+                tvTitulo.setVisibility(View.INVISIBLE);
                 do{
                     //alarmas.add(new Alarma(c.getInt(0),c.getString(1),c.getString(2),c.getInt(3)));
                     alarmas.add(new Alarma(c.getInt(0),c.getString(1),c.getString(2),c.getString(3)));
                 }while(c.moveToNext());
             }
+
         }
         String[] arreglo = new String[alarmas.size()];
         for (int i = 0;i<arreglo.length;i++){

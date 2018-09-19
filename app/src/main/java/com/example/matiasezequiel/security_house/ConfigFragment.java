@@ -21,9 +21,9 @@ public class ConfigFragment extends Fragment {
 
     MiMensaje mm = new MiMensaje();
     Spinner opciones;
-    String clave = "1234";
-    //String numero = "02664857207";
-    String numero = mm.idMensaje;
+    String numero = "02664857207";
+    String clave = "1234AP";
+    //String numero = mm.idMensaje;
     String activar = clave + "AP";
     String desactivar = clave + "DS";
     String nuevaclave="0987";
@@ -36,7 +36,7 @@ public class ConfigFragment extends Fragment {
 
         opciones = (Spinner) v.findViewById(R.id.spPrueba);
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this.getActivity(), R.array.opciones, android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this.getActivity(), R.array.alarmas, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.preference_category);
         opciones.setAdapter(adapter);
 
@@ -46,7 +46,7 @@ public class ConfigFragment extends Fragment {
             btnActivar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mm.enviarMensaje(activar, numero);
+                    mm.enviarMensaje(numero, activar);
                 }
             });
 
@@ -55,7 +55,7 @@ public class ConfigFragment extends Fragment {
             btnDesactivar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mm.enviarMensaje(desactivar, numero);
+                    mm.enviarMensaje(numero, desactivar);
                 }
             });
 

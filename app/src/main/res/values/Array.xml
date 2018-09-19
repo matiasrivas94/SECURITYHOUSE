@@ -5,6 +5,10 @@
         <item>Oficina</item>
         <item>Tienda</item>
     </string-array>
+
+    <string-array name="alarmas">
+        <item>Mi casa</item>
+    </string-array>
     
     
 </resources>

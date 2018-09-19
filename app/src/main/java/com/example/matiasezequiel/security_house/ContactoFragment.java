@@ -39,6 +39,9 @@ public class ContactoFragment extends Fragment {
             public void onClick(View v) {
                 Toast.makeText(getActivity(),
                         "Mensaje Enviado.", Toast.LENGTH_SHORT).show();
+                nombreContacto.setText("");
+                emailContacto.setText("");
+                mjeContacto.setText("");
             }
         });
         return v;

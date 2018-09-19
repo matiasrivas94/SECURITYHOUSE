@@ -19,7 +19,9 @@ import android.view.ViewGroup;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.widget.TextView;
 
+import org.w3c.dom.Text;
 
 
 public class PrincipalFragment extends Fragment {
@@ -30,6 +32,7 @@ public class PrincipalFragment extends Fragment {
 
     //FragmentManager fm;
 
+    TextView titulo;
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -46,6 +49,9 @@ public class PrincipalFragment extends Fragment {
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
 
+        //para cambiarle el encabezado al principal fragment con el nombre de la nueva alamra insertada
+        titulo = (TextView) view.findViewById(R.id.textTituloAlarma);
+        titulo.setText("Mi casa");
 
         return view;
     }

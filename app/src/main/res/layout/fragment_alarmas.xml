@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@mipmap/fondo1"
     tools:context=".AlarmasFragment">
 
     <android.support.v7.widget.Toolbar
@@ -25,10 +26,23 @@
 
     </android.support.v7.widget.Toolbar>
 
+    <TextView
+        android:id="@+id/tvTitulo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="100dp"
+        android:layout_marginTop="300dp"
+        android:textColor="#f5f5f5"
+        android:text="No existen alarmas creadas"
+        android:visibility="visible" />
+
     <ListView
         android:id="@+id/LVMostrar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="77dp" />
+        android:layout_marginTop="77dp"
+        android:cacheColorHint="#f5f5f5">
+
+    </ListView>
 
 </RelativeLayout>

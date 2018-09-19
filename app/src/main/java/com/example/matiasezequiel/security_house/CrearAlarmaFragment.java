@@ -41,15 +41,23 @@ public class CrearAlarmaFragment extends Fragment {
         cantZonas = (EditText) v.findViewById(R.id.ETCantZonas);
 
         Button btnCrearAlarma =(Button)v.findViewById(R.id.btnCrearAlarma);
-        btnCrearAlarma.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentTransaction fr = getFragmentManager().beginTransaction();
-                fr.replace(R.id.contenedor, new PrincipalFragment()).addToBackStack(null);
-                fr.commit();
-                agregar(v);
-            }
-        });
+
+            btnCrearAlarma.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(ComprobarCampos()) {
+                        FragmentTransaction fr = getFragmentManager().beginTransaction();
+                        fr.replace(R.id.contenedor, new PrincipalFragment()).addToBackStack(null);
+                        fr.commit();
+                        agregar(v);
+                    }
+                    else
+                        Toast.makeText(v.getContext(),"Hay campos vacios, por favor ingrese datos",Toast.LENGTH_LONG).show();
+                }
+            });
+
+
+
 
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this.getActivity(), R.array.opciones, android.R.layout.simple_spinner_item);
@@ -86,7 +94,7 @@ public class CrearAlarmaFragment extends Fragment {
                 }
             }
         }else{
-            Toast.makeText(this.getActivity(),"hay campos vacios",Toast.LENGTH_LONG).show();
+            //Toast.makeText(this.getActivity(),"Hay campos vacios, por favor ingrese datos",Toast.LENGTH_LONG).show();
         }
         nombre.requestFocus();
         nombre.setText("");

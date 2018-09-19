@@ -97,29 +97,30 @@
             android:layout_height="match_parent"
             android:layout_column="0"
             android:layout_gravity="left"
+            android:gravity="top|left"
             android:layout_marginTop="10dp"
             android:layout_row="5"
             android:height="150dp"
             android:background="#f5f5f5"
-            android:inputType="textMultiLine"
-            android:overScrollMode="always"
-            android:padding="15dp"
-            android:scrollbarStyle="insideInset"
-            android:scrollbars="vertical" />
+            android:padding="0dp"
+            android:scrollbars="vertical"
+            android:lines="6"/>
 
-        <Button android:id="@+id/btnEnviarMensaje"
+        <Button
+            android:id="@+id/btnEnviarMensaje"
             android:layout_width="180dp"
             android:layout_column="0"
-            android:layout_gravity="center"
-            android:layout_row="6"
-            android:height="50dp"
+            android:layout_marginLeft="75dp"
             android:layout_marginTop="14dp"
-            android:textColor="#f5f5f5"
+            android:layout_row="6"
+            android:height="25dp"
+            android:background="@drawable/shape"
             android:text="Enviar"
-            android:background="@drawable/shape"/>
+            android:textColor="#f5f5f5" />
 
 
     </GridLayout>
+
 
 
 </FrameLayout>
