@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ public class CrearAlarmaFragment extends Fragment {
 	Spinner opciones;
     EditText nombre, numTelefono, cantZonas;
     MainActivity mainActivity = (MainActivity)getActivity();
+    int aux = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -32,12 +34,8 @@ public class CrearAlarmaFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_crear_alarma, container, false);
 
         nombre = (EditText) v.findViewById(R.id.ETNombre);
-        //sacar el tipo del Spinner
         opciones = (Spinner) v.findViewById(R.id.SPTipo);
-
         numTelefono = (EditText) v.findViewById(R.id.ETNumTelefono);
-       // mm.idMensaje = numTelefono.toString();
-
         cantZonas = (EditText) v.findViewById(R.id.ETCantZonas);
 
         Button btnCrearAlarma =(Button)v.findViewById(R.id.btnCrearAlarma);
@@ -45,20 +43,26 @@ public class CrearAlarmaFragment extends Fragment {
             btnCrearAlarma.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
                     if(ComprobarCampos()) {
-                        FragmentTransaction fr = getFragmentManager().beginTransaction();
-                        fr.replace(R.id.contenedor, new PrincipalFragment()).addToBackStack(null);
-                        fr.commit();
-                        agregar(v);
+                        aux = Integer.parseInt(cantZonas.getText().toString());
+                        if((aux < 1) || (aux > 6)) {
+                            cantZonas.setText("");
+                            cantZonas.setError("Maximo 6");
+                            cantZonas.isFocusable();
+                        }
+                        else {
+                            FragmentTransaction fr = getFragmentManager().beginTransaction();
+                            fr.replace(R.id.contenedor, new PrincipalFragment()).addToBackStack(null);
+                            fr.commit();
+                            agregar(v);
+                        }
                     }
-                    else
+                    else {
                         Toast.makeText(v.getContext(),"Hay campos vacios, por favor ingrese datos",Toast.LENGTH_LONG).show();
+                    }
                 }
             });
-
-
-
-
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this.getActivity(), R.array.opciones, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.preference_category);

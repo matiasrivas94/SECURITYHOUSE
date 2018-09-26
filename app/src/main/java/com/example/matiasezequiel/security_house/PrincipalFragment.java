@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -20,19 +21,15 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
 
 public class PrincipalFragment extends Fragment {
 
-    //private SectionsPagerAdapter mSectionsPagerAdapter;
-
-    //private ViewPager mViewPager;
-
-    //FragmentManager fm;
-
     TextView titulo;
+    ViewPager mViewPager;
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -41,10 +38,11 @@ public class PrincipalFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_principal, container, false);
 
         // Set up the ViewPager with the sections adapter.
-        ViewPager mViewPager = (ViewPager) view.findViewById(R.id.pager);
+        mViewPager = (ViewPager) view.findViewById(R.id.pager);
         mViewPager.setAdapter(new PagerAdapter(getFragmentManager(),2));
 
         TabLayout tabLayout = (TabLayout) view.findViewById(R.id.tabs);
+
 
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
@@ -55,7 +53,8 @@ public class PrincipalFragment extends Fragment {
 
         return view;
     }
-    public class PagerAdapter extends FragmentStatePagerAdapter {
+
+        public class PagerAdapter extends FragmentStatePagerAdapter {
         int mNumOfTabs;
 
         public PagerAdapter(FragmentManager fm, int NumOfTabs) {
@@ -84,4 +83,19 @@ public class PrincipalFragment extends Fragment {
             return 2;
         }
     }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (!getUserVisibleHint()) {
+            return;
+        }
+        MainActivity mainActivity = (MainActivity) getActivity();
+        if (mainActivity != null) {
+            mainActivity.hideFloatingActionButton(); //oculto boton
+            FloatingActionButton fab = mainActivity.findViewById(R.id.fab);
+        }
+    }
 }
+

@@ -40,7 +40,7 @@
         android:id="@+id/LVMostrar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="77dp"
+        android:layout_marginTop="79dp"
         android:cacheColorHint="#f5f5f5">
 
     </ListView>
