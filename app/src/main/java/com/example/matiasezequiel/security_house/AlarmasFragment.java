@@ -1,8 +1,10 @@
 package com.example.matiasezequiel.security_house;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteStatement;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -27,8 +29,8 @@ public class AlarmasFragment extends Fragment {
     //cosas del ListView Alarmas
     private ListView lista;
     TextView tvTitulo;
+    long cant=0;
 
-    ListView list;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -40,29 +42,38 @@ public class AlarmasFragment extends Fragment {
 
         llenarLista();
 
+        //SharedPreferences prefs = getActivity().getSharedPreferences("MisPreferencias",Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = getContext().getSharedPreferences("aa",Context.MODE_PRIVATE).edit();
+        editor.putLong("cant", cant);
+        editor.commit();
+
         return v;
     }
 
     public void llenarLista(){
         //conexion a la base de datos
-        AlarmaSQLite bh = new AlarmaSQLite(this.getActivity(),"alarma",null,1);
+        AlarmaSQLite bd = new AlarmaSQLite(this.getActivity(),"alarma",null,1);
         ArrayList<Alarma> alarmas = new ArrayList<>();
-        if(bh!=null){
-            Log.d("","Paso por el if");
-            SQLiteDatabase db = bh.getReadableDatabase();
+        if(bd!=null){
+            //Log.d("","Paso por el if");
+            SQLiteDatabase db = bd.getReadableDatabase();
+
+            //busco el idAlarma de la ultima alarma ingresada
+            SQLiteStatement s = db.compileStatement( "SELECT COUNT(idAlarma) FROM alarma");
+            cant = s.simpleQueryForLong()+1;
+
+            //selecciono todas las alarmas almacenadas
             Cursor c = db.rawQuery("SELECT * FROM alarma",null);
             if(c.moveToFirst()){
-                tvTitulo.setVisibility(View.INVISIBLE);
                 do{
                     //alarmas.add(new Alarma(c.getInt(0),c.getString(1),c.getString(2),c.getInt(3)));
-                    alarmas.add(new Alarma(c.getInt(0),c.getString(1),c.getString(2),c.getString(3)));
+                    alarmas.add(new Alarma(c.getInt(0),c.getString(1),c.getString(2),c.getString(3),c.getString(4),c.getInt(5)));
                 }while(c.moveToNext());
             }
-
         }
         String[] arreglo = new String[alarmas.size()];
         for (int i = 0;i<arreglo.length;i++){
-            arreglo[i] = alarmas.get(i).getNombre();
+            arreglo[i] = alarmas.get(i).getIdAlarma()+" -- "+alarmas.get(i).getNombre()+" -- "+alarmas.get(i).getClave();
         }
         ArrayAdapter<String> adaptador = new ArrayAdapter<String>(this.getActivity() ,android.R.layout.simple_list_item_1,arreglo);
         lista.setAdapter(adaptador);

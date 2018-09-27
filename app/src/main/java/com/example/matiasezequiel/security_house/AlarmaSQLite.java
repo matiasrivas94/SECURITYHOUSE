@@ -6,8 +6,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class AlarmaSQLite extends SQLiteOpenHelper {
 
-    public String alarma = "CREATE TABLE alarma(idAlarma INTEGER PRIMARY KEY AUTOINCREMENT,nombre TEXT,tipo TEXT,numTelefono TEXT,"+
-            "cantZonas TEXT)";
+    public String alarma = "CREATE TABLE alarma(idAlarma INTEGER PRIMARY KEY AUTOINCREMENT,nombre TEXT,tipo TEXT,numTelefono TEXT,clave TEXT,"+
+            "cantZonas INTEGER)";
     public String zona = "CREATE TABLE zona(idZona INTEGER PRIMARY KEY AUTOINCREMENT,idAlarma INTEGER,"+
             "nombre TEXT)";
 

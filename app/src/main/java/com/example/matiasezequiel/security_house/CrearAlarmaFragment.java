@@ -2,6 +2,7 @@ package com.example.matiasezequiel.security_house;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
@@ -23,9 +24,10 @@ public class CrearAlarmaFragment extends Fragment {
 
     MiMensaje mm = new MiMensaje();
 	Spinner opciones;
-    EditText nombre, numTelefono, cantZonas;
+    EditText nombre, numTelefono, clave, cantZonas;
     MainActivity mainActivity = (MainActivity)getActivity();
     int aux = 0;
+    int cantZona;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -36,6 +38,7 @@ public class CrearAlarmaFragment extends Fragment {
         nombre = (EditText) v.findViewById(R.id.ETNombre);
         opciones = (Spinner) v.findViewById(R.id.SPTipo);
         numTelefono = (EditText) v.findViewById(R.id.ETNumTelefono);
+        clave = (EditText) v.findViewById(R.id.ETClave);
         cantZonas = (EditText) v.findViewById(R.id.ETCantZonas);
 
         Button btnCrearAlarma =(Button)v.findViewById(R.id.btnCrearAlarma);
@@ -73,12 +76,14 @@ public class CrearAlarmaFragment extends Fragment {
 
     public void agregar(View v){
         if(ComprobarCampos()){
-            String nom,numTel,tipo,cantZona;
+            String nom,numTel,tipo,password;
+            //int cantZona;
 
             nom = nombre.getText().toString();
             numTel = numTelefono.getText().toString();
             tipo = opciones.getSelectedItem().toString();
-            cantZona = cantZonas.getText().toString();
+            password = clave.getText().toString();
+            cantZona = Integer.parseInt(cantZonas.getText().toString());
 
             //sqlite bh = new sqlite(AgregarActivity.this,"usuarios",null,1);
             AlarmaSQLite bd = new AlarmaSQLite(this.getActivity(),"alarma",null,1);
@@ -88,7 +93,14 @@ public class CrearAlarmaFragment extends Fragment {
                 con.put("nombre",nom);
                 con.put("tipo",tipo);
                 con.put("numTelefono",numTel);
+                con.put("clave",password);
                 con.put("cantZonas",cantZona);
+
+                //Shared Cantidad Zonas
+                SharedPreferences.Editor editor = getContext().getSharedPreferences("bb",Context.MODE_PRIVATE).edit();
+                editor.putLong("cantZ", cantZona);
+                editor.commit();
+                //Toast.makeText(this.getActivity(),"Cantidad de Zonas: "+cantZona, Toast.LENGTH_SHORT).show();
 
                 long insertado = db.insert("alarma",null,con);
                 if(insertado>0){
@@ -98,14 +110,14 @@ public class CrearAlarmaFragment extends Fragment {
                 }
             }
         }else{
-            //Toast.makeText(this.getActivity(),"Hay campos vacios, por favor ingrese datos",Toast.LENGTH_LONG).show();
+            Toast.makeText(this.getActivity(),"hay campos vacios",Toast.LENGTH_LONG).show();
         }
         nombre.requestFocus();
         nombre.setText("");
         numTelefono.setText("");
         opciones.setSelection(0);
         cantZonas.setText("");
-   }
+    }
     public boolean ComprobarCampos(){
         if(nombre.getText().toString().isEmpty() || numTelefono.getText().toString().isEmpty() || cantZonas.getText().toString().isEmpty()){
             return false;
