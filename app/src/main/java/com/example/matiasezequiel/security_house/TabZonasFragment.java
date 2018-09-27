@@ -68,7 +68,12 @@ public class TabZonasFragment extends Fragment {
         boton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                visibilidadTextView(v);
+                if(ComprobarCampos()) {
+                    visibilidadTextView(v);
+                }
+                else {
+                    Toast.makeText(v.getContext(),"Hay campos vacios, por favor ingrese nuevamente",Toast.LENGTH_LONG).show();
+                };
             }
         });
 
@@ -235,12 +240,142 @@ public class TabZonasFragment extends Fragment {
         Toast.makeText(this.getActivity(),"Zonas: " + arreglo ,Toast.LENGTH_LONG).show();
     }
 
-    public boolean ComprobarCampos(){
-        if(ed1.getText().toString().isEmpty() || ed2.getText().toString().isEmpty() || ed3.getText().toString().isEmpty() || ed4.getText().toString().isEmpty() || ed5.getText().toString().isEmpty() || ed6.getText().toString().isEmpty()){
-            return false;
-        }else{
-            return true;
+    public boolean ComprobarCampos() {
+        int cant = cantZ;
+        boolean resp = true;
+        switch (cant) {
+            case 1:
+                if (cant == 1) {
+                    if (ed1.getText().toString().isEmpty()) {
+                        ed1.setError("Complete este campo");
+                        resp = false;
+                    }
+                    else
+                        resp = true;
+                }
+                break;
+            case 2:
+                if (cant == 2) {
+                    if (ed1.getText().toString().isEmpty() || ed2.getText().toString().isEmpty()) {
+                        if (ed1.getText().toString().isEmpty()) {
+                            ed1.setError("Complete este campo");
+                            resp = false;
+                        }
+                        if(ed2.getText().toString().isEmpty()) {
+                            ed2.setError("Complete este campo");
+                            resp = false;
+                        }
+                    }
+                    else
+                        resp = true;
+                }
+                break;
+            case 3:
+                if (cant == 3) {
+                    if (ed1.getText().toString().isEmpty() || ed2.getText().toString().isEmpty() || ed3.getText().toString().isEmpty()) {
+                        if (ed1.getText().toString().isEmpty()) {
+                            ed1.setError("Complete este campo");
+                            resp = false;
+                        }
+                        if (ed2.getText().toString().isEmpty()) {
+                            ed2.setError("Complete este campo");
+                            resp = false;
+                        }
+                        if (ed3.getText().toString().isEmpty()) {
+                            ed3.setError("Complete este campo");
+                            resp = false;
+                        }
+                    }
+                    else
+                        resp = true;
+                }
+                break;
+            case 4:
+                if (cant == 4) {
+                    if (ed1.getText().toString().isEmpty() || ed2.getText().toString().isEmpty() || ed3.getText().toString().isEmpty() || ed4.getText().toString().isEmpty()) {
+                        if (ed1.getText().toString().isEmpty()) {
+                            ed1.setError("Complete este campo");
+                            resp = false;
+                        }
+                        if (ed2.getText().toString().isEmpty()) {
+                            ed2.setError("Complete este campo");
+                            resp = false;
+                        }
+                        if (ed3.getText().toString().isEmpty()) {
+                            ed3.setError("Complete este campo");
+                            resp = false;
+                        }
+                        if (ed4.getText().toString().isEmpty()) {
+                            ed4.setError("Complete este campo");
+                            resp = false;
+                        }
+                    }
+                    else
+                        resp = true;
+                }
+                break;
+            case 5:
+                if (cant == 5) {
+                    if (ed1.getText().toString().isEmpty() || ed2.getText().toString().isEmpty() || ed3.getText().toString().isEmpty() || ed4.getText().toString().isEmpty() || ed5.getText().toString().isEmpty()) {
+                        if (ed1.getText().toString().isEmpty()) {
+                            ed1.setError("Complete este campo");
+                            resp = false;
+                        }
+                        if (ed2.getText().toString().isEmpty()) {
+                            ed2.setError("Complete este campo");
+                            resp = false;
+                        }
+                        if (ed3.getText().toString().isEmpty()) {
+                            ed3.setError("Complete este campo");
+                            resp = false;
+                        }
+                        if (ed4.getText().toString().isEmpty()) {
+                            ed4.setError("Complete este campo");
+                            resp = false;
+                        }
+                        if (ed5.getText().toString().isEmpty()) {
+                            ed5.setError("Complete este campo");
+                            resp = false;
+                        }
+                    }
+                    else
+                        resp = true;
+                }
+                break;
+            case 6:
+                if (cant == 6) {
+                    if (ed1.getText().toString().isEmpty() || ed2.getText().toString().isEmpty() || ed3.getText().toString().isEmpty() || ed4.getText().toString().isEmpty() || ed5.getText().toString().isEmpty() || ed6.getText().toString().isEmpty()) {
+                        if (ed1.getText().toString().isEmpty()) {
+                            ed1.setError("Complete este campo");
+                            resp = false;
+                        }
+                        if (ed2.getText().toString().isEmpty()) {
+                            ed2.setError("Complete este campo");
+                            resp = false;
+                        }
+                        if (ed3.getText().toString().isEmpty()) {
+                            ed3.setError("Complete este campo");
+                            resp = false;
+                        }
+                        if (ed4.getText().toString().isEmpty()) {
+                            ed4.setError("Complete este campo");
+                            resp = false;
+                        }
+                        if (ed5.getText().toString().isEmpty()) {
+                            ed5.setError("Complete este campo");
+                            resp = false;
+                        }
+                        if (ed6.getText().toString().isEmpty()) {
+                            ed6.setError("Complete este campo");
+                            resp = false;
+                        }
+                    }
+                    else
+                        resp = true;
+                }
+                break;
         }
+        return resp;
     }
 
 

@@ -56,7 +56,7 @@ public class CrearAlarmaFragment extends Fragment {
                         }
                         else {
                             FragmentTransaction fr = getFragmentManager().beginTransaction();
-                            fr.replace(R.id.contenedor, new PrincipalFragment()).addToBackStack(null);
+                            fr.replace(R.id.contenedor, new PrincipalFragment());
                             fr.commit();
                             agregar(v);
                         }
@@ -116,10 +116,11 @@ public class CrearAlarmaFragment extends Fragment {
         nombre.setText("");
         numTelefono.setText("");
         opciones.setSelection(0);
+        clave.setText("");
         cantZonas.setText("");
     }
     public boolean ComprobarCampos(){
-        if(nombre.getText().toString().isEmpty() || numTelefono.getText().toString().isEmpty() || cantZonas.getText().toString().isEmpty()){
+        if(nombre.getText().toString().isEmpty() || numTelefono.getText().toString().isEmpty() || clave.getText().toString().isEmpty() || cantZonas.getText().toString().isEmpty()){
             return false;
         }else{
             return true;

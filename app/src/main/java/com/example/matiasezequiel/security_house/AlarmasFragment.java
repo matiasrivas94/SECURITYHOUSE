@@ -65,6 +65,7 @@ public class AlarmasFragment extends Fragment {
             //selecciono todas las alarmas almacenadas
             Cursor c = db.rawQuery("SELECT * FROM alarma",null);
             if(c.moveToFirst()){
+                tvTitulo.setVisibility(View.INVISIBLE);
                 do{
                     //alarmas.add(new Alarma(c.getInt(0),c.getString(1),c.getString(2),c.getInt(3)));
                     alarmas.add(new Alarma(c.getInt(0),c.getString(1),c.getString(2),c.getString(3),c.getString(4),c.getInt(5)));
@@ -73,7 +74,8 @@ public class AlarmasFragment extends Fragment {
         }
         String[] arreglo = new String[alarmas.size()];
         for (int i = 0;i<arreglo.length;i++){
-            arreglo[i] = alarmas.get(i).getIdAlarma()+" -- "+alarmas.get(i).getNombre()+" -- "+alarmas.get(i).getClave();
+            //arreglo[i] = alarmas.get(i).getIdAlarma()+" -- "+alarmas.get(i).getNombre()+" -- "+alarmas.get(i).getClave();
+            arreglo[i] = alarmas.get(i).getNombre();
         }
         ArrayAdapter<String> adaptador = new ArrayAdapter<String>(this.getActivity() ,android.R.layout.simple_list_item_1,arreglo);
         lista.setAdapter(adaptador);

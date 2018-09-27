@@ -77,14 +77,15 @@
 
         <Button
             android:id="@+id/btnActivar"
-            android:layout_width="108dp"
+            android:layout_width="67dp"
             android:layout_height="67dp"
             android:layout_column="3"
             android:layout_gravity="right"
             android:layout_marginTop="20dp"
             android:layout_row="3"
             android:layout_rowSpan="2"
-            android:text="Activar"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/verde"
             android:textColor="#000000"/>
 
         <TextView
@@ -101,13 +102,14 @@
 
         <Button
             android:id="@+id/btnDesactivar"
-            android:layout_width="wrap_content"
+            android:layout_width="66dp"
             android:layout_height="66dp"
             android:layout_column="3"
             android:layout_gravity="right"
             android:layout_marginTop="20dp"
             android:layout_row="5"
-            android:text="Desactivar"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/rojo"
             android:textColor="#000000"/>
 
         <TextView
@@ -124,13 +126,14 @@
 
         <Button
             android:id="@+id/btnCambiarClave"
-            android:layout_width="108dp"
+            android:layout_width="72dp"
             android:layout_height="72dp"
             android:layout_column="3"
             android:layout_gravity="right"
             android:layout_marginTop="20dp"
             android:layout_row="6"
-            android:text="Cambiar"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/cambiar1"
             android:textColor="#000000" />
     </GridLayout>
 
