@@ -1,6 +1,7 @@
 package com.example.matiasezequiel.security_house;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -30,6 +31,7 @@ public class PrincipalFragment extends Fragment {
 
     TextView titulo;
     ViewPager mViewPager;
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -49,7 +51,11 @@ public class PrincipalFragment extends Fragment {
 
         //para cambiarle el encabezado al principal fragment con el nombre de la nueva alamra insertada
         titulo = (TextView) view.findViewById(R.id.textTituloAlarma);
-        titulo.setText("Mi casa");
+        //Shared para saber el id de la alarma clickeada en la lista de las alarmas
+
+        SharedPreferences prefs = getContext().getSharedPreferences("ee",Context.MODE_PRIVATE);
+        String nombreAlarm = prefs.getString("nombreAlarma"," ");
+        titulo.setText(nombreAlarm);
 
         return view;
     }

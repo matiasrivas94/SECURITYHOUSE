@@ -29,6 +29,7 @@ public class CrearAlarmaFragment extends Fragment {
     int aux = 0;
     int cantZona;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -96,11 +97,15 @@ public class CrearAlarmaFragment extends Fragment {
                 con.put("clave",password);
                 con.put("cantZonas",cantZona);
 
-                //Shared Cantidad Zonas
-                SharedPreferences.Editor editor = getContext().getSharedPreferences("bb",Context.MODE_PRIVATE).edit();
-                editor.putLong("cantZ", cantZona);
+                //Shared para el string de la alrma ingresada
+                SharedPreferences.Editor editor2 = getContext().getSharedPreferences("dd",Context.MODE_PRIVATE).edit();
+                editor2.putString ("estadoZonaString","sapeeeeeeeee");
+                editor2.commit();
+
+                //Shared para el nombre de la alarma
+                SharedPreferences.Editor editor = getContext().getSharedPreferences("ee",Context.MODE_PRIVATE).edit();
+                editor.putString ("nombreAlarma",nom);
                 editor.commit();
-                //Toast.makeText(this.getActivity(),"Cantidad de Zonas: "+cantZona, Toast.LENGTH_SHORT).show();
 
                 long insertado = db.insert("alarma",null,con);
                 if(insertado>0){

@@ -7,11 +7,20 @@
     tools:context=".TabZonasFragment">
 
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="110dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
         <EditText
             android:id="@+id/edName1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="125dp"
             android:gravity="left"
             android:hint="Zona 1"
             android:padding="20dp"
@@ -23,7 +32,6 @@
             android:id="@+id/edName2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="175dp"
             android:gravity="left"
             android:hint="Zona 2"
             android:padding="20dp"
@@ -35,7 +43,6 @@
             android:id="@+id/edName3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="225dp"
             android:gravity="left"
             android:hint="Zona 3"
             android:padding="20dp"
@@ -47,7 +54,6 @@
             android:id="@+id/edName4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="275dp"
             android:gravity="left"
             android:hint="Zona 4"
             android:padding="20dp"
@@ -59,7 +65,6 @@
             android:id="@+id/edName5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="325dp"
             android:gravity="left"
             android:hint="Zona 5"
             android:padding="20dp"
@@ -71,7 +76,6 @@
             android:id="@+id/edName6"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="375dp"
             android:gravity="left"
             android:hint="Zona 6"
             android:padding="20dp"
@@ -83,7 +87,6 @@
             android:id="@+id/tvName1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="125dp"
             android:gravity="left"
             android:padding="20dp"
             android:text="TextView"
@@ -94,7 +97,6 @@
             android:id="@+id/tvName2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="175dp"
             android:gravity="left"
             android:padding="20dp"
             android:text="TextView"
@@ -104,7 +106,6 @@
             android:id="@+id/tvName3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="225dp"
             android:gravity="left"
             android:padding="20dp"
             android:text="TextView"
@@ -114,7 +115,6 @@
             android:id="@+id/tvName4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="275dp"
             android:gravity="left"
             android:padding="20dp"
             android:text="TextView"
@@ -124,7 +124,6 @@
             android:id="@+id/tvName5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="325dp"
             android:gravity="left"
             android:padding="20dp"
             android:text="TextView"
@@ -134,19 +133,22 @@
             android:id="@+id/tvName6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="375dp"
             android:gravity="left"
             android:padding="20dp"
             android:text="TextView"
             android:visibility="gone"/>
 
-    <Button
-        android:id="@+id/btnGuardarZonas"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="110dp"
-        android:layout_marginTop="480dp"
-        android:background="@drawable/shape"
-        android:text="Guardar" />
+        <Button
+            android:id="@+id/btnGuardarZonas"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="110dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp"
+            android:background="@drawable/shape"
+            android:text="Guardar" />
+
+        </LinearLayout>
+    </ScrollView>
 
 </RelativeLayout>
