@@ -29,6 +29,7 @@ import static android.Manifest.permission.RECEIVE_SMS;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private FragmentManager fragmentManager;
     private FloatingActionButton fab;
     FragmentManager fr;
     @Override
@@ -52,7 +53,9 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         //Infla el AlarmasFragment como Fragment principal
-        final FragmentManager fragmentManager = getSupportFragmentManager();
+        if(fragmentManager == null) {
+            fragmentManager = getSupportFragmentManager();
+        }
         fragmentManager.beginTransaction().replace(R.id.contenedor,new AlarmasFragment()).commit();
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -125,7 +128,9 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
+        if(fragmentManager == null) {
+            fragmentManager = getSupportFragmentManager();
+        }
 
         if (id == R.id.nav_camera) {
             AlarmasFragment alarmas = new AlarmasFragment();

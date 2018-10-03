@@ -32,6 +32,7 @@ public class CrearCamaraFragment extends Fragment {
                     @Override
                     public void onClick(View v) {
                         Toast.makeText(v.getContext(),"Camara Creada",Toast.LENGTH_LONG).show();
+                        //Usar metodo comprobar campos de los otros fragments
                     }
                 });
 

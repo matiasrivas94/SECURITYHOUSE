@@ -102,6 +102,10 @@ public class CrearAlarmaFragment extends Fragment {
                 editor2.putString ("estadoZonaString","sapeeeeeeeee");
                 editor2.commit();
 
+                SharedPreferences.Editor editor1 = getContext().getSharedPreferences("bb",Context.MODE_PRIVATE).edit();
+                editor1.putLong("cantZ", cantZona);
+                editor1.commit();
+
                 //Shared para el nombre de la alarma
                 SharedPreferences.Editor editor = getContext().getSharedPreferences("ee",Context.MODE_PRIVATE).edit();
                 editor.putString ("nombreAlarma",nom);
@@ -126,6 +130,21 @@ public class CrearAlarmaFragment extends Fragment {
     }
     public boolean ComprobarCampos(){
         if(nombre.getText().toString().isEmpty() || numTelefono.getText().toString().isEmpty() || clave.getText().toString().isEmpty() || cantZonas.getText().toString().isEmpty()){
+            if(nombre.getText().toString().isEmpty())
+            {
+                nombre.setError("Complete el campo");
+                nombre.isFocusable();
+            }
+            if(numTelefono.getText().toString().isEmpty())
+            {
+                numTelefono.setError("Complete el campo");
+                numTelefono.isFocusable();
+            }
+            if(clave.getText().toString().isEmpty())
+            {
+                clave.setError("Complete el campo");
+                clave.isFocusable();
+            }
             return false;
         }else{
             return true;

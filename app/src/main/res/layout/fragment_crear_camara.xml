@@ -26,121 +26,137 @@
 
     </android.support.v7.widget.Toolbar>
 
-    <Button
-        android:id="@+id/btnCrearCam"
-        android:layout_width="200dp"
-        android:layout_height="50dp"
-        android:layout_marginLeft="80dp"
-        android:layout_marginTop="450dp"
-        android:background="@drawable/shape"
-        android:text="Crear"
-        android:textColor="#f5f5f5" />
-
-    <GridLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
-        android:columnCount="4"
-        android:padding="10dp"
-        android:paddingBottom="0dp"
-        android:paddingTop="50dp"
-        android:rowCount="9">
+        android:layout_height="match_parent"
+        android:layout_marginTop="79dp">
 
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_column="0"
-            android:layout_row="0"
-            android:paddingTop="20dp"
-            android:text="Direccion IP:"
-            android:textColor="#f5f5f5"
-            android:textSize="20dp"
-            android:textStyle="bold" />
-
-        <EditText
-            android:id="@+id/etIP"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_column="1"
-            android:layout_row="0"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:textColor="#f5f5f5" />
+            android:orientation="vertical">
 
-
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_column="0"
-            android:layout_marginTop="20dp"
-            android:layout_row="1"
-            android:paddingTop="20dp"
-            android:text="User:"
-            android:textColor="#f5f5f5"
-            android:textSize="20dp"
-            android:textStyle="bold|italic" />
-
-        <EditText
-            android:id="@+id/etUsuario"
+            <GridLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_column="1"
-            android:layout_marginTop="20dp"
-            android:layout_row="1"
-            android:ems="10"
-            android:textColor="#f5f5f5" />
-
-        <TextView
-            android:id="@+id/textView6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_column="0"
-            android:layout_marginTop="20dp"
-            android:layout_row="2"
-            android:paddingTop="20dp"
-            android:text="Password:"
-            android:textColor="#f5f5f5"
-            android:textSize="20dp"
-            android:textStyle="bold|italic" />
+            android:columnCount="4"
+            android:padding="10dp"
+            android:paddingBottom="0dp"
+            android:paddingTop="50dp"
+            android:rowCount="9">
 
 
-        <EditText
-            android:id="@+id/etPass"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_column="1"
-            android:layout_marginTop="20dp"
-            android:layout_row="2"
-            android:ems="10"
-            android:textColor="#f5f5f5" />
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="0"
+                android:layout_row="0"
+                android:paddingTop="20dp"
+                android:text="Direccion IP:"
+                android:textColor="#f5f5f5"
+                android:textSize="20dp"
+                android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/textView5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_column="0"
-            android:layout_marginTop="20dp"
-            android:layout_row="3"
-            android:paddingTop="20dp"
-            android:text="Puerto:"
-            android:textColor="#f5f5f5"
-            android:textSize="20dp"
-            android:textStyle="bold" />
+            <EditText
+                android:id="@+id/etIP"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_column="1"
+                android:layout_row="0"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:textColor="#f5f5f5" />
 
 
-        <EditText
-            android:id="@+id/etPuerto"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_column="1"
-            android:layout_marginTop="20dp"
-            android:layout_row="3"
-            android:ems="10"
-            android:textColor="#f5f5f5" />
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="0"
+                android:layout_marginTop="20dp"
+                android:layout_row="1"
+                android:paddingTop="20dp"
+                android:text="User:"
+                android:textColor="#f5f5f5"
+                android:textSize="20dp"
+                android:textStyle="bold|italic" />
 
-    </GridLayout>
+            <EditText
+                android:id="@+id/etUsuario"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_column="1"
+                android:layout_marginTop="20dp"
+                android:layout_row="1"
+                android:ems="10"
+                android:textColor="#f5f5f5" />
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="0"
+                android:layout_marginTop="20dp"
+                android:layout_row="2"
+                android:paddingTop="20dp"
+                android:text="Password:"
+                android:textColor="#f5f5f5"
+                android:textSize="20dp"
+                android:textStyle="bold|italic" />
+
+
+            <EditText
+                android:id="@+id/etPass"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_column="1"
+                android:layout_marginTop="20dp"
+                android:layout_row="2"
+                android:ems="10"
+                android:textColor="#f5f5f5" />
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="0"
+                android:layout_marginTop="20dp"
+                android:layout_row="3"
+                android:paddingTop="20dp"
+                android:text="Puerto:"
+                android:textColor="#f5f5f5"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+
+            <EditText
+                android:id="@+id/etPuerto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_column="1"
+                android:layout_marginTop="20dp"
+                android:layout_row="3"
+                android:ems="10"
+                android:textColor="#f5f5f5" />
+
+                <Button
+                    android:id="@+id/btnCrearCam"
+                    android:layout_width="200dp"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="-40dp"
+                    android:layout_marginTop="150dp"
+                    android:background="@drawable/shape"
+                    android:layout_row="3"
+                    android:layout_column="1"
+                    android:text="Crear"
+                    android:textColor="#f5f5f5" />
+
+
+            </GridLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </FrameLayout>

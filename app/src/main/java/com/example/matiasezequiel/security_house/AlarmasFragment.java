@@ -109,7 +109,7 @@ public class AlarmasFragment extends Fragment {
         if (mainActivity != null) {
             mainActivity.showFloatingActionButton(); //fuerza la visibilidad
             FloatingActionButton fab = mainActivity.findViewById(R.id.fab);
-            //fab.setImageResource(R.drawable.ic_send_black_24dp); //Cambiar icono
+            fab.setImageResource(R.drawable.add3); //Cambiar icono
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -144,8 +144,8 @@ public class AlarmasFragment extends Fragment {
                 editor1.commit();
 
                 // COSAS DEL FRAGMENT
-                FragmentTransaction fr = getFragmentManager().beginTransaction().addToBackStack(null);
-                fr.replace(R.id.contenedor, new PrincipalFragment());
+                FragmentTransaction fr = getFragmentManager().beginTransaction();
+                fr.replace(R.id.contenedor, new PrincipalFragment()).addToBackStack(null);
                 fr.commit();
             }
         });
