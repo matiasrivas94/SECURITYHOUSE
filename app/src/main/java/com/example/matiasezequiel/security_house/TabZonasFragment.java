@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -349,6 +350,7 @@ public class TabZonasFragment extends Fragment {
     }
 
     public boolean ComprobarCampos() {
+        Log.d("PROBANDO", "ENTRO EN COMPROBAR CAMPOS");
         int cant = cantZ;
         boolean resp = true;
         switch (cant) {
@@ -370,7 +372,6 @@ public class TabZonasFragment extends Fragment {
                             resp = false;
                         }
                         if(ed2.getText().toString().isEmpty()) {
-                            ed2.setError("Complete este campo");
                             resp = false;
                         }
                     }

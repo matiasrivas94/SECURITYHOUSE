@@ -1,5 +1,6 @@
 package com.example.matiasezequiel.security_house;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -10,6 +11,7 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
@@ -23,6 +25,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
+
+import java.util.List;
 
 import static android.Manifest.permission.RECEIVE_SMS;
 
@@ -56,7 +60,7 @@ public class MainActivity extends AppCompatActivity
         if(fragmentManager == null) {
             fragmentManager = getSupportFragmentManager();
         }
-        fragmentManager.beginTransaction().replace(R.id.contenedor,new AlarmasFragment()).commit();
+        fragmentManager.beginTransaction().replace(R.id.contenedor,new AlarmasFragment(),"Alarmas").commit();
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -64,7 +68,7 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View view) {
                 /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();*/
-                fragmentManager.beginTransaction().replace(R.id.contenedor,new CrearAlarmaFragment()).addToBackStack(null)
+                fragmentManager.beginTransaction().replace(R.id.contenedor,new CrearAlarmaFragment(),"CrearAlarma").addToBackStack(null)
                         .commit();
             }
         });
@@ -89,13 +93,34 @@ public class MainActivity extends AppCompatActivity
         }
     }*/
 
+    public String getVisibleFragment() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        List<Fragment> fragments = fragmentManager.getFragments();
+        if(fragments != null) {
+            for (Fragment fragment : fragments) {
+                if (fragment != null && fragment.isVisible())
+                    return fragment.getTag().toString();
+            }
+        }
+        return null;
+    }
+
     @Override
     public void onBackPressed() {
+
         if (getFragmentManager().getBackStackEntryCount() > 0) {
             getFragmentManager().popBackStack();
-        } else {
-            super.onBackPressed();
         }
+        else {
+            if(getVisibleFragment()=="CrearCamara")
+            {
+                //Toast.makeText(this, "Anda por las camaras", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            super.onBackPressed();
+            //Toast.makeText(this, getVisibleFragment() + "2", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     @Override
@@ -134,23 +159,23 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_camera) {
             AlarmasFragment alarmas = new AlarmasFragment();
-            fragmentManager.beginTransaction().replace(R.id.contenedor,alarmas, alarmas.getTag()).addToBackStack(null)
+            fragmentManager.beginTransaction().replace(R.id.contenedor,alarmas,"Alarmas" ).addToBackStack(null)
                     .commit();
         } else if (id == R.id.nav_gallery) {
             CamarasFragment camaras = new CamarasFragment();
-            fragmentManager.beginTransaction().replace(R.id.contenedor,camaras, camaras.getTag()).addToBackStack(null)
+            fragmentManager.beginTransaction().replace(R.id.contenedor,camaras,"VerCamaras" ).addToBackStack(null)
                     .commit();
         }  else if (id == R.id.nav_manage) {
             ConfigFragment config = new ConfigFragment();
-            fragmentManager.beginTransaction().replace(R.id.contenedor,config, config.getTag()).addToBackStack(null)
+            fragmentManager.beginTransaction().replace(R.id.contenedor,config,"Config" ).addToBackStack(null)
                     .commit();
         } else if (id == R.id.nav_share) {
             ContactoFragment contacto = new ContactoFragment();
-            fragmentManager.beginTransaction().replace(R.id.contenedor, contacto, contacto.getTag()).addToBackStack(null)
+            fragmentManager.beginTransaction().replace(R.id.contenedor, contacto, "Contacto").addToBackStack(null)
                     .commit();
         } else if (id == R.id.nav_send) {
             QuienesSomosFragment somos = new QuienesSomosFragment();
-            fragmentManager.beginTransaction().replace(R.id.contenedor, somos, somos.getTag()).addToBackStack(null)
+            fragmentManager.beginTransaction().replace(R.id.contenedor, somos, "QuienesSomos").addToBackStack(null)
                     .commit();
         }
 

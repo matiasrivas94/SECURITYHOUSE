@@ -57,7 +57,7 @@ public class CrearAlarmaFragment extends Fragment {
                         }
                         else {
                             FragmentTransaction fr = getFragmentManager().beginTransaction();
-                            fr.replace(R.id.contenedor, new PrincipalFragment());
+                            fr.replace(R.id.contenedor, new PrincipalFragment(),"Principal");
                             fr.commit();
                             agregar(v);
                         }
@@ -132,18 +132,15 @@ public class CrearAlarmaFragment extends Fragment {
         if(nombre.getText().toString().isEmpty() || numTelefono.getText().toString().isEmpty() || clave.getText().toString().isEmpty() || cantZonas.getText().toString().isEmpty()){
             if(nombre.getText().toString().isEmpty())
             {
-                nombre.setError("Complete el campo");
-                nombre.isFocusable();
+                nombre.setError("Escriba el nombre de la alarma");
             }
             if(numTelefono.getText().toString().isEmpty())
             {
-                numTelefono.setError("Complete el campo");
-                numTelefono.isFocusable();
+                numTelefono.setError("Escriba el numero de telefono");
             }
             if(clave.getText().toString().isEmpty())
             {
-                clave.setError("Complete el campo");
-                clave.isFocusable();
+                clave.setError("Escriba la clave");
             }
             return false;
         }else{
