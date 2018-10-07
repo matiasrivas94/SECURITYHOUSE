@@ -19,7 +19,7 @@ import javax.microedition.khronos.egl.EGLDisplay;
 
 public class ContactoFragment extends Fragment {
 
-    EditText nombreContacto, emailContacto, mjeContacto;
+    EditText nombreContacto, emailContacto, asuntoContacto, mjeContacto;
     Button btnEnviar;
 
     @Override
@@ -28,20 +28,26 @@ public class ContactoFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_contacto, container, false);
 
+
         nombreContacto = (EditText)v.findViewById(R.id.etNombreContacto);
         emailContacto = (EditText)v.findViewById(R.id.etEmail);
+        asuntoContacto = (EditText)v.findViewById(R.id.etAsunto);
         mjeContacto = (EditText)v.findViewById(R.id.etMensajeContacto);
-
-        //enviar email a securityhouse@gmail.com o a cada uno de los integrantes
         btnEnviar = (Button)v.findViewById(R.id.btnEnviarMensaje);
+
+        //enviar email a securityhouse@gmail.com
+
         btnEnviar.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                Toast.makeText(getActivity(),
-                        "Mensaje Enviado.", Toast.LENGTH_SHORT).show();
-                nombreContacto.setText("");
-                emailContacto.setText("");
-                mjeContacto.setText("");
+            public void onClick(View view) {
+                if(nombreContacto.getText().toString().isEmpty() || emailContacto.getText().toString().isEmpty() ||
+                        asuntoContacto.getText().toString().isEmpty() || mjeContacto.getText().toString().isEmpty())
+                {
+                    Toast.makeText (getContext(),"Hay Campos Vacios",Toast.LENGTH_LONG).show();
+                }
+                else{
+                    enviarMail();
+                }
             }
         });
         return v;
@@ -57,6 +63,20 @@ public class ContactoFragment extends Fragment {
         if (mainActivity != null) {
             mainActivity.hideFloatingActionButton(); //oculto boton
             FloatingActionButton fab = mainActivity.findViewById(R.id.fab);
+        }
+    }
+
+    public void enviarMail(){
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.putExtra(android.content.Intent.EXTRA_EMAIL,new String[] { "sh2018app@gmail.com" });
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_REFERRER_NAME,nombreContacto.getText().toString());
+        intent.putExtra(Intent.EXTRA_SUBJECT, asuntoContacto.getText().toString());
+        intent.putExtra(Intent.EXTRA_TEXT,mjeContacto.getText().toString());
+        try {
+            startActivity(intent.createChooser(intent,"Correo Enviado a Security House"));
+        }catch (Exception e){
+            e.printStackTrace();
         }
     }
 }

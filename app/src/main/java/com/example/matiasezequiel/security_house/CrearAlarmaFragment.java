@@ -93,7 +93,7 @@ public class CrearAlarmaFragment extends Fragment {
                 ContentValues con = new ContentValues();
                 con.put("nombre",nom);
                 con.put("tipo",tipo);
-                con.put("numTelefono",numTel);
+                con.put("numTelefono","+549"+numTel);
                 con.put("clave",password);
                 con.put("cantZonas",cantZona);
 
