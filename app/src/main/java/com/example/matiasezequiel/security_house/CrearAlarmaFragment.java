@@ -3,6 +3,7 @@ package com.example.matiasezequiel.security_house;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
@@ -27,7 +28,9 @@ public class CrearAlarmaFragment extends Fragment {
     EditText nombre, numTelefono, clave, cantZonas;
     MainActivity mainActivity = (MainActivity)getActivity();
     int aux = 0;
-    int cantZona;
+    int cantZona,modiAlarma;
+    String estadoEditarAlarma="default";
+    SharedPreferences prefs4;
 
 
     @Override
@@ -42,31 +45,51 @@ public class CrearAlarmaFragment extends Fragment {
         clave = (EditText) v.findViewById(R.id.ETClave);
         cantZonas = (EditText) v.findViewById(R.id.ETCantZonas);
 
+        //Shared para quedarme con el idAlarma seleccionada para modificar
+        SharedPreferences prefs1 = getContext().getSharedPreferences("eliminarAlarma",Context.MODE_PRIVATE);
+        modiAlarma = (int)prefs1.getLong("elimAlarm",-1);
+        //Toast.makeText(this.getActivity(), "ID de alarma para editar: "+modiAlarma, Toast.LENGTH_SHORT).show();
+
+        //Shared para modificar la alarma de alarmasFragment
+        prefs4 = getContext().getSharedPreferences("cadenaEditar",Context.MODE_PRIVATE);
+        estadoEditarAlarma=prefs4.getString("editarString"," ");
+        //Toast.makeText(this.getActivity(), "Valor del String de EDITAR: "+estadoEditarAlarma, Toast.LENGTH_SHORT).show();
+
+
         Button btnCrearAlarma =(Button)v.findViewById(R.id.btnCrearAlarma);
 
             btnCrearAlarma.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
-                    if(ComprobarCampos()) {
-                        aux = Integer.parseInt(cantZonas.getText().toString());
-                        if((aux < 1) || (aux > 6)) {
-                            cantZonas.setText("");
-                            cantZonas.setError("Maximo 6");
-                            cantZonas.isFocusable();
+                    if(estadoEditarAlarma == "insert") {
+                        if (ComprobarCampos()) {
+                            aux = Integer.parseInt(cantZonas.getText().toString());
+                            if ((aux < 1) || (aux > 6)) {
+                                cantZonas.setText("");
+                                cantZonas.setError("Maximo 6");
+                                cantZonas.isFocusable();
+                            } else {
+                                FragmentTransaction fr = getFragmentManager().beginTransaction();
+                                fr.replace(R.id.contenedor, new PrincipalFragment(), "Principal");
+                                fr.commit();
+                                agregar(v);
+                            }
+                        } else {
+                            Toast.makeText(v.getContext(), "Hay campos vacios, por favor ingrese datos", Toast.LENGTH_LONG).show();
                         }
-                        else {
-                            FragmentTransaction fr = getFragmentManager().beginTransaction();
-                            fr.replace(R.id.contenedor, new PrincipalFragment(),"Principal");
-                            fr.commit();
-                            agregar(v);
-                        }
+                        prefs4.edit().remove("editarString").commit();
                     }
-                    else {
-                        Toast.makeText(v.getContext(),"Hay campos vacios, por favor ingrese datos",Toast.LENGTH_LONG).show();
+                    if(estadoEditarAlarma == "update"){
+                        editar(v);
                     }
                 }
             });
+
+        if(estadoEditarAlarma == "update"){
+            btnCrearAlarma.setText("Modificar");
+            reflejarCampos();
+            prefs4.edit().remove("editarString").commit();
+        }
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this.getActivity(), R.array.opciones, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.preference_category);
@@ -175,6 +198,56 @@ public class CrearAlarmaFragment extends Fragment {
                     //NUEVA FUNCIONALIDAD
                 }
             });
+        }
+    }
+    //metodos para mostrar datos en los campos y editarlos
+    public void reflejarCampos(){
+        AlarmaSQLite bh  = new AlarmaSQLite(this.getActivity(),"alarma",null,1);
+        int idAlarmaModi = modiAlarma;
+        if(bh!=null){
+            SQLiteDatabase db = bh.getReadableDatabase();
+            Cursor c = db.rawQuery("SELECT * FROM alarma WHERE idAlarma = "+idAlarmaModi,null);
+            try{
+                if(c.moveToNext()){
+                    nombre.setText(c.getString(1));
+                    //VER COMO CARGAR SPINNER
+                    opciones.setSelection(c.getInt(2));
+                    //opciones.setSelection(c.getString(2));
+                    numTelefono.setText(c.getString(3));
+                    clave.setText(c.getString(4));
+                    cantZonas.setText(c.getString(5));
+                }
+            }finally {
+
+            }
+        }
+    }
+
+
+    public void editar(View v){
+        AlarmaSQLite bh = new AlarmaSQLite(this.getActivity(),"alarma",null,1);
+        int idAlarmaModi = modiAlarma;
+        if(bh!=null){
+            SQLiteDatabase db = bh.getWritableDatabase();
+            ContentValues val = new ContentValues();
+            val.put("nombre",nombre.getText().toString());
+            val.put("tipo",opciones.getSelectedItem().toString());
+            val.put("numTelefono",numTelefono.getText().toString());
+            val.put("clave",clave.getText().toString());
+            //val.put("cantZonas",Integer.parseInt(cantZonas.getText().toString()));
+
+            long response = db.update("alarma",val,"idAlarma="+idAlarmaModi,null);
+            if(response>0){
+                Toast.makeText(this.getActivity(),"Editado con exito",Toast.LENGTH_LONG).show();
+                nombre.requestFocus();
+                nombre.setText("");
+                numTelefono.setText("");
+                opciones.setSelection(0);
+                clave.setText("");
+                //cantZonas.setText("");
+            }else{
+                Toast.makeText(this.getActivity(),"Ocurrio un error",Toast.LENGTH_LONG).show();
+            }
         }
     }
 

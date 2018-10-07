@@ -123,14 +123,14 @@ public class TabZonasFragment extends Fragment {
             //int cant = cantZ;
             switch (cantidad) {
                 case 1:
-                    Toast.makeText(this.getActivity(), "Cantidad de Zonas: " + cantidad, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(this.getActivity(), "Cantidad de Zonas: " + cantidad, Toast.LENGTH_SHORT).show();
                     if (cantidad == 1) {
                         ed1.setVisibility(View.VISIBLE);
                         prefs4.edit().remove("estadoZonaString").commit();
                     }
                     break;
                 case 2:
-                    Toast.makeText(this.getActivity(), "Cantidad de Zonas: " + cantidad, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(this.getActivity(), "Cantidad de Zonas: " + cantidad, Toast.LENGTH_SHORT).show();
                     if (cantidad == 2) {
                         ed1.setVisibility(View.VISIBLE);
                         ed2.setVisibility(View.VISIBLE);
@@ -138,7 +138,7 @@ public class TabZonasFragment extends Fragment {
                     }
                     break;
                 case 3:
-                    Toast.makeText(this.getActivity(), "Cantidad de Zonas: " + cantidad, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(this.getActivity(), "Cantidad de Zonas: " + cantidad, Toast.LENGTH_SHORT).show();
                     if (cantidad == 3) {
                         ed1.setVisibility(View.VISIBLE);
                         ed2.setVisibility(View.VISIBLE);
@@ -147,7 +147,7 @@ public class TabZonasFragment extends Fragment {
                     }
                     break;
                 case 4:
-                    Toast.makeText(this.getActivity(), "Cantidad de Zonas: " + cantidad, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(this.getActivity(), "Cantidad de Zonas: " + cantidad, Toast.LENGTH_SHORT).show();
                     if (cantidad == 4) {
                         ed1.setVisibility(View.VISIBLE);
                         ed2.setVisibility(View.VISIBLE);
@@ -157,7 +157,7 @@ public class TabZonasFragment extends Fragment {
                     }
                     break;
                 case 5:
-                    Toast.makeText(this.getActivity(), "Cantidad de Zonas: " + cantidad, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(this.getActivity(), "Cantidad de Zonas: " + cantidad, Toast.LENGTH_SHORT).show();
                     if (cantidad == 5) {
                         ed1.setVisibility(View.VISIBLE);
                         ed2.setVisibility(View.VISIBLE);
@@ -168,7 +168,7 @@ public class TabZonasFragment extends Fragment {
                     }
                     break;
                 case 6:
-                    Toast.makeText(this.getActivity(), "Cantidad de Zonas: " + cantidad, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(this.getActivity(), "Cantidad de Zonas: " + cantidad, Toast.LENGTH_SHORT).show();
                     if (cantidad == 6) {
                         ed1.setVisibility(View.VISIBLE);
                         ed2.setVisibility(View.VISIBLE);
@@ -203,22 +203,22 @@ public class TabZonasFragment extends Fragment {
             }
             //Toast.makeText(this.getActivity(),"Zonas: " + arreglo ,Toast.LENGTH_LONG).show();
             int cantidadZ = arreglo.size();
-            Toast.makeText(this.getActivity(),"Cantidad de Zonas: " + cantidadZ ,Toast.LENGTH_LONG).show();
+            //Toast.makeText(this.getActivity(),"Cantidad de Zonas: " + cantidadZ ,Toast.LENGTH_LONG).show();
             switch (cantidadZ) {
                 case 1:
-                    Toast.makeText(this.getActivity(), "Cantidad de Zonas: " + cantidadZ, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(this.getActivity(), "Cantidad de Zonas: " + cantidadZ, Toast.LENGTH_SHORT).show();
                     tv1.setText(arreglo.get(0));
                     tv1.setVisibility(View.VISIBLE);
                     break;
                 case 2:
-                    Toast.makeText(this.getActivity(), "Cantidad de Zonas: " + cantidadZ, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(this.getActivity(), "Cantidad de Zonas: " + cantidadZ, Toast.LENGTH_SHORT).show();
                     tv1.setText(arreglo.get(0));
                     tv1.setVisibility(View.VISIBLE);
                     tv2.setText(arreglo.get(1));
                     tv2.setVisibility(View.VISIBLE);
                     break;
                 case 3:
-                    Toast.makeText(this.getActivity(), "Cantidad de Zonas: " + cantidadZ, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(this.getActivity(), "Cantidad de Zonas: " + cantidadZ, Toast.LENGTH_SHORT).show();
                     tv1.setText(arreglo.get(0));
                     tv1.setVisibility(View.VISIBLE);
                     tv2.setText(arreglo.get(1));
@@ -227,7 +227,7 @@ public class TabZonasFragment extends Fragment {
                     tv3.setVisibility(View.VISIBLE);
                     break;
                 case 4:
-                    Toast.makeText(this.getActivity(), "Cantidad de Zonas: " + cantidadZ, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(this.getActivity(), "Cantidad de Zonas: " + cantidadZ, Toast.LENGTH_SHORT).show();
                     tv1.setText(arreglo.get(0));
                     tv1.setVisibility(View.VISIBLE);
                     tv2.setText(arreglo.get(1));
@@ -238,7 +238,7 @@ public class TabZonasFragment extends Fragment {
                     tv4.setVisibility(View.VISIBLE);
                     break;
                 case 5:
-                    Toast.makeText(this.getActivity(), "Cantidad de Zonas: " + cantidadZ, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(this.getActivity(), "Cantidad de Zonas: " + cantidadZ, Toast.LENGTH_SHORT).show();
                     tv1.setText(arreglo.get(0));
                     tv1.setVisibility(View.VISIBLE);
                     tv2.setText(arreglo.get(1));
@@ -251,7 +251,7 @@ public class TabZonasFragment extends Fragment {
                     tv5.setVisibility(View.VISIBLE);
                     break;
                 case 6:
-                    Toast.makeText(this.getActivity(), "Cantidad de Zonas: " + cantidadZ, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(this.getActivity(), "Cantidad de Zonas: " + cantidadZ, Toast.LENGTH_SHORT).show();
                     tv1.setText(arreglo.get(0));
                     tv1.setVisibility(View.VISIBLE);
                     tv2.setText(arreglo.get(1));
@@ -290,7 +290,7 @@ public class TabZonasFragment extends Fragment {
             // Se toman los datos de los EditText, se insertan en la base y se crean los TextView
             // cuando se crea una alarma
             //if(estado == true) {
-                Toast.makeText(this.getActivity(), "ID de la Ultima alarma Ingresada: " + cant, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this.getActivity(), "ID de la Ultima alarma Ingresada: " + cant, Toast.LENGTH_SHORT).show();
                 if (ed1.getVisibility() == View.VISIBLE) {
                     con.put("idAlarma", cant);
                     con.put("nombre", n1);

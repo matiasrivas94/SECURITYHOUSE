@@ -1,6 +1,7 @@
 package com.example.matiasezequiel.security_house;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -28,6 +29,8 @@ public class ConfigFragment extends Fragment {
     String desactivar = clave + "DS";
     String nuevaclave="0987";
 
+    int tipoConfig;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -35,6 +38,11 @@ public class ConfigFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_config, container, false);
 
         opciones = (Spinner) v.findViewById(R.id.spPrueba);
+
+        //Shared para mostrar el tipo de la alarma en el spinner
+        SharedPreferences prefs = getContext().getSharedPreferences("tipoAlarmaSpinner",Context.MODE_PRIVATE);
+        tipoConfig = (int)prefs.getLong("configSpinner",-1);
+
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this.getActivity(), R.array.alarmas, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.preference_category);
