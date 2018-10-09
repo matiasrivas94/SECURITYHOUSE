@@ -84,104 +84,13 @@ public class AlarmasFragment extends Fragment {
                 }while(c.moveToNext());
             }
         }
-        /*String[] arreglo = new String[alarmas.size()];
-        for (int i = 0;i<arreglo.length;i++){
-            //arreglo[i] = alarmas.get(i).getIdAlarma()+" -- "+alarmas.get(i).getNombre()+" -- "+alarmas.get(i).getClave();
-            arreglo[i] = alarmas.get(i).getNombre();
-        }
-        ArrayAdapter<String> adaptador = new ArrayAdapter<String>(this.getActivity() ,android.R.layout.simple_list_item_1,arreglo);
-        lista.setAdapter(adaptador);
-        */
         for(int x = 0; x < alarmas.size(); x++){
-            datosAlarma.add(new DatosItemAlarma(x , alarmas.get(x).getNombre()+" -- "+alarmas.get(x).getTipo(),""));
+            datosAlarma.add(new DatosItemAlarma(x , alarmas.get(x).getNombre(),""));
         }
         AdaptadorAlarma adapter = new AdaptadorAlarma(this.getActivity(), datosAlarma);
         lista.setAdapter(adapter);
     }
 
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-        MenuInflater inflater = getActivity().getMenuInflater();
-        inflater.inflate(R.menu.menu_main, menu);
-    }
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-
-        switch (item.getItemId()) {
-
-            case R.id.update:
-                //Shared para editar la alarma
-                SharedPreferences.Editor editor2 = getContext().getSharedPreferences("cadenaEditar",Context.MODE_PRIVATE).edit();
-                editor2.putString ("editarString","update");
-                editor2.commit();
-
-                FragmentTransaction fr1 = getFragmentManager().beginTransaction();
-                fr1.replace(R.id.contenedor, new CrearAlarmaFragment(),"CrearAlarma").addToBackStack(null);
-                fr1.commit();
-
-                return true;
-
-            case R.id.delete:
-                //Abrir un alertDialog preguntando si desea cancelar
-                //Log.d("prueba2","comprobar true");
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setMessage("Confirmar! \n");
-                builder.setTitle(Html.fromHtml("<font color='#000000'>Eliminar la Alarma</font>"));
-                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.cancel();
-                        }
-                    });
-                builder.setPositiveButton("Si", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            //Shared para quedarme con el idAlarma seleccionada para eliminar
-                            SharedPreferences prefs1 = getContext().getSharedPreferences("deleteAlarmList", Context.MODE_PRIVATE);
-                            deleteAlarmLista = (int) prefs1.getLong("deleteAlarLista", -1);
-
-                            //Shared para quedarme con la posicion de la lista de la alarma seleccionada para aliminar
-                            SharedPreferences prefs = getContext().getSharedPreferences("eliminarAlarma", Context.MODE_PRIVATE);
-                            deleteAlarm = (int) prefs.getLong("elimAlarm", -1);
-
-                            //int x = deleteAlarm;
-                            //Toast.makeText(getActivity(),"Posiscion de la alarma seleccionada en la lista: " + deleteAlarmLista,Toast.LENGTH_LONG).show();
-                            AlarmaSQLite bd = new AlarmaSQLite(getActivity(), "alarma", null, 1);
-                            if (bd != null) {
-                                SQLiteDatabase db = bd.getReadableDatabase();
-                                Alarma alarm = alarmas.get(deleteAlarmLista);
-                                long response = db.delete("alarma", "idAlarma=" + alarm.getIdAlarma(), null);
-                                if (response > 0) {
-                                    Toast.makeText(getActivity(), "Eliminado con exito", Toast.LENGTH_LONG).show();
-                                    alarmas.removeAll(alarmas);
-                                    llenarLista();
-                                } else {
-                                    Toast.makeText(getActivity(), "Fallo", Toast.LENGTH_LONG).show();
-                                }
-                            }
-                        }});
-                builder.create();
-                builder.show();
-
-                return true;
-
-            case R.id.config:
-                //shared para mostrar el tipo de la alarma en el spinner de configuracion
-                SharedPreferences.Editor editor = getContext().getSharedPreferences("tipoAlarmaSpinner",Context.MODE_PRIVATE).edit();
-                editor.putLong("configSpinner", deleteAlarma);
-                editor.commit();
-
-                FragmentTransaction fr = getFragmentManager().beginTransaction();
-                fr.replace(R.id.contenedor, new ConfigFragment(),"Configuacion").addToBackStack(null);
-                fr.commit();
-
-                return true;
-            default:
-                return super.onContextItemSelected(item);
-        }
-    }
 
     //clase interna para manejar el item de la lista de las alarmas
     private class AdaptadorAlarma extends BaseAdapter implements View.OnCreateContextMenuListener {
@@ -220,9 +129,10 @@ public class AlarmasFragment extends Fragment {
 
             registerForContextMenu(iconoMenu);
 
-            iconoMenu.setOnLongClickListener(new View.OnLongClickListener() {
+            //Boton del menu del item de la lista de las alarmas
+            iconoMenu.setOnClickListener(new View.OnClickListener(){
                 @Override
-                public boolean onLongClick(View v) {
+                public void onClick(View v) {
                     usuarioSelecionado = position;
                     //Shared para saber el idAlarma al hacer click sobre el listView
                     Alarma alar = alarmas.get(usuarioSelecionado);
@@ -239,19 +149,90 @@ public class AlarmasFragment extends Fragment {
                     editor.putLong("elimAlarm", idAlarm);
                     editor.commit();
 
-                    return false;
+
+                    // Menu con alert builder
+                    AlertDialog.Builder builder = new AlertDialog.Builder(contexto);
+                    //builder.setTitle("Elegir Opcion");
+                    builder.setTitle(Html.fromHtml("<font color='#000000'>Elegir Opción</font>"));
+                    // add a list
+                    String[] animals = {"Modificar Alarma", "Eliminar Alarma", "Configuracion General"};
+                    builder.setItems(animals, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            switch (which) {
+                                case 0:
+                                    //Shared para editar la alarma
+                                    SharedPreferences.Editor editor2 = getContext().getSharedPreferences("cadenaEditar",Context.MODE_PRIVATE).edit();
+                                    editor2.putString ("editarString","update");
+                                    editor2.commit();
+
+                                    FragmentTransaction fr1 = getFragmentManager().beginTransaction();
+                                    fr1.replace(R.id.contenedor, new CrearAlarmaFragment(),"CrearAlarma").addToBackStack(null);
+                                    fr1.commit();
+                                    break;
+                                case 1:
+                                    //Abrir un alertDialog preguntando si desea cancelar
+                                    //Log.d("prueba2","comprobar true");
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(contexto);
+                                    builder.setMessage("Confirmar! \n");
+                                    builder.setTitle(Html.fromHtml("<font color='#000000'>Eliminar la Alarma</font>"));
+
+                                    builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.cancel();
+                                        }
+                                    });
+                                    builder.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            //Shared para quedarme con el idAlarma seleccionada para eliminar
+                                            SharedPreferences prefs1 = getContext().getSharedPreferences("deleteAlarmList", Context.MODE_PRIVATE);
+                                            deleteAlarmLista = (int) prefs1.getLong("deleteAlarLista", -1);
+
+                                            //Shared para quedarme con la posicion de la lista de la alarma seleccionada para aliminar
+                                            SharedPreferences prefs = getContext().getSharedPreferences("eliminarAlarma", Context.MODE_PRIVATE);
+                                            deleteAlarm = (int) prefs.getLong("elimAlarm", -1);
+
+                                            //int x = deleteAlarm;
+                                            //Toast.makeText(getActivity(),"Posiscion de la alarma seleccionada en la lista: " + deleteAlarmLista,Toast.LENGTH_LONG).show();
+                                            AlarmaSQLite bd = new AlarmaSQLite(getActivity(), "alarma", null, 1);
+                                            if (bd != null) {
+                                                SQLiteDatabase db = bd.getReadableDatabase();
+                                                Alarma alarm = alarmas.get(deleteAlarmLista);
+                                                long response = db.delete("alarma", "idAlarma=" + alarm.getIdAlarma(), null);
+                                                if (response > 0) {
+                                                    Toast.makeText(getActivity(), "Eliminado con exito", Toast.LENGTH_LONG).show();
+                                                    alarmas.removeAll(alarmas);
+                                                    llenarLista();
+                                                } else {
+                                                    Toast.makeText(getActivity(), "Fallo", Toast.LENGTH_LONG).show();
+                                                }
+                                            }
+                                        }});
+                                    builder.create();
+                                    builder.show();
+                                    break;
+                                case 2:
+                                    //shared para mostrar el tipo de la alarma en el spinner de configuracion
+                                    SharedPreferences.Editor editor = getContext().getSharedPreferences("tipoAlarmaSpinner",Context.MODE_PRIVATE).edit();
+                                    editor.putLong("configSpinner", deleteAlarma);
+                                    editor.commit();
+
+                                    FragmentTransaction fr = getFragmentManager().beginTransaction();
+                                    fr.replace(R.id.contenedor, new ConfigFragment(),"Configuacion").addToBackStack(null);
+                                    fr.commit();
+                            }
+                        }
+                    });
+                    // create and show the alert dialog
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
                 }
             });
 
-            iconoMenu.setOnClickListener(new View.OnClickListener(){
-                @Override
-                public void onClick(View v) {
-                    //Toast.makeText(contexto,"Posicion: " + position,Toast.LENGTH_SHORT).show();
-                    //DatosItemAlarma datos = getItem(position);
-                    //View overflow = convertView.findViewById(R.id.btIconoMenu);
-                    //overflow.setOnClickListener(new MenuItemsAlarma(contexto, datos));
-                }
-            });
+            //Boton del menu del item de las alarmas que maneja el nombre para llevar al
+            //fragmentTazZonas para ver las zonas que tiene cada alarma de la lista
             nombreAlarma.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
