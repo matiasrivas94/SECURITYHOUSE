@@ -22,11 +22,14 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 
 public class CrearAlarmaFragment extends Fragment {
 
     MiMensaje mm = new MiMensaje();
-	Spinner opciones;
     EditText nombre, numTelefono, clave, cantZonas;
     MainActivity mainActivity = (MainActivity)getActivity();
     int aux, auxiliar = 0;
@@ -35,11 +38,36 @@ public class CrearAlarmaFragment extends Fragment {
     SharedPreferences prefs4;
     SharedPreferences.Editor editor1;
 
+    //Cosas del Spinner
+    Spinner opciones;
+    List<String> listaTipos;
+    ArrayAdapter<String> adapterSpinner;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_crear_alarma, container, false);
+
+        //cosas del SPINNER
+        //opciones = (Spinner) v.findViewById(R.id.SPTipo);
+        opciones = (Spinner) v.findViewById(R.id.SPTipo);
+        listaTipos = new ArrayList<>();
+
+        //Arreglo String de tipos
+        String[] tipos = {"Casa", "Oficina", "Tienda"};
+        //Cargo las frutas en listaTipos
+        Collections.addAll(listaTipos, tipos);
+        //Paso los valores a mi adapter
+        adapterSpinner = new ArrayAdapter<>(this.getActivity(), android.R.layout.simple_spinner_item, listaTipos);
+        //Linea de código secundario sirve para asignar un layout a los ítems
+        adapterSpinner.setDropDownViewResource(android.R.layout.preference_category);
+        //Muestro los ítems en el spinner, obtenidos gracias al adapter
+        opciones.setAdapter(adapterSpinner);
+
+        //String que almacena el nombre de la fruta donde inicializara el valor ítem del spinner
+        //ESTE STRING LO PODEMOS OBTENER DE DIFERENTES FORMAS (DESDE UN BASE DE DATOS, UN ARREGLO, ...)
+        String inicializarItem = "Casa";
+
 
         nombre = (EditText) v.findViewById(R.id.ETNombre);
         opciones = (Spinner) v.findViewById(R.id.SPTipo);
@@ -166,21 +194,37 @@ public class CrearAlarmaFragment extends Fragment {
                     }
                     if(estadoEditarAlarma.equals("update")){
                         editar(v);
+                        FragmentTransaction fr = getFragmentManager().beginTransaction();
+                        fr.replace(R.id.contenedor, new AlarmasFragment(), "Alarmas");
+                        fr.commit();
                     }
                 }
             });
 
-        if(estadoEditarAlarma == "update"){
+        if(estadoEditarAlarma.equals("update")){
             btnCrearAlarma.setText("Modificar");
             reflejarCampos();
             prefs4.edit().remove("editarString").commit();
         }
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this.getActivity(), R.array.opciones, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.preference_category);
-        opciones.setAdapter(adapter);
-
         return v;
+    }
+
+    //Método para obtener la posición de un ítem del spinner
+    public int obtenerPosicionItem(Spinner spinner, String tipo) {
+        //Creamos la variable posicion y lo inicializamos en 0
+        int posicion = 0;
+        //Recorre el spinner en busca del ítem que coincida con el parametro `String tipo`
+        //que lo pasaremos posteriormente
+        for (int i = 0; i < spinner.getCount(); i++) {
+            //Almacena la posición del ítem que coincida con la búsqueda
+            if (spinner.getItemAtPosition(i).toString().equals(tipo)) {
+                posicion = i;
+            }
+        }
+        //Devuelve un valor entero (si encontro una coincidencia devuelve la
+        // posición 0 o N, de lo contrario devuelve 0 = posición inicial)
+        return posicion;
     }
 
     public void agregar(View v){
@@ -285,6 +329,8 @@ public class CrearAlarmaFragment extends Fragment {
             });
         }
     }
+
+
     //metodos para mostrar datos en los campos y editarlos
     public void reflejarCampos(){
         AlarmaSQLite bh  = new AlarmaSQLite(this.getActivity(),"alarma",null,1);
@@ -295,9 +341,22 @@ public class CrearAlarmaFragment extends Fragment {
             try{
                 if(c.moveToNext()){
                     nombre.setText(c.getString(1));
-                    //VER COMO CARGAR SPINNER
-                    opciones.setSelection(c.getInt(2));
-                    //opciones.setSelection(c.getString(2));
+
+                    String algo = c.getString(2);
+                    int pos=-1;
+                    if (algo.equals("Casa")) {
+                        pos = obtenerPosicionItem(opciones, algo);
+                        opciones.setSelection(pos);
+                    }
+                    if (algo.equals("Oficina")) {
+                        pos = obtenerPosicionItem(opciones, algo);
+                        opciones.setSelection(pos);
+                    }
+                    if (algo.equals("Tienda")) {
+                        pos = obtenerPosicionItem(opciones, algo);
+                        opciones.setSelection(pos);
+                    }
+
                     numTelefono.setText(c.getString(3));
                     clave.setText(c.getString(4));
                     cantZonas.setText(c.getString(5));
@@ -307,8 +366,6 @@ public class CrearAlarmaFragment extends Fragment {
             }
         }
     }
-
-
     public void editar(View v){
         AlarmaSQLite bh = new AlarmaSQLite(this.getActivity(),"alarma",null,1);
         int idAlarmaModi = modiAlarma;
