@@ -44,7 +44,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         Intent shortcutIntent = new Intent();
         shortcutIntent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, getIntentShortcut());
         shortcutIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, "WIMP?");
-        shortcutIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, Intent.ShortcutIconResource.fromContext(this.getApplicationContext(), R.drawable.icon_app));
+        shortcutIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, Intent.ShortcutIconResource.fromContext(this.getApplicationContext(), R.drawable.logo1));
         shortcutIntent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
         this.sendBroadcast(shortcutIntent);
         SharedPreferences.Editor editor = appPref.edit();

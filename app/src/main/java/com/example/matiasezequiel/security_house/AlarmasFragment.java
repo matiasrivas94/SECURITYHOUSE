@@ -295,7 +295,7 @@ public class AlarmasFragment extends Fragment {
                     editor2.commit();
 
                     FragmentTransaction fr = getFragmentManager().beginTransaction();
-                    fr.replace(R.id.contenedor, new CrearAlarmaFragment(),"Alarma").addToBackStack(null);
+                    fr.replace(R.id.contenedor, new CrearAlarmaFragment(),"CrearAlarma").addToBackStack(null);
                     fr.commit();
                 }
             });

@@ -1,8 +1,10 @@
 package com.example.matiasezequiel.security_house;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
@@ -15,6 +17,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
+import android.text.Html;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -114,8 +117,72 @@ public class MainActivity extends AppCompatActivity
         else {
             if(getVisibleFragment()=="CrearCamara")
             {
-                //Toast.makeText(this, "Anda por las camaras", Toast.LENGTH_SHORT).show();
-                return;
+                int auxiliar = 0;
+                SharedPreferences prefs1 = this.getSharedPreferences("aaa",Context.MODE_PRIVATE);
+                auxiliar=(int)prefs1.getLong("auxiliar",0);
+                prefs1.edit().remove("auxiliar").commit();
+
+                if(auxiliar == -1)
+                {
+                    android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
+                    builder.setMessage("Los datos no se guardaron. \n Está seguro que desea cancelar?");
+                    builder.setTitle(Html.fromHtml("<font color='#000000'>Configurar cámara IP</font>"));
+                    builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            SharedPreferences.Editor editor1 = getSharedPreferences("aaa",Context.MODE_PRIVATE).edit();
+                            editor1.putLong("auxiliar", -1);
+                            editor1.commit();
+                            dialog.cancel();
+                        }
+                    });
+                    builder.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            fragmentManager.beginTransaction().replace(R.id.contenedor,new PrincipalFragment(),"Principal").commit();
+                        }
+                    });
+
+                    builder.create();
+                    builder.show();
+                    return;
+                }
+                if(auxiliar == 0) {
+                    fragmentManager.beginTransaction().replace(R.id.contenedor, new PrincipalFragment(), "Principal").commit();
+                    return;
+                }
+            }
+            if(getVisibleFragment()=="CrearAlarma"){
+                int auxiliar = 0;
+                SharedPreferences prefs1 = this.getSharedPreferences("aaa",Context.MODE_PRIVATE);
+                auxiliar=(int)prefs1.getLong("auxiliar",0);
+                prefs1.edit().remove("auxiliar").commit();
+
+                if(auxiliar == -1)
+                {
+                    android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
+                    builder.setMessage("Los datos no se guardaron. \nEstas seguro que desea cancelar?");
+                    builder.setTitle(Html.fromHtml("<font color='#000000'>Cancelar nueva alarma</font>"));
+                    builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            SharedPreferences.Editor editor1 = getSharedPreferences("aaa",Context.MODE_PRIVATE).edit();
+                            editor1.putLong("auxiliar", -1);
+                            editor1.commit();
+                            dialog.cancel();
+                        }
+                    });
+                    builder.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            fragmentManager.beginTransaction().replace(R.id.contenedor,new AlarmasFragment(),"Alarmas").commit();
+                        }
+                    });
+                    builder.create();
+                    builder.show();
+                    return;
+                }
+
             }
             super.onBackPressed();
             //Toast.makeText(this, getVisibleFragment() + "2", Toast.LENGTH_SHORT).show();

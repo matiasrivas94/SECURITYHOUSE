@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,11 +29,11 @@ public class CrearAlarmaFragment extends Fragment {
 	Spinner opciones;
     EditText nombre, numTelefono, clave, cantZonas;
     MainActivity mainActivity = (MainActivity)getActivity();
-    int aux = 0;
+    int aux, auxiliar = 0;
     int cantZona,modiAlarma;
     String estadoEditarAlarma="default";
     SharedPreferences prefs4;
-
+    SharedPreferences.Editor editor1;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -45,15 +47,98 @@ public class CrearAlarmaFragment extends Fragment {
         clave = (EditText) v.findViewById(R.id.ETClave);
         cantZonas = (EditText) v.findViewById(R.id.ETCantZonas);
 
+        nombre.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (nombre.length() > 0) {
+                    auxiliar = -1;
+                    editor1 = getContext().getSharedPreferences("aaa", Context.MODE_PRIVATE).edit();
+                    editor1.putLong("auxiliar", auxiliar);
+                    editor1.commit();
+                }
+                else {
+                    auxiliar = 0;
+                    editor1 = getContext().getSharedPreferences("aaa", Context.MODE_PRIVATE).edit();
+                    editor1.putLong("auxiliar", auxiliar);
+                    editor1.commit();
+                }
+            }
+            @Override
+            public void afterTextChanged(Editable s) { }
+        });
+        numTelefono.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (numTelefono.length() > 0) {
+                    auxiliar = -1;
+                    editor1 = getContext().getSharedPreferences("aaa", Context.MODE_PRIVATE).edit();
+                    editor1.putLong("auxiliar", auxiliar);
+                    editor1.commit();
+                }
+                else {
+                    auxiliar = 0;
+                    editor1 = getContext().getSharedPreferences("aaa", Context.MODE_PRIVATE).edit();
+                    editor1.putLong("auxiliar", auxiliar);
+                    editor1.commit();
+                }
+            }
+            @Override
+            public void afterTextChanged(Editable s) { }
+        });
+        clave.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (clave.length() > 0) {
+                    auxiliar = -1;
+                    editor1 = getContext().getSharedPreferences("aaa", Context.MODE_PRIVATE).edit();
+                    editor1.putLong("auxiliar", auxiliar);
+                    editor1.commit();
+                }
+                else {
+                    auxiliar = 0;
+                    editor1 = getContext().getSharedPreferences("aaa", Context.MODE_PRIVATE).edit();
+                    editor1.putLong("auxiliar", auxiliar);
+                    editor1.commit();
+                }
+            }
+            @Override
+            public void afterTextChanged(Editable s) { }
+        });
+        cantZonas.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (cantZonas.length() > 0) {
+                    auxiliar = -1;
+                    editor1 = getContext().getSharedPreferences("aaa", Context.MODE_PRIVATE).edit();
+                    editor1.putLong("auxiliar", auxiliar);
+                    editor1.commit();
+                }
+                else {
+                    auxiliar = 0;
+                    editor1 = getContext().getSharedPreferences("aaa", Context.MODE_PRIVATE).edit();
+                    editor1.putLong("auxiliar", auxiliar);
+                    editor1.commit();
+                }
+            }
+            @Override
+            public void afterTextChanged(Editable s) { }
+        });
+
         //Shared para quedarme con el idAlarma seleccionada para modificar
         SharedPreferences prefs1 = getContext().getSharedPreferences("eliminarAlarma",Context.MODE_PRIVATE);
         modiAlarma = (int)prefs1.getLong("elimAlarm",-1);
-        //Toast.makeText(this.getActivity(), "ID de alarma para editar: "+modiAlarma, Toast.LENGTH_SHORT).show();
 
         //Shared para modificar la alarma de alarmasFragment
         prefs4 = getContext().getSharedPreferences("cadenaEditar",Context.MODE_PRIVATE);
         estadoEditarAlarma=prefs4.getString("editarString"," ");
-        //Toast.makeText(this.getActivity(), "Valor del String de EDITAR: "+estadoEditarAlarma, Toast.LENGTH_SHORT).show();
 
 
         Button btnCrearAlarma =(Button)v.findViewById(R.id.btnCrearAlarma);
