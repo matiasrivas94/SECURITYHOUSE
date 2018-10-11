@@ -146,7 +146,7 @@ public class CrearAlarmaFragment extends Fragment {
             btnCrearAlarma.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(estadoEditarAlarma == "insert") {
+                    if(estadoEditarAlarma.equals("insert")) {
                         if (ComprobarCampos()) {
                             aux = Integer.parseInt(cantZonas.getText().toString());
                             if ((aux < 1) || (aux > 6)) {
@@ -164,7 +164,7 @@ public class CrearAlarmaFragment extends Fragment {
                         }
                         prefs4.edit().remove("editarString").commit();
                     }
-                    if(estadoEditarAlarma == "update"){
+                    if(estadoEditarAlarma.equals("update")){
                         editar(v);
                     }
                 }
