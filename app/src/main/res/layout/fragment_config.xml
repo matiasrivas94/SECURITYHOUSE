@@ -20,6 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="Configuracion"
+            android:fontFamily="@font/acme"
             android:textColor="#f5f5f5"
             android:textSize="33sp"
             android:textStyle="bold" />

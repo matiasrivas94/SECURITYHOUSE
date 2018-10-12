@@ -115,6 +115,27 @@ public class MainActivity extends AppCompatActivity
             getFragmentManager().popBackStack();
         }
         else {
+            if(getVisibleFragment() == "Alarmas"){
+                android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
+                //builder.setMessage("Desea salir de la aplicacion");
+                builder.setTitle(Html.fromHtml("<font color='#000000'>Desea salir de la aplicacion?</font>"));
+                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                builder.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                });
+
+                builder.create();
+                builder.show();
+                return;
+            }
             if(getVisibleFragment()=="CrearCamara")
             {
                 int auxiliar = 0;

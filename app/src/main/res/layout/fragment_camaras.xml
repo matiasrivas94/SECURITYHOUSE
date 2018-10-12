@@ -25,6 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="Ver Cámaras"
+            android:fontFamily="@font/acme"
             android:textColor="#8e8e8e"
             android:textSize="33sp"
             android:textStyle="bold" />
