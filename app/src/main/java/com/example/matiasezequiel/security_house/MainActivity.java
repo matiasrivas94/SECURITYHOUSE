@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity
         }
         else {
             if(getVisibleFragment() == "Alarmas"){
-                android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
+                /*android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
                 //builder.setMessage("Desea salir de la aplicacion");
                 builder.setTitle(Html.fromHtml("<font color='#000000'>Desea salir de la aplicacion?</font>"));
                 builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -133,7 +133,31 @@ public class MainActivity extends AppCompatActivity
                 });
 
                 builder.create();
-                builder.show();
+                builder.show();*/
+
+                // Menu con alert builder
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                //builder.setTitle("Elegir Opcion");
+                builder.setTitle(Html.fromHtml("<font color='#000000'>Desea Salir de la Aplicacion?</font>"));
+                // add a list
+                String[] opcion = {"Salir", "Cancelar"};
+                builder.setItems(opcion, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case 0:
+                                finish();
+                                break;
+                            case 1:
+                                //Abrir un alertDialog preguntando si desea cancelar
+                                dialog.cancel();
+                                break;
+                        }
+                    }
+                });
+                // create and show the alert dialog
+                AlertDialog dialog = builder.create();
+                dialog.show();
                 return;
             }
             if(getVisibleFragment()=="CrearCamara")
@@ -145,7 +169,7 @@ public class MainActivity extends AppCompatActivity
 
                 if(auxiliar == -1)
                 {
-                    android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
+                    /*android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
                     builder.setMessage("Los datos no se guardaron. \n Está seguro que desea cancelar?");
                     builder.setTitle(Html.fromHtml("<font color='#000000'>Configurar cámara IP</font>"));
                     builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -165,7 +189,34 @@ public class MainActivity extends AppCompatActivity
                     });
 
                     builder.create();
-                    builder.show();
+                    builder.show();*/
+                    // Menu con alert builder
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    //builder.setTitle("Elegir Opcion");
+                    builder.setTitle(Html.fromHtml("<font color='#000000'>Los datos no se guardaron, desea volver?</font>"));
+                    //builder.setMessage("Los datos no se guardaron. \n Está seguro que desea cancelar?");
+                    // add a list
+                    String[] opcion = {"Aceptar", "Cancelar"};
+                    builder.setItems(opcion, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            switch (which) {
+                                case 0:
+                                    fragmentManager.beginTransaction().replace(R.id.contenedor,new PrincipalFragment(),"Principal").commit();
+                                    break;
+                                case 1:
+                                    //Abrir un alertDialog preguntando si desea cancelar
+                                    SharedPreferences.Editor editor1 = getSharedPreferences("aaa",Context.MODE_PRIVATE).edit();
+                                    editor1.putLong("auxiliar", -1);
+                                    editor1.commit();
+                                    dialog.cancel();
+                                    break;
+                            }
+                        }
+                    });
+                    // create and show the alert dialog
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
                     return;
                 }
                 if(auxiliar == 0) {
