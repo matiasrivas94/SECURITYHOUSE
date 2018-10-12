@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
@@ -21,6 +22,8 @@ import android.view.ViewGroup;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +34,8 @@ public class PrincipalFragment extends Fragment {
 
     TextView titulo;
     ViewPager mViewPager;
+    ImageView iv_edit;
+    Button aplicarZonas;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -44,6 +49,8 @@ public class PrincipalFragment extends Fragment {
         mViewPager.setAdapter(new PagerAdapter(getFragmentManager(),2));
 
         TabLayout tabLayout = (TabLayout) view.findViewById(R.id.tabs);
+        iv_edit = view.findViewById(R.id.view_edit);
+        aplicarZonas = (Button) view.findViewById(R.id.btnAplicarZonas);
 
 
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
@@ -56,6 +63,24 @@ public class PrincipalFragment extends Fragment {
         SharedPreferences prefs = getContext().getSharedPreferences("ee",Context.MODE_PRIVATE);
         String nombreAlarm = prefs.getString("nombreAlarma"," ");
         titulo.setText(nombreAlarm);
+
+        iv_edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "boton editar", Toast.LENGTH_SHORT).show();
+                AlertDialog.Builder mBuilder = new AlertDialog.Builder(getActivity());
+                View mView = getLayoutInflater().inflate(R.layout.modif_zonas, null);
+                /*aplicarZonas.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(getContext(), "boton aplicar zonasss", Toast.LENGTH_SHORT).show();
+                    }
+                });*/
+                mBuilder.setView(mView);
+                AlertDialog dialog = mBuilder.create();
+                dialog.show();
+            }
+        });
 
         return view;
     }
