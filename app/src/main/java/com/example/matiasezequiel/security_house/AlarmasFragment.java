@@ -85,7 +85,7 @@ public class AlarmasFragment extends Fragment {
             }
         }
         for(int x = 0; x < alarmas.size(); x++){
-            datosAlarma.add(new DatosItemAlarma(x , alarmas.get(x).getNombre()+" -- "+alarmas.get(x).getTipo()," "));
+            datosAlarma.add(new DatosItemAlarma(x , alarmas.get(x).getNombre()," "));
         }
         AdaptadorAlarma adapter = new AdaptadorAlarma(this.getActivity(), datosAlarma);
         lista.setAdapter(adapter);
