@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
 
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -110,35 +111,20 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+            return;
+        }
         if (getFragmentManager().getBackStackEntryCount() > 0) {
             getFragmentManager().popBackStack();
         }
         else {
             if(getVisibleFragment() == "Alarmas"){
-                /*android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
-                //builder.setMessage("Desea salir de la aplicacion");
-                builder.setTitle(Html.fromHtml("<font color='#000000'>Desea salir de la aplicacion?</font>"));
-                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-                builder.setPositiveButton("Si", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        finish();
-                    }
-                });
-
-                builder.create();
-                builder.show();*/
-
                 // Menu con alert builder
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 //builder.setTitle("Elegir Opcion");
-                builder.setTitle(Html.fromHtml("<font color='#000000'>Desea Salir de la Aplicacion?</font>"));
+                builder.setTitle("Desea Salir de la Aplicacion?");
                 // add a list
                 String[] opcion = {"Salir", "Cancelar"};
                 builder.setItems(opcion, new DialogInterface.OnClickListener() {
@@ -169,32 +155,10 @@ public class MainActivity extends AppCompatActivity
 
                 if(auxiliar == -1)
                 {
-                    /*android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
-                    builder.setMessage("Los datos no se guardaron. \n Está seguro que desea cancelar?");
-                    builder.setTitle(Html.fromHtml("<font color='#000000'>Configurar cámara IP</font>"));
-                    builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            SharedPreferences.Editor editor1 = getSharedPreferences("aaa",Context.MODE_PRIVATE).edit();
-                            editor1.putLong("auxiliar", -1);
-                            editor1.commit();
-                            dialog.cancel();
-                        }
-                    });
-                    builder.setPositiveButton("Si", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            fragmentManager.beginTransaction().replace(R.id.contenedor,new PrincipalFragment(),"Principal").commit();
-                        }
-                    });
 
-                    builder.create();
-                    builder.show();*/
                     // Menu con alert builder
                     AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                    //builder.setTitle("Elegir Opcion");
-                    builder.setTitle(Html.fromHtml("<font color='#000000'>Los datos no se guardaron, desea volver?</font>"));
-                    //builder.setMessage("Los datos no se guardaron. \n Está seguro que desea cancelar?");
+                    builder.setTitle("Los datos no se guardaron, salir de todos modos?");
                     // add a list
                     String[] opcion = {"Aceptar", "Cancelar"};
                     builder.setItems(opcion, new DialogInterface.OnClickListener() {
@@ -217,6 +181,7 @@ public class MainActivity extends AppCompatActivity
                     // create and show the alert dialog
                     AlertDialog dialog = builder.create();
                     dialog.show();
+                    dialog.setCanceledOnTouchOutside(false);
                     return;
                 }
                 if(auxiliar == 0) {
@@ -234,7 +199,7 @@ public class MainActivity extends AppCompatActivity
                 {
                     android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
                     builder.setMessage("Los datos no se guardaron. \nEstas seguro que desea cancelar?");
-                    builder.setTitle(Html.fromHtml("<font color='#000000'>Cancelar nueva alarma</font>"));
+                    builder.setTitle("Cancelar nueva alarma");
                     builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -266,8 +231,10 @@ public class MainActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+        //Toast.makeText(this,"inflandospiolas", Toast.LENGTH_SHORT).show();
         return true;
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -278,6 +245,7 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Toast.makeText(this, "apretaste editar", Toast.LENGTH_SHORT).show();
             return true;
         }
 

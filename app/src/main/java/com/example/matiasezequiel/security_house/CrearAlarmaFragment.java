@@ -14,6 +14,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -21,6 +22,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -47,6 +49,7 @@ public class CrearAlarmaFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_crear_alarma, container, false);
+
 
         //cosas del SPINNER
         //opciones = (Spinner) v.findViewById(R.id.SPTipo);
@@ -391,6 +394,14 @@ public class CrearAlarmaFragment extends Fragment {
                 Toast.makeText(this.getActivity(),"Ocurrio un error",Toast.LENGTH_LONG).show();
             }
         }
+    }
+
+    //ocultar boton action_settings
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        if (menu.findItem(R.id.action_settings) != null)
+            menu.findItem(R.id.action_settings).setVisible(false);
     }
 
 }

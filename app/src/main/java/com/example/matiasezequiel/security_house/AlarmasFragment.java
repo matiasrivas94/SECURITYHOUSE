@@ -153,7 +153,7 @@ public class AlarmasFragment extends Fragment {
                     // Menu con alert builder
                     AlertDialog.Builder builder = new AlertDialog.Builder(contexto);
                     //builder.setTitle("Elegir Opcion");
-                    builder.setTitle(Html.fromHtml("<font color='#000000'>Elegir Opción</font>"));
+                    builder.setTitle("Elegir Opción");
                     // add a list
                     String[] animals = {"Modificar Alarma", "Eliminar Alarma", "Configuracion General"};
                     builder.setItems(animals, new DialogInterface.OnClickListener() {
