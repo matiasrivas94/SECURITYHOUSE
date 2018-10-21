@@ -140,44 +140,6 @@
                 android:inputType="number"
                 android:textColor="#f5f5f5" />
 
-            <TextView
-                android:id="@+id/textView6"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_column="0"
-                android:layout_marginTop="20dp"
-                android:layout_row="3"
-                android:paddingTop="20dp"
-                android:text="N° de zonas:"
-                android:textColor="#f5f5f5"
-                android:textSize="20dp"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/ETCantZonas"
-                android:layout_width="168dp"
-                android:layout_height="wrap_content"
-                android:layout_column="1"
-                android:layout_marginTop="20dp"
-                android:layout_row="3"
-                android:ems="10"
-                android:hint="Maximo 6"
-                android:inputType="number"
-                android:textColor="#f5f5f5" />
-
-            <Button
-                android:id="@+id/btIconoMenu"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_column="1"
-                android:layout_gravity="right"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="30dp"
-                android:layout_marginTop="20dp"
-                android:layout_row="3"
-                android:background="@drawable/white"
-                android:textSize="10dp" />
-
             <Button
                 android:id="@+id/btnCrearAlarma"
                 android:layout_width="200dp"

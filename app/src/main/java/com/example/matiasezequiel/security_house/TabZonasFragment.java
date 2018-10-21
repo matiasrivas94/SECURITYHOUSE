@@ -1,22 +1,28 @@
 package com.example.matiasezequiel.security_house;
 
+import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,32 +37,24 @@ public class TabZonasFragment extends Fragment {
 
     Button boton;
     int cantZ=0,clickAlarma=0;
-    TextView tv1, tv2, tv3, tv4, tv5, tv6;
+    ListView listaZonas;
     int cant=0;
 
     String estadoAlarma;
     SharedPreferences prefs4;
     String actualizarListaZonas;
+
+    //nuevo
+    ArrayList<Zona> tabZonas;
+    ArrayList<DatosItemZona> datosZonas;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_tab_zonas, container, false);
 
-        //cantidadZonas();
-        tv1 = (TextView) v.findViewById(R.id.tvName1);
-        tv2 = (TextView) v.findViewById(R.id.tvName2);
-        tv3 = (TextView) v.findViewById(R.id.tvName3);
-        tv4 = (TextView) v.findViewById(R.id.tvName4);
-        tv5 = (TextView) v.findViewById(R.id.tvName5);
-        tv6 = (TextView) v.findViewById(R.id.tvName6);
+        listaZonas = (ListView)v.findViewById(R.id.LVMostrarZonas);
 
-        //Shared de la Cantidad de Zonas
-        SharedPreferences prefs1 = getContext().getSharedPreferences("bb",Context.MODE_PRIVATE);
-        cantZ=(int)prefs1.getLong("cantZ",-1);
-        //Toast.makeText(this.getActivity(),"Cantidad de Zonas: " + cantZ, Toast.LENGTH_SHORT).show();
-
-        //nuevo
         //Shared para saber el id de la alarma clickeada en la lista de las alarmas
         SharedPreferences prefs2 = getContext().getSharedPreferences("cc",Context.MODE_PRIVATE);
         clickAlarma=(int)prefs2.getLong("idAlarma",-1);
@@ -77,14 +75,14 @@ public class TabZonasFragment extends Fragment {
         //nuevo metodo para ver los TextView
         visibilidadSoloTextView(v);
 
-
-        boton = (Button)v.findViewById(R.id.btnGuardarZonas);
-        boton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(v.getContext(),"Campos llenos!!!",Toast.LENGTH_LONG).show();
-            }
-        });
+        //shared para recibir stringg al modificar estado de la zona
+        SharedPreferences prefsZ = getContext().getSharedPreferences("editarZona",Context.MODE_PRIVATE);
+        String editZona = prefsZ.getString("updateZona"," ");
+        if(editZona.equals("actualizado")){
+            //Toast.makeText(this.getActivity(),"STRING: "+editZona+" -- "+clickAlarma, Toast.LENGTH_SHORT).show();
+            llenarLista(clickAlarma);
+            prefsZ.edit().remove("updateZona").commit();
+        }
 
         return v;
     }
@@ -97,11 +95,6 @@ public class TabZonasFragment extends Fragment {
         //busco el idAlarma de la ultima alarma ingresada
         SQLiteStatement s = dbA.compileStatement( "SELECT MAX(idAlarma) FROM alarma");
         cant = (int)s.simpleQueryForLong();
-
-        int idAla = cant;
-        SQLiteStatement s1 = dbA.compileStatement("SELECT cantZonas FROM alarma WHERE idAlarma="+idAla);
-        int cantidad = (int)s1.simpleQueryForLong();
-        //Toast.makeText(getContext(),"Cantidad de Zonas de la ultima alarma insertada: " + cantidad,Toast.LENGTH_LONG).show();
 
         //Conexion a la base de Zona
         AlarmaSQLite bdZ = new AlarmaSQLite(this.getActivity(),"zona",null,1);
@@ -116,167 +109,42 @@ public class TabZonasFragment extends Fragment {
             editor.putLong("idAlarmaPrincipal", cant);
             editor.commit();
 
-            switch (cantidad) {
-                case 1:
-                    //Toast.makeText(this.getActivity(), "Cantidad de Zonas: " + cantidad, Toast.LENGTH_SHORT).show();
-                    conZ.put("idAlarma", cant);
-                    conZ.put("nombre", "Zona 1");
-                    dbZ.insert("zona", null, conZ);
+            //Toast.makeText(this.getActivity(), "Cantidad de Zonas: " + cantidad, Toast.LENGTH_SHORT).show();
+            conZ.put("idAlarma", cant);
+            conZ.put("nombre", "Zona 1");
+            conZ.put("estado", 1);
+            dbZ.insert("zona", null, conZ);
 
-                    tv1.setText("Zona 1");
-                    tv1.setVisibility(View.VISIBLE);
+            conZ.put("idAlarma", cant);
+            conZ.put("nombre", "Zona 2");
+            conZ.put("estado", 1);
+            dbZ.insert("zona", null, conZ);
 
-                    prefs4.edit().remove("estadoZonaString").commit();
-                    break;
-                case 2:
-                    //Toast.makeText(this.getActivity(), "Cantidad de Zonas: " + cantidad, Toast.LENGTH_SHORT).show();
-                    conZ.put("idAlarma", cant);
-                    conZ.put("nombre", "Zona 1");
-                    dbZ.insert("zona", null, conZ);
+            conZ.put("idAlarma", cant);
+            conZ.put("nombre", "Zona 3");
+            conZ.put("estado", 1);
+            dbZ.insert("zona", null, conZ);
 
-                    conZ.put("idAlarma", cant);
-                    conZ.put("nombre", "Zona 2");
-                    dbZ.insert("zona", null, conZ);
+            conZ.put("idAlarma", cant);
+            conZ.put("nombre", "Zona 4");
+            conZ.put("estado", 1);
+            dbZ.insert("zona", null, conZ);
 
-                    tv1.setText("Zona 1");
-                    tv1.setVisibility(View.VISIBLE);
-                    tv2.setText("Zona 2");
-                    tv2.setVisibility(View.VISIBLE);
+            conZ.put("idAlarma", cant);
+            conZ.put("nombre", "Zona 5");
+            conZ.put("estado", 1);
+            dbZ.insert("zona", null, conZ);
 
-                    prefs4.edit().remove("estadoZonaString").commit();
-                    break;
-                case 3:
-                    //Toast.makeText(this.getActivity(), "Cantidad de Zonas: " + cantidad, Toast.LENGTH_SHORT).show();
-                    conZ.put("idAlarma", cant);
-                    conZ.put("nombre", "Zona 1");
-                    dbZ.insert("zona", null, conZ);
+            conZ.put("idAlarma", cant);
+            conZ.put("nombre", "Zona 6");
+            conZ.put("estado", 1);
+            dbZ.insert("zona", null, conZ);
 
-                    conZ.put("idAlarma", cant);
-                    conZ.put("nombre", "Zona 2");
-                    dbZ.insert("zona", null, conZ);
-
-                    conZ.put("idAlarma", cant);
-                    conZ.put("nombre", "Zona 3");
-                    dbZ.insert("zona", null, conZ);
-
-                    tv1.setText("Zona 1");
-                    tv1.setVisibility(View.VISIBLE);
-                    tv2.setText("Zona 2");
-                    tv2.setVisibility(View.VISIBLE);
-                    tv3.setText("Zona 3");
-                    tv3.setVisibility(View.VISIBLE);
-
-                    prefs4.edit().remove("estadoZonaString").commit();
-                    break;
-                case 4:
-                    //Toast.makeText(this.getActivity(), "Cantidad de Zonas: " + cantidad, Toast.LENGTH_SHORT).show();
-                    conZ.put("idAlarma", cant);
-                    conZ.put("nombre", "Zona 1");
-                    dbZ.insert("zona", null, conZ);
-
-                    conZ.put("idAlarma", cant);
-                    conZ.put("nombre", "Zona 2");
-                    dbZ.insert("zona", null, conZ);
-
-                    conZ.put("idAlarma", cant);
-                    conZ.put("nombre", "Zona 3");
-                    dbZ.insert("zona", null, conZ);
-
-                    conZ.put("idAlarma", cant);
-                    conZ.put("nombre", "Zona 4");
-                    dbZ.insert("zona", null, conZ);
-
-                    tv1.setText("Zona 1");
-                    tv1.setVisibility(View.VISIBLE);
-                    tv2.setText("Zona 2");
-                    tv2.setVisibility(View.VISIBLE);
-                    tv3.setText("Zona 3");
-                    tv3.setVisibility(View.VISIBLE);
-                    tv4.setText("Zona 4");
-                    tv4.setVisibility(View.VISIBLE);
-
-                    prefs4.edit().remove("estadoZonaString").commit();
-                    break;
-                case 5:
-                    //Toast.makeText(this.getActivity(), "Cantidad de Zonas: " + cantidad, Toast.LENGTH_SHORT).show();
-                    conZ.put("idAlarma", cant);
-                    conZ.put("nombre", "Zona 1");
-                    dbZ.insert("zona", null, conZ);
-
-                    conZ.put("idAlarma", cant);
-                    conZ.put("nombre", "Zona 2");
-                    dbZ.insert("zona", null, conZ);
-
-                    conZ.put("idAlarma", cant);
-                    conZ.put("nombre", "Zona 3");
-                    dbZ.insert("zona", null, conZ);
-
-                    conZ.put("idAlarma", cant);
-                    conZ.put("nombre", "Zona 4");
-                    dbZ.insert("zona", null, conZ);
-
-                    conZ.put("idAlarma", cant);
-                    conZ.put("nombre", "Zona 5");
-                    dbZ.insert("zona", null, conZ);
-
-                    tv1.setText("Zona 1");
-                    tv1.setVisibility(View.VISIBLE);
-                    tv2.setText("Zona 2");
-                    tv2.setVisibility(View.VISIBLE);
-                    tv3.setText("Zona 3");
-                    tv3.setVisibility(View.VISIBLE);
-                    tv4.setText("Zona 4");
-                    tv4.setVisibility(View.VISIBLE);
-                    tv5.setText("Zona 5");
-                    tv5.setVisibility(View.VISIBLE);
-
-                    prefs4.edit().remove("estadoZonaString").commit();
-                    break;
-                case 6:
-                    //Toast.makeText(this.getActivity(), "Cantidad de Zonas: " + cantidad, Toast.LENGTH_SHORT).show();
-                    conZ.put("idAlarma", cant);
-                    conZ.put("nombre", "Zona 1");
-                    dbZ.insert("zona", null, conZ);
-
-                    conZ.put("idAlarma", cant);
-                    conZ.put("nombre", "Zona 2");
-                    dbZ.insert("zona", null, conZ);
-
-                    conZ.put("idAlarma", cant);
-                    conZ.put("nombre", "Zona 3");
-                    dbZ.insert("zona", null, conZ);
-
-                    conZ.put("idAlarma", cant);
-                    conZ.put("nombre", "Zona 4");
-                    dbZ.insert("zona", null, conZ);
-
-                    conZ.put("idAlarma", cant);
-                    conZ.put("nombre", "Zona 5");
-                    dbZ.insert("zona", null, conZ);
-
-                    conZ.put("idAlarma", cant);
-                    conZ.put("nombre", "Zona 6");
-                    dbZ.insert("zona", null, conZ);
-
-                    tv1.setText("Zona 1");
-                    tv1.setVisibility(View.VISIBLE);
-                    tv2.setText("Zona 2");
-                    tv2.setVisibility(View.VISIBLE);
-                    tv3.setText("Zona 3");
-                    tv3.setVisibility(View.VISIBLE);
-                    tv4.setText("Zona 4");
-                    tv4.setVisibility(View.VISIBLE);
-                    tv5.setText("Zona 5");
-                    tv5.setVisibility(View.VISIBLE);
-                    tv6.setText("Zona 6");
-                    tv6.setVisibility(View.VISIBLE);
-
-                    prefs4.edit().remove("estadoZonaString").commit();
-                    break;
-            }
+            llenarLista(cant);
+            prefs4.edit().remove("estadoZonaString").commit();
         }
 
-        // Se crean los TextView segun la alarma que se clickee en la lista de alarmas
+        // Se muestran las zonas segun la alarma que se clickee en la lista de alarmas
         if(estadoAlarma == " ")
         {
             //Shareds para el fragment principal
@@ -284,87 +152,106 @@ public class TabZonasFragment extends Fragment {
             editor.putLong("idAlarmaPrincipal", clickAlarma);
             editor.commit();
 
-            //selecciono todas las zonas almacenadas segun el id de la alarma que traigo al crear la alarma
-            //AlarmaSQLite bd1 = new AlarmaSQLite(getActivity(),"zona",null,1);
-            ArrayList<Zona> zonas = new ArrayList<>();
-            //SQLiteDatabase db1 = bdZ.getWritableDatabase();
-            Cursor c = dbZ.rawQuery("SELECT * FROM zona where idAlarma="+clickAlarma,null);
+            llenarLista(clickAlarma);
+
+        }
+    }
+
+    public void llenarLista(int idAla){
+        datosZonas = new ArrayList<>();
+        //conexion a la base de datos
+        AlarmaSQLite bd = new AlarmaSQLite(this.getActivity(),"zona",null,1);
+        //nuevo
+        tabZonas = new ArrayList<>();
+        if(bd!=null){
+            SQLiteDatabase db = bd.getReadableDatabase();
+            //selecciono todas las alarmas almacenadas
+            Cursor c = db.rawQuery("SELECT * FROM zona WHERE idAlarma="+idAla,null);
             if(c.moveToFirst()){
+                //tvTitulo.setVisibility(View.INVISIBLE);
                 do{
-                    zonas.add(new Zona(c.getInt(0),c.getInt(1),c.getString(2)));
+                    tabZonas.add(new Zona(c.getInt(0),c.getInt(1),c.getString(2),c.getInt(3),c.getInt(4)));
                 }while(c.moveToNext());
             }
-            //String arreglo="";
-            ArrayList<String> arreglo = new ArrayList<>();
-            for (int i = 0;i<zonas.size();i++){
-                arreglo.add (zonas.get(i).getNombre());
-            }
-            //Toast.makeText(this.getActivity(),"Zonas: " + arreglo ,Toast.LENGTH_LONG).show();
-            int cantidadZ = arreglo.size();
-            //Toast.makeText(this.getActivity(),"Cantidad de Zonas: " + cantidadZ ,Toast.LENGTH_LONG).show();
-            switch (cantidadZ) {
-                case 1:
-                    //Toast.makeText(this.getActivity(), "Cantidad de Zonas: " + cantidadZ, Toast.LENGTH_SHORT).show();
-                    tv1.setText(arreglo.get(0));
-                    tv1.setVisibility(View.VISIBLE);
-                    break;
-                case 2:
-                    //Toast.makeText(this.getActivity(), "Cantidad de Zonas: " + cantidadZ, Toast.LENGTH_SHORT).show();
-                    tv1.setText(arreglo.get(0));
-                    tv1.setVisibility(View.VISIBLE);
-                    tv2.setText(arreglo.get(1));
-                    tv2.setVisibility(View.VISIBLE);
-                    break;
-                case 3:
-                    //Toast.makeText(this.getActivity(), "Cantidad de Zonas: " + cantidadZ, Toast.LENGTH_SHORT).show();
-                    tv1.setText(arreglo.get(0));
-                    tv1.setVisibility(View.VISIBLE);
-                    tv2.setText(arreglo.get(1));
-                    tv2.setVisibility(View.VISIBLE);
-                    tv3.setText(arreglo.get(2));
-                    tv3.setVisibility(View.VISIBLE);
-                    break;
-                case 4:
-                    //Toast.makeText(this.getActivity(), "Cantidad de Zonas: " + cantidadZ, Toast.LENGTH_SHORT).show();
-                    tv1.setText(arreglo.get(0));
-                    tv1.setVisibility(View.VISIBLE);
-                    tv2.setText(arreglo.get(1));
-                    tv2.setVisibility(View.VISIBLE);
-                    tv3.setText(arreglo.get(2));
-                    tv3.setVisibility(View.VISIBLE);
-                    tv4.setText(arreglo.get(3));
-                    tv4.setVisibility(View.VISIBLE);
-                    break;
-                case 5:
-                    //Toast.makeText(this.getActivity(), "Cantidad de Zonas: " + cantidadZ, Toast.LENGTH_SHORT).show();
-                    tv1.setText(arreglo.get(0));
-                    tv1.setVisibility(View.VISIBLE);
-                    tv2.setText(arreglo.get(1));
-                    tv2.setVisibility(View.VISIBLE);
-                    tv3.setText(arreglo.get(2));
-                    tv3.setVisibility(View.VISIBLE);
-                    tv4.setText(arreglo.get(3));
-                    tv4.setVisibility(View.VISIBLE);
-                    tv5.setText(arreglo.get(4));
-                    tv5.setVisibility(View.VISIBLE);
-                    break;
-                case 6:
-                    //Toast.makeText(this.getActivity(), "Cantidad de Zonas: " + cantidadZ, Toast.LENGTH_SHORT).show();
-                    tv1.setText(arreglo.get(0));
-                    tv1.setVisibility(View.VISIBLE);
-                    tv2.setText(arreglo.get(1));
-                    tv2.setVisibility(View.VISIBLE);
-                    tv3.setText(arreglo.get(2));
-                    tv3.setVisibility(View.VISIBLE);
-                    tv4.setText(arreglo.get(3));
-                    tv4.setVisibility(View.VISIBLE);
-                    tv5.setText(arreglo.get(4));
-                    tv5.setVisibility(View.VISIBLE);
-                    tv6.setText(arreglo.get(5));
-                    tv6.setVisibility(View.VISIBLE);
-                    break;
-            }
         }
+        //Toast.makeText(this.getActivity(), "Cantidad de Zonas: " + tabZonas.size(), Toast.LENGTH_SHORT).show();
+        for(int x = 0; x < tabZonas.size(); x++){
+            datosZonas.add(new DatosItemZona(x,tabZonas.get(x).getNombre()+" -- "+tabZonas.get(x).getEstado(), R.drawable.snooze1));
+        }
+        AdaptadorZona adapter = new AdaptadorZona(this.getActivity(), datosZonas);
+        listaZonas.setAdapter(adapter);
+    }
+    //clase interna para manejar el item de la lista de las zonas
+    private class AdaptadorZona extends BaseAdapter {
+        Context contexto;
+        List<DatosItemZona> listaObjetos;
+
+        public AdaptadorZona(Context contexto, List<DatosItemZona> listaObjetos) {
+            this.contexto = contexto;
+            this.listaObjetos = listaObjetos;
+        }
+        @Override
+        public int getCount() {
+            return listaObjetos.size(); //retorna cantidad de la lista
+        }
+        @Override
+        public Object getItem(int position) {
+            return listaObjetos.get(position); //retorna el objeto de la posicion indicada
+        }
+        @Override
+        public long getItemId(int position) {
+            return listaObjetos.get(position).getId();
+        }
+        @Override
+        public View getView(final int position, View convertView, ViewGroup parent) {
+            View vista = convertView;
+
+            LayoutInflater inflate = LayoutInflater.from(contexto);
+            vista = inflate.inflate(R.layout.items_zonas, null);
+
+            Button nombreZona = (Button) vista.findViewById(R.id.btNombreZona);
+            ImageView estadoZona = (ImageView) vista.findViewById(R.id.ivNotificacionZona);
+
+            nombreZona.setText(listaObjetos.get(position).getNombreZona());
+            estadoZona.setImageResource(listaObjetos.get(position).getImagen());
+
+            //Boton del menu del item de la lista de las alarmas
+            nombreZona.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    // Menu con alert builder
+                    AlertDialog.Builder builder = new AlertDialog.Builder(contexto);
+                    //builder.setTitle("Elegir Opcion");
+                    builder.setTitle("Informacion de la Zona");
+                    // add a list
+                    String[] animals = {"Modificar Alarma", "Eliminar Alarma"};
+                    builder.setItems(animals, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            switch (which) {
+                                case 0:
+
+                                    break;
+                                case 1:
+
+                                    break;
+                                case 2:
+
+                            }
+                        }
+                    });
+                    // create and show the alert dialog
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                }
+            });
+
+            //consulta a la base para saber el estado de cada zona
+
+
+            return vista;
+        }
+
     }
 
 

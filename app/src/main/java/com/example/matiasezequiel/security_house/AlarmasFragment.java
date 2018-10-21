@@ -243,10 +243,11 @@ public class AlarmasFragment extends Fragment {
                     idAlarm = alar.getIdAlarma();
                     String nomA = alar.getNombre();
 
-                    //Shareds para el fragment principal
+                    //Shareds para el fragment tabZonas
                     SharedPreferences.Editor editor = getContext().getSharedPreferences("cc",Context.MODE_PRIVATE).edit();
                     editor.putLong("idAlarma", idAlarm);
                     editor.commit();
+                    //Shareds para el fragment principal
                     SharedPreferences.Editor editor1 = getContext().getSharedPreferences("ee",Context.MODE_PRIVATE).edit();
                     editor1.putString("nombreAlarma", nomA);
                     editor1.commit();

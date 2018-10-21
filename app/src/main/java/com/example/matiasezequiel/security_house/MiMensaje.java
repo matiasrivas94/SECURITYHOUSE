@@ -3,8 +3,11 @@ package com.example.matiasezequiel.security_house;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.os.Build;
@@ -14,6 +17,8 @@ import android.telephony.SmsManager;
 import android.telephony.SmsMessage;
 import android.util.Log;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
 
@@ -74,6 +79,59 @@ public class MiMensaje extends BroadcastReceiver {
                         if(canZonas >= 1 && x <= canZonas ) {
                             Notificar(context);
                         }
+
+                        //Primer paso: verificar el idAlarma de la alarma segun la zona entrante del SMS
+                        //
+                        /*SQLiteStatement s3 = db.compileStatement("SELECT idAlarma FROM alarma WHERE numTelefono LIKE '%"+celular+"'");
+                        int idAlarma = (int)s3.simpleQueryForLong();
+                        //Segundo paso: busco la/las zonas segun el idAlarma de arriba
+                        //
+                        final AlarmaSQLite bdZ = new AlarmaSQLite(context,"zona",null,1);
+                        final SQLiteDatabase dbZ = bdZ.getWritableDatabase();
+                        final ContentValues conZ = new ContentValues();
+
+                        //Toast.makeText(getActivity(), "ID ALARMA del SHARED: " + idAlarmaTabZona, Toast.LENGTH_LONG).show();
+                        //Tercer paso: selecciono todas las zonas almacenadas segun el id de la alarma que traigo de arriba
+                        //
+                        ArrayList<Zona> zonas = new ArrayList<>();
+                        Cursor c = dbZ.rawQuery("SELECT * FROM zona where idAlarma="+idAlarma,null);
+                        if(c.moveToFirst()){
+                            do{
+                                zonas.add(new Zona(c.getInt(0),c.getInt(1),c.getString(2),c.getInt(3),c.getInt(4)));
+                            }while(c.moveToNext());
+                        }
+                        final ArrayList<Integer> idZonas = new ArrayList<>();
+                        for (int y = 0;y<zonas.size();y++){
+                            idZonas.add (zonas.get(y).getIdZona());
+                        }
+                        //Cuarto paso: recorrer el arraylist idZonas para buscar la zona segun la zona que se active en el SMS
+                        int zona=x-1;
+                        if(idZonas.get(0) == zona){
+                            dbZ.update("zona", conZ, "notificacion="+1, null);
+                        }
+                        if(idZonas.get(1) == zona){
+                            dbZ.update("zona", conZ, "notificacion="+1, null);
+                        }
+                        if(idZonas.get(2) == zona){
+                            dbZ.update("zona", conZ, "notificacion="+1, null);
+                        }
+                        if(idZonas.get(3) == zona){
+                            dbZ.update("zona", conZ, "notificacion="+1, null);
+                        }
+                        if(idZonas.get(4) == zona){
+                            dbZ.update("zona", conZ, "notificacion="+1, null);
+                        }
+                        if(idZonas.get(5) == zona){
+                            dbZ.update("zona", conZ, "notificacion="+1, null);
+                        }
+                        //Quinto paso: mandar datos al tabzonas para mostrar el icono de la zona que está activada
+                        //Shareds para el fragment tabZonas
+                        SharedPreferences.Editor editor = context.getSharedPreferences("cc",Context.MODE_PRIVATE).edit();
+                        editor.putLong("idAlarma", idAlarma);
+                        editor.commit();
+
+                        //Sexto paso: falta como acceder al Fragment TabZonas
+                        */
                     }
                 }
             }

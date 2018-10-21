@@ -32,9 +32,9 @@ import java.util.List;
 public class CrearAlarmaFragment extends Fragment {
 
     MiMensaje mm = new MiMensaje();
-    EditText nombre, numTelefono, clave, cantZonas;
+    EditText nombre, numTelefono, clave;
     MainActivity mainActivity = (MainActivity)getActivity();
-    int aux, auxiliar = 0;
+    int auxiliar = 0;
     int cantZona,modiAlarma;
     String estadoEditarAlarma="default";
     SharedPreferences prefs4;
@@ -76,7 +76,6 @@ public class CrearAlarmaFragment extends Fragment {
         opciones = (Spinner) v.findViewById(R.id.SPTipo);
         numTelefono = (EditText) v.findViewById(R.id.ETNumTelefono);
         clave = (EditText) v.findViewById(R.id.ETClave);
-        cantZonas = (EditText) v.findViewById(R.id.ETCantZonas);
 
         nombre.addTextChangedListener(new TextWatcher() {
             @Override
@@ -141,27 +140,6 @@ public class CrearAlarmaFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable s) { }
         });
-        cantZonas.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (cantZonas.length() > 0) {
-                    auxiliar = -1;
-                    editor1 = getContext().getSharedPreferences("aaa", Context.MODE_PRIVATE).edit();
-                    editor1.putLong("auxiliar", auxiliar);
-                    editor1.commit();
-                }
-                else {
-                    auxiliar = 0;
-                    editor1 = getContext().getSharedPreferences("aaa", Context.MODE_PRIVATE).edit();
-                    editor1.putLong("auxiliar", auxiliar);
-                    editor1.commit();
-                }
-            }
-            @Override
-            public void afterTextChanged(Editable s) { }
-        });
 
         //Shared para quedarme con el idAlarma seleccionada para modificar
         SharedPreferences prefs1 = getContext().getSharedPreferences("eliminarAlarma",Context.MODE_PRIVATE);
@@ -179,17 +157,10 @@ public class CrearAlarmaFragment extends Fragment {
                 public void onClick(View v) {
                     if(estadoEditarAlarma.equals("insert")) {
                         if (ComprobarCampos()) {
-                            aux = Integer.parseInt(cantZonas.getText().toString());
-                            if ((aux < 1) || (aux > 6)) {
-                                cantZonas.setText("");
-                                cantZonas.setError("Maximo 6");
-                                cantZonas.isFocusable();
-                            } else {
-                                FragmentTransaction fr = getFragmentManager().beginTransaction();
-                                fr.replace(R.id.contenedor, new PrincipalFragment(), "Principal");
-                                fr.commit();
-                                agregar(v);
-                            }
+                            FragmentTransaction fr = getFragmentManager().beginTransaction();
+                            fr.replace(R.id.contenedor, new PrincipalFragment(), "Principal");
+                            fr.commit();
+                            agregar(v);
                         } else {
                             Toast.makeText(v.getContext(), "Hay campos vacios, por favor ingrese datos", Toast.LENGTH_LONG).show();
                         }
@@ -233,13 +204,11 @@ public class CrearAlarmaFragment extends Fragment {
     public void agregar(View v){
         if(ComprobarCampos()){
             String nom,numTel,tipo,password;
-            //int cantZona;
 
             nom = nombre.getText().toString();
             numTel = numTelefono.getText().toString();
             tipo = opciones.getSelectedItem().toString();
             password = clave.getText().toString();
-            cantZona = Integer.parseInt(cantZonas.getText().toString());
 
             //sqlite bh = new sqlite(AgregarActivity.this,"usuarios",null,1);
             AlarmaSQLite bd = new AlarmaSQLite(this.getActivity(),"alarma",null,1);
@@ -250,7 +219,6 @@ public class CrearAlarmaFragment extends Fragment {
                 con.put("tipo",tipo);
                 con.put("numTelefono","+549"+numTel);
                 con.put("clave",password);
-                con.put("cantZonas",cantZona);
 
                 //Shared para el string de la alrma ingresada
                 SharedPreferences.Editor editor2 = getContext().getSharedPreferences("dd",Context.MODE_PRIVATE).edit();
@@ -281,10 +249,9 @@ public class CrearAlarmaFragment extends Fragment {
         numTelefono.setText("");
         opciones.setSelection(0);
         clave.setText("");
-        cantZonas.setText("");
     }
     public boolean ComprobarCampos(){
-        if(nombre.getText().toString().isEmpty() || numTelefono.getText().toString().isEmpty() || clave.getText().toString().isEmpty() || cantZonas.getText().toString().isEmpty()){
+        if(nombre.getText().toString().isEmpty() || numTelefono.getText().toString().isEmpty() || clave.getText().toString().isEmpty()) {
             if(nombre.getText().toString().isEmpty())
             {
                 nombre.setError("Escriba el nombre de la alarma");
@@ -362,7 +329,6 @@ public class CrearAlarmaFragment extends Fragment {
 
                     numTelefono.setText(c.getString(3));
                     clave.setText(c.getString(4));
-                    cantZonas.setText(c.getString(5));
                 }
             }finally {
 
@@ -379,7 +345,6 @@ public class CrearAlarmaFragment extends Fragment {
             val.put("tipo",opciones.getSelectedItem().toString());
             val.put("numTelefono",numTelefono.getText().toString());
             val.put("clave",clave.getText().toString());
-            //val.put("cantZonas",Integer.parseInt(cantZonas.getText().toString()));
 
             long response = db.update("alarma",val,"idAlarma="+idAlarmaModi,null);
             if(response>0){
@@ -389,7 +354,6 @@ public class CrearAlarmaFragment extends Fragment {
                 numTelefono.setText("");
                 opciones.setSelection(0);
                 clave.setText("");
-                //cantZonas.setText("");
             }else{
                 Toast.makeText(this.getActivity(),"Ocurrio un error",Toast.LENGTH_LONG).show();
             }
