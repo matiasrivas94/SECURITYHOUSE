@@ -58,6 +58,7 @@ public class PrincipalFragment extends Fragment {
 
     //Saber los estados de las zonas para asignar al checkbox
     ArrayList<Integer> estado, idZona;
+    ArrayList<String> arreglo;
 
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
@@ -190,11 +191,11 @@ public class PrincipalFragment extends Fragment {
                         builder.setView(viewEZ);
                         final AlertDialog dialog = builder.create();
                         //Seteo texto de la zona en el TextView
-                        ArrayList<String> zonas = actualizarZonas(viewEZ);
+                        //ArrayList<String> zonas = actualizarZonas(viewEZ);
                         //Seteo texto de la zona en el TextView
-                        tvZona.setText(zonas.get(0));
+                        tvZona.setText(arreglo.get(0));
                         //Seteo texto de la zona en el EditText
-                        etZona.setText(zonas.get(0));
+                        etZona.setText(arreglo.get(0));
                         //aparece el cursor al final de la palabra en el EditText
                         etZona.setSelection(etZona.getText().length());
                         dialog.show();
@@ -246,11 +247,11 @@ public class PrincipalFragment extends Fragment {
                         builder.setView(viewEZ);
                         final AlertDialog dialog = builder.create();
                         //Seteo texto de la zona en el TextView
-                        ArrayList<String> zonas = actualizarZonas(viewEZ);
+                        //ArrayList<String> zonas = actualizarZonas(viewEZ);
                         //Seteo texto de la zona en el TextView
-                        tvZona.setText(zonas.get(1));
+                        tvZona.setText(arreglo.get(1));
                         //Seteo texto de la zona en el EditText
-                        etZona.setText(zonas.get(1));
+                        etZona.setText(arreglo.get(1));
                         //aparece el cursor al final de la palabra en el EditText
                         etZona.setSelection(etZona.getText().length());
                         dialog.show();
@@ -301,11 +302,11 @@ public class PrincipalFragment extends Fragment {
                         builder.setView(viewEZ);
                         final AlertDialog dialog = builder.create();
                         //Seteo texto de la zona en el TextView
-                        ArrayList<String> zonas = actualizarZonas(viewEZ);
+                        //ArrayList<String> zonas = actualizarZonas(viewEZ);
                         //Seteo texto de la zona en el TextView
-                        tvZona.setText(zonas.get(2));
+                        tvZona.setText(arreglo.get(2));
                         //Seteo texto de la zona en el EditText
-                        etZona.setText(zonas.get(2));
+                        etZona.setText(arreglo.get(2));
                         //aparece el cursor al final de la palabra en el EditText
                         etZona.setSelection(etZona.getText().length());
                         dialog.show();
@@ -357,11 +358,11 @@ public class PrincipalFragment extends Fragment {
                         builder.setView(viewEZ);
                         final AlertDialog dialog = builder.create();
                         //Seteo texto de la zona en el TextView
-                        ArrayList<String> zonas = actualizarZonas(viewEZ);
+                        //ArrayList<String> zonas = actualizarZonas(viewEZ);
                         //Seteo texto de la zona en el TextView
-                        tvZona.setText(zonas.get(3));
+                        tvZona.setText(arreglo.get(3));
                         //Seteo texto de la zona en el EditText
-                        etZona.setText(zonas.get(3));
+                        etZona.setText(arreglo.get(3));
                         //aparece el cursor al final de la palabra en el EditText
                         etZona.setSelection(etZona.getText().length());
                         dialog.show();
@@ -413,11 +414,11 @@ public class PrincipalFragment extends Fragment {
                         builder.setView(viewEZ);
                         final AlertDialog dialog = builder.create();
                         //Seteo texto de la zona en el TextView
-                        ArrayList<String> zonas = actualizarZonas(viewEZ);
+                        //ArrayList<String> zonas = actualizarZonas(viewEZ);
                         //Seteo texto de la zona en el TextView
-                        tvZona.setText(zonas.get(4));
+                        tvZona.setText(arreglo.get(4));
                         //Seteo texto de la zona en el EditText
-                        etZona.setText(zonas.get(4));
+                        etZona.setText(arreglo.get(4));
                         //aparece el cursor al final de la palabra en el EditText
                         etZona.setSelection(etZona.getText().length());
                         dialog.show();
@@ -469,11 +470,11 @@ public class PrincipalFragment extends Fragment {
                         builder.setView(viewEZ);
                         final AlertDialog dialog = builder.create();
                         //Seteo texto de la zona en el TextView
-                        ArrayList<String> zonas = actualizarZonas(viewEZ);
+                        //ArrayList<String> zonas = actualizarZonas(viewEZ);
                         //Seteo texto de la zona en el TextView
-                        tvZona.setText(zonas.get(5));
+                        tvZona.setText(arreglo.get(5));
                         //Seteo texto de la zona en el EditText
-                        etZona.setText(zonas.get(5));
+                        etZona.setText(arreglo.get(5));
                         //aparece el cursor al final de la palabra en el EditText
                         etZona.setSelection(etZona.getText().length());
                         dialog.show();
@@ -525,58 +526,12 @@ public class PrincipalFragment extends Fragment {
                     @Override
                     public void onClick(View v) {
                         //Toast.makeText(getContext(),"Guardar Estados Zonas",Toast.LENGTH_LONG).show();
-                        if(c1.isChecked()) {
-                            conZ.put("estado", 1);
-                            dbZ.update("zona", conZ, "idZona="+idZona.get(0), null);
-                            //Toast.makeText(getContext(), "CheckBox 1 ''SI'' está Tildado", Toast.LENGTH_LONG).show();
-                        }else {
-                            conZ.put("estado", 0);
-                            dbZ.update("zona", conZ, "idZona=" + idZona.get(0), null);
-                        }
-                        if(c2.isChecked()) {
-                            conZ.put("estado", 1);
-                            dbZ.update("zona", conZ, "idZona="+idZona.get(1), null);
-                            //Toast.makeText(getContext(), "CheckBox 1 ''SI'' está Tildado", Toast.LENGTH_LONG).show();
-                        }else {
-                            conZ.put("estado", 0);
-                            dbZ.update("zona", conZ, "idZona=" + idZona.get(1), null);
-                        }
-                        if(c3.isChecked()) {
-                            conZ.put("estado", 1);
-                            dbZ.update("zona", conZ, "idZona="+idZona.get(2), null);
-                            //Toast.makeText(getContext(), "CheckBox 1 ''SI'' está Tildado", Toast.LENGTH_LONG).show();
-                        }else {
-                            conZ.put("estado", 0);
-                            dbZ.update("zona", conZ, "idZona=" + idZona.get(2), null);
-                        }
-                        if(c4.isChecked()) {
-                            conZ.put("estado", 1);
-                            dbZ.update("zona", conZ, "idZona="+idZona.get(3), null);
-                            //Toast.makeText(getContext(), "CheckBox 1 ''SI'' está Tildado", Toast.LENGTH_LONG).show();
-                        }else {
-                            conZ.put("estado", 0);
-                            dbZ.update("zona", conZ, "idZona=" + idZona.get(3), null);
-                        }
-                        if(c5.isChecked()) {
-                            conZ.put("estado", 1);
-                            dbZ.update("zona", conZ, "idZona="+idZona.get(4), null);
-                            //Toast.makeText(getContext(), "CheckBox 1 ''SI'' está Tildado", Toast.LENGTH_LONG).show();
-                        }else {
-                            conZ.put("estado", 0);
-                            dbZ.update("zona", conZ, "idZona=" + idZona.get(4), null);
-                        }
-                        if(c6.isChecked()) {
-                            conZ.put("estado", 1);
-                            dbZ.update("zona", conZ, "idZona="+idZona.get(5), null);
-                            //Toast.makeText(getContext(), "CheckBox 1 ''SI'' está Tildado", Toast.LENGTH_LONG).show();
-                        }else {
-                            conZ.put("estado", 0);
-                            dbZ.update("zona", conZ, "idZona=" + idZona.get(5), null);
-                        }
+                        verificaCheckBoxs();
+
                         //shared para listar zonas
-                        SharedPreferences.Editor editor1 = getContext().getSharedPreferences("editarZona",Context.MODE_PRIVATE).edit();
+                        /*SharedPreferences.Editor editor1 = getContext().getSharedPreferences("editarZona",Context.MODE_PRIVATE).edit();
                         editor1.putString("updateZona", "actualizado");
-                        editor1.commit();
+                        editor1.commit();*/
                         //Shareds para el fragment tabzonas para listar zonas
                         SharedPreferences.Editor editor = getContext().getSharedPreferences("cc",Context.MODE_PRIVATE).edit();
                         editor.putLong("idAlarma", idAlarmaTabZona);
@@ -586,10 +541,8 @@ public class PrincipalFragment extends Fragment {
                         FragmentTransaction fr = getFragmentManager().beginTransaction();
                         fr.replace(R.id.contenedor, new PrincipalFragment(), "Principal");
                         fr.commit();
-                        //Toast.makeText(getContext(), "CheckBox 1 ''NO'' está Tildado", Toast.LENGTH_LONG).show();
 
-                        //long response = dbZ.update("zona", conZ, "estado=" + estadoZONA, null);
-                        actualizarZonas(view);
+                        //actualizarZonas(view);
                     }
                 });
 
@@ -599,6 +552,61 @@ public class PrincipalFragment extends Fragment {
             }
         });
         return view;
+    }
+
+    public void verificaCheckBoxs(){
+        final AlarmaSQLite bdZ = new AlarmaSQLite(getActivity(),"zona",null,1);
+        final SQLiteDatabase dbZ = bdZ.getWritableDatabase();
+        final ContentValues conZ = new ContentValues();
+
+        if(c1.isChecked()) {
+            conZ.put("estado", 1);
+            dbZ.update("zona", conZ, "idZona="+idZona.get(0), null);
+            //Toast.makeText(getContext(), "CheckBox 1 ''SI'' está Tildado", Toast.LENGTH_LONG).show();
+        }else {
+            conZ.put("estado", 0);
+            dbZ.update("zona", conZ, "idZona=" + idZona.get(0), null);
+        }
+        if(c2.isChecked()) {
+            conZ.put("estado", 1);
+            dbZ.update("zona", conZ, "idZona="+idZona.get(1), null);
+            //Toast.makeText(getContext(), "CheckBox 1 ''SI'' está Tildado", Toast.LENGTH_LONG).show();
+        }else {
+            conZ.put("estado", 0);
+            dbZ.update("zona", conZ, "idZona=" + idZona.get(1), null);
+        }
+        if(c3.isChecked()) {
+            conZ.put("estado", 1);
+            dbZ.update("zona", conZ, "idZona="+idZona.get(2), null);
+            //Toast.makeText(getContext(), "CheckBox 1 ''SI'' está Tildado", Toast.LENGTH_LONG).show();
+        }else {
+            conZ.put("estado", 0);
+            dbZ.update("zona", conZ, "idZona=" + idZona.get(2), null);
+        }
+        if(c4.isChecked()) {
+            conZ.put("estado", 1);
+            dbZ.update("zona", conZ, "idZona="+idZona.get(3), null);
+            //Toast.makeText(getContext(), "CheckBox 1 ''SI'' está Tildado", Toast.LENGTH_LONG).show();
+        }else {
+            conZ.put("estado", 0);
+            dbZ.update("zona", conZ, "idZona=" + idZona.get(3), null);
+        }
+        if(c5.isChecked()) {
+            conZ.put("estado", 1);
+            dbZ.update("zona", conZ, "idZona="+idZona.get(4), null);
+            //Toast.makeText(getContext(), "CheckBox 1 ''SI'' está Tildado", Toast.LENGTH_LONG).show();
+        }else {
+            conZ.put("estado", 0);
+            dbZ.update("zona", conZ, "idZona=" + idZona.get(4), null);
+        }
+        if(c6.isChecked()) {
+            conZ.put("estado", 1);
+            dbZ.update("zona", conZ, "idZona="+idZona.get(5), null);
+            //Toast.makeText(getContext(), "CheckBox 1 ''SI'' está Tildado", Toast.LENGTH_LONG).show();
+        }else {
+            conZ.put("estado", 0);
+            dbZ.update("zona", conZ, "idZona=" + idZona.get(5), null);
+        }
     }
 
     public ArrayList<String> actualizarZonas(View v){
@@ -614,11 +622,11 @@ public class PrincipalFragment extends Fragment {
                 zonas.add(new Zona(c.getInt(0),c.getInt(1),c.getString(2),c.getInt(3),c.getInt(4)));
             }while(c.moveToNext());
         }
-        final ArrayList<String> arreglo = new ArrayList<>();
+        arreglo = new ArrayList<>();
         estado = new ArrayList<>();
         idZona = new ArrayList<>();
         for (int i = 0;i<zonas.size();i++){
-            arreglo.add (zonas.get(i).getNombre());
+            arreglo.add(zonas.get(i).getNombre());
             idZona.add(zonas.get(i).getIdZona());
             estado.add(zonas.get(i).getEstado());
         }

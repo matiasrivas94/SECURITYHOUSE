@@ -60,29 +60,11 @@ public class TabZonasFragment extends Fragment {
         clickAlarma=(int)prefs2.getLong("idAlarma",-1);
         //Toast.makeText(this.getActivity(),"ID de la Alarma Seleccionada: " + clickAlarma, Toast.LENGTH_SHORT).show();
 
-        //Shared para identificar el estado de zonas
-        /*SharedPreferences prefs3 = getContext().getSharedPreferences("zonas",Context.MODE_PRIVATE);
-        estado = prefs3.getBoolean("estadoZona",false);
-        if(estado)
-            Toast.makeText(this.getActivity(),"Estado es TRUE", Toast.LENGTH_SHORT).show();
-        else
-            Toast.makeText(this.getActivity(),"Estado es FALSE", Toast.LENGTH_SHORT).show();
-        */
         //Shared para saber el id de la alarma clickeada en la lista de las alarmas
         prefs4 = getContext().getSharedPreferences("dd",Context.MODE_PRIVATE);
         estadoAlarma=prefs4.getString("estadoZonaString"," ");
 
-        //nuevo metodo para ver los TextView
         visibilidadSoloTextView(v);
-
-        //shared para recibir stringg al modificar estado de la zona
-        SharedPreferences prefsZ = getContext().getSharedPreferences("editarZona",Context.MODE_PRIVATE);
-        String editZona = prefsZ.getString("updateZona"," ");
-        if(editZona.equals("actualizado")){
-            //Toast.makeText(this.getActivity(),"STRING: "+editZona+" -- "+clickAlarma, Toast.LENGTH_SHORT).show();
-            llenarLista(clickAlarma);
-            prefsZ.edit().remove("updateZona").commit();
-        }
 
         return v;
     }
@@ -147,13 +129,7 @@ public class TabZonasFragment extends Fragment {
         // Se muestran las zonas segun la alarma que se clickee en la lista de alarmas
         if(estadoAlarma == " ")
         {
-            //Shareds para el fragment principal
-            SharedPreferences.Editor editor = getContext().getSharedPreferences("idAlarmaPrin",Context.MODE_PRIVATE).edit();
-            editor.putLong("idAlarmaPrincipal", clickAlarma);
-            editor.commit();
-
             llenarLista(clickAlarma);
-
         }
     }
 
