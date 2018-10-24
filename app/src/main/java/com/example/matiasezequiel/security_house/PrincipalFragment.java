@@ -46,8 +46,10 @@ public class PrincipalFragment extends Fragment {
 
     TextView titulo;
     ViewPager mViewPager;
-    ImageView iv_edit;
+    ImageView iv_edit, iv_edit2;
     Button aplicarZonas;
+    TabLayout tabLayout;
+
 
     int idAlarmaTabZona=0;
     SharedPreferences prefs2;
@@ -70,12 +72,17 @@ public class PrincipalFragment extends Fragment {
         mViewPager = (ViewPager) view.findViewById(R.id.pager);
         mViewPager.setAdapter(new PagerAdapter(getFragmentManager(),2));
 
-        TabLayout tabLayout = (TabLayout) view.findViewById(R.id.tabs);
+        tabLayout = (TabLayout) view.findViewById(R.id.tabs);
         iv_edit = view.findViewById(R.id.view_edit);
+        iv_edit2 = view.findViewById(R.id.view_edit2);
+
+
         aplicarZonas = (Button) view.findViewById(R.id.btnAplicarZonas);
 
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
+
+
 
         //para cambiarle el encabezado al principal fragment con el nombre de la nueva alamra insertada
         titulo = (TextView) view.findViewById(R.id.textTituloAlarma);
@@ -85,6 +92,13 @@ public class PrincipalFragment extends Fragment {
         String nombreAlarm = prefs.getString("nombreAlarma"," ");
         titulo.setText(nombreAlarm);
 
+        //boton Editar Camara
+        iv_edit2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getActivity(),"Holis",Toast.LENGTH_SHORT).show();
+            }
+        });
 
         //Boton general de Editar Zonas
         iv_edit.setOnClickListener(new View.OnClickListener() {
@@ -676,10 +690,28 @@ public class PrincipalFragment extends Fragment {
     }
 
 
+
+
     @Override
     public void onResume() {
         super.onResume();
-        //Toast.makeText(getContext(),"Fragment Principal",Toast.LENGTH_LONG).show();
+        tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager) {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                switch(tab.getPosition()) {
+                    case 0:{
+                        iv_edit.setVisibility(View.VISIBLE);
+                        iv_edit2.setVisibility(View.GONE);}
+                    break;
+                    case 1:{
+                        iv_edit.setVisibility(View.GONE);
+                        iv_edit2.setVisibility(View.VISIBLE);}
+                    break;
+                    default: break;
+                }
+                super.onTabSelected(tab);
+            }
+        });
         if (!getUserVisibleHint()) {
             return;
         }

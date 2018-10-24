@@ -28,7 +28,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="65sp"
-            android:background="@color/colorPrimaryDark"
+            android:background="@drawable/gris1"
             android:minHeight="?attr/actionBarSize">
 
             <GridLayout
@@ -46,9 +46,9 @@
                     android:layout_marginTop="15dp"
                     android:layout_row="0"
                     android:fontFamily="@font/acme"
-                    android:textColor="#ff6a00"
+                    android:textColor="#f5f5f5"
                     android:textSize="33sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"/>
 
                 <ImageView
                     android:id="@+id/view_edit"
@@ -57,7 +57,18 @@
                     android:layout_gravity="right"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="22dp"
-                    android:src="@drawable/edit" />
+                    android:src="@drawable/edit"
+                    android:visibility="visible"/>
+
+                <ImageView
+                    android:id="@+id/view_edit2"
+                    android:layout_width="35dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="right"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="22dp"
+                    android:src="@drawable/cam2"
+                    android:visibility="gone"/>
 
             </GridLayout>
 
@@ -69,7 +80,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="0dp"
-            android:background="@color/colorPrimaryDark">
+            android:background="#3D3F3C">
 
             <android.support.design.widget.TabItem
                 android:id="@+id/tabItem2"

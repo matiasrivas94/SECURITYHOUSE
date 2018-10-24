@@ -9,8 +9,7 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="70sp"
-        android:background="@color/colorPrimary"
+        android:layout_height="50sp"
         android:minHeight="?attr/actionBarSize"
         android:orientation="horizontal">
 
@@ -31,7 +30,7 @@
     <GridLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="60dp"
+        android:paddingTop="20dp"
         android:rowCount="4">
 
         <TextView

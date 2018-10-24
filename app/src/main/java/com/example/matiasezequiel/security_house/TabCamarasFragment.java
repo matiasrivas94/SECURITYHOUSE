@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 
 public class TabCamarasFragment extends Fragment {
@@ -23,7 +24,6 @@ public class TabCamarasFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_tab_camaras, container, false);
-
         return v;
     }
 
@@ -37,6 +37,7 @@ public class TabCamarasFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+
         if (!getUserVisibleHint()) {
             return;
         }

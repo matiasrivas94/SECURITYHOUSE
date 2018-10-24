@@ -116,10 +116,10 @@ public class MainActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
             return;
         }
-        if (getFragmentManager().getBackStackEntryCount() > 0) {
+        /*if (getFragmentManager().getBackStackEntryCount() > 0) {
             getFragmentManager().popBackStack();
         }
-        else {
+        else {*/
             if(getVisibleFragment() == "Alarmas"){
                 // Menu con alert builder
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -146,7 +146,27 @@ public class MainActivity extends AppCompatActivity
                 dialog.show();
                 return;
             }
-            if(getVisibleFragment()=="CrearCamara")
+            if(getVisibleFragment().equals("Principal")){
+                fragmentManager.beginTransaction().replace(R.id.contenedor,new AlarmasFragment(),"Alarmas").commit();
+                return;
+            }
+            if(getVisibleFragment().equals("VerCamaras")){
+                fragmentManager.beginTransaction().replace(R.id.contenedor,new AlarmasFragment(),"Alarmas").commit();
+                return;
+            }
+            if(getVisibleFragment().equals("Config")){
+                fragmentManager.beginTransaction().replace(R.id.contenedor,new AlarmasFragment(),"Alarmas").commit();
+                return;
+            }
+            if(getVisibleFragment().equals("Contacto")){
+                fragmentManager.beginTransaction().replace(R.id.contenedor,new AlarmasFragment(),"Alarmas").commit();
+                return;
+            }
+            if(getVisibleFragment().equals("QuienesSomos")) {
+                fragmentManager.beginTransaction().replace(R.id.contenedor,new AlarmasFragment(),"Alarmas").commit();
+                return;
+            }
+            if(getVisibleFragment().equals("CrearCamara"))
             {
                 int auxiliar = 0;
                 SharedPreferences prefs1 = this.getSharedPreferences("aaa",Context.MODE_PRIVATE);
@@ -221,9 +241,9 @@ public class MainActivity extends AppCompatActivity
                 }
 
             }
-            super.onBackPressed();
+            //super.onBackPressed();
             //Toast.makeText(this, getVisibleFragment() + "2", Toast.LENGTH_SHORT).show();
-        }
+        //}
 
     }
 

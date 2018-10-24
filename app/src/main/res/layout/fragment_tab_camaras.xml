@@ -76,6 +76,17 @@
                         android:textSize="14dp"
                         android:textStyle="bold"
                         android:textColor="#f5f5f5"/>
+
+                    <Button
+                        android:id="@+id/btnVerCamPremium"
+                        android:background="#ff850b"
+                        android:layout_height="50dp"
+                        android:layout_width="90dp"
+                        android:text="Premium"
+                        android:textColor="#000"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="20dp"
+                        />
                 </LinearLayout>
             </LinearLayout>
 
