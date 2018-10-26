@@ -12,12 +12,10 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
-import android.text.Html;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -116,11 +114,11 @@ public class MainActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
             return;
         }
-        /*if (getFragmentManager().getBackStackEntryCount() > 0) {
+        if (getFragmentManager().getBackStackEntryCount() > 0) {
             getFragmentManager().popBackStack();
         }
-        else {*/
-            if(getVisibleFragment() == "Alarmas"){
+        else {
+            if (getVisibleFragment() == "Alarmas") {
                 // Menu con alert builder
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 //builder.setTitle("Elegir Opcion");
@@ -142,39 +140,39 @@ public class MainActivity extends AppCompatActivity
                     }
                 });
                 // create and show the alert dialog
+
                 AlertDialog dialog = builder.create();
                 dialog.show();
+                dialog.setCanceledOnTouchOutside(false);
                 return;
             }
-            if(getVisibleFragment().equals("Principal")){
-                fragmentManager.beginTransaction().replace(R.id.contenedor,new AlarmasFragment(),"Alarmas").commit();
+            if (getVisibleFragment().equals("Principal")) {
+                fragmentManager.beginTransaction().replace(R.id.contenedor, new AlarmasFragment(), "Alarmas").commit();
                 return;
             }
-            if(getVisibleFragment().equals("VerCamaras")){
-                fragmentManager.beginTransaction().replace(R.id.contenedor,new AlarmasFragment(),"Alarmas").commit();
+            if (getVisibleFragment().equals("VerCamaras")) {
+                fragmentManager.beginTransaction().replace(R.id.contenedor, new AlarmasFragment(), "Alarmas").commit();
                 return;
             }
-            if(getVisibleFragment().equals("Config")){
-                fragmentManager.beginTransaction().replace(R.id.contenedor,new AlarmasFragment(),"Alarmas").commit();
+            if (getVisibleFragment().equals("Config")) {
+                fragmentManager.beginTransaction().replace(R.id.contenedor, new AlarmasFragment(), "Alarmas").commit();
                 return;
             }
-            if(getVisibleFragment().equals("Contacto")){
-                fragmentManager.beginTransaction().replace(R.id.contenedor,new AlarmasFragment(),"Alarmas").commit();
+            if (getVisibleFragment().equals("Contacto")) {
+                fragmentManager.beginTransaction().replace(R.id.contenedor, new AlarmasFragment(), "Alarmas").commit();
                 return;
             }
-            if(getVisibleFragment().equals("QuienesSomos")) {
-                fragmentManager.beginTransaction().replace(R.id.contenedor,new AlarmasFragment(),"Alarmas").commit();
+            if (getVisibleFragment().equals("QuienesSomos")) {
+                fragmentManager.beginTransaction().replace(R.id.contenedor, new AlarmasFragment(), "Alarmas").commit();
                 return;
             }
-            if(getVisibleFragment().equals("CrearCamara"))
-            {
+            if (getVisibleFragment().equals("CrearCamara")) {
                 int auxiliar = 0;
-                SharedPreferences prefs1 = this.getSharedPreferences("aaa",Context.MODE_PRIVATE);
-                auxiliar=(int)prefs1.getLong("auxiliar",0);
+                SharedPreferences prefs1 = this.getSharedPreferences("aaa", Context.MODE_PRIVATE);
+                auxiliar = (int) prefs1.getLong("auxiliar", 0);
                 prefs1.edit().remove("auxiliar").commit();
 
-                if(auxiliar == -1)
-                {
+                if (auxiliar == -1) {
 
                     // Menu con alert builder
                     AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -186,11 +184,11 @@ public class MainActivity extends AppCompatActivity
                         public void onClick(DialogInterface dialog, int which) {
                             switch (which) {
                                 case 0:
-                                    fragmentManager.beginTransaction().replace(R.id.contenedor,new PrincipalFragment(),"Principal").commit();
+                                    fragmentManager.beginTransaction().replace(R.id.contenedor, new PrincipalFragment(), "Principal").commit();
                                     break;
                                 case 1:
                                     //Abrir un alertDialog preguntando si desea cancelar
-                                    SharedPreferences.Editor editor1 = getSharedPreferences("aaa",Context.MODE_PRIVATE).edit();
+                                    SharedPreferences.Editor editor1 = getSharedPreferences("aaa", Context.MODE_PRIVATE).edit();
                                     editor1.putLong("auxiliar", -1);
                                     editor1.commit();
                                     dialog.cancel();
@@ -204,26 +202,25 @@ public class MainActivity extends AppCompatActivity
                     dialog.setCanceledOnTouchOutside(false);
                     return;
                 }
-                if(auxiliar == 0) {
+                if (auxiliar == 0) {
                     fragmentManager.beginTransaction().replace(R.id.contenedor, new PrincipalFragment(), "Principal").commit();
                     return;
                 }
             }
-            if(getVisibleFragment()=="CrearAlarma"){
+            if (getVisibleFragment() == "CrearAlarma") {
                 int auxiliar = 0;
-                SharedPreferences prefs1 = this.getSharedPreferences("aaa",Context.MODE_PRIVATE);
-                auxiliar=(int)prefs1.getLong("auxiliar",0);
+                SharedPreferences prefs1 = this.getSharedPreferences("aaa", Context.MODE_PRIVATE);
+                auxiliar = (int) prefs1.getLong("auxiliar", 0);
                 prefs1.edit().remove("auxiliar").commit();
 
-                if(auxiliar == -1)
-                {
-                    android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
+                if (auxiliar == -1) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
                     builder.setMessage("Los datos no se guardaron. \nEstas seguro que desea cancelar?");
                     builder.setTitle("Cancelar nueva alarma");
                     builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            SharedPreferences.Editor editor1 = getSharedPreferences("aaa",Context.MODE_PRIVATE).edit();
+                            SharedPreferences.Editor editor1 = getSharedPreferences("aaa", Context.MODE_PRIVATE).edit();
                             editor1.putLong("auxiliar", -1);
                             editor1.commit();
                             dialog.cancel();
@@ -232,18 +229,24 @@ public class MainActivity extends AppCompatActivity
                     builder.setPositiveButton("Si", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            fragmentManager.beginTransaction().replace(R.id.contenedor,new AlarmasFragment(),"Alarmas").commit();
+                            fragmentManager.beginTransaction().replace(R.id.contenedor, new AlarmasFragment(), "Alarmas").commit();
                         }
                     });
-                    builder.create();
-                    builder.show();
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                    dialog.setCanceledOnTouchOutside(false);
+                    return;
+                }
+                if (auxiliar == 0) {
+                    fragmentManager.beginTransaction().replace(R.id.contenedor, new AlarmasFragment(), "Alarmas").commit();
                     return;
                 }
 
             }
             //super.onBackPressed();
             //Toast.makeText(this, getVisibleFragment() + "2", Toast.LENGTH_SHORT).show();
-        //}
+
+        }
 
     }
 
@@ -349,7 +352,7 @@ public class MainActivity extends AppCompatActivity
     private void solicitarPermisosManual() {
         final CharSequence[] opciones={"si","no"};
         final AlertDialog.Builder alertOpciones=new AlertDialog.Builder(MainActivity.this);
-        alertOpciones.setTitle("�Desea configurar los permisos de forma manual?");
+        alertOpciones.setTitle("¿Desea configurar los permisos de forma manual?");
         alertOpciones.setItems(opciones, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {

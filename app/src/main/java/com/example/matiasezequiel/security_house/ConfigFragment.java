@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 
 public class ConfigFragment extends Fragment {
@@ -31,7 +32,7 @@ public class ConfigFragment extends Fragment {
     String desactivar = clave + "DS";
     String nuevaclave="0987";
 
-    ImageView iv_desactivar, iv_activar, iv_cambiar, iv_estado;
+    ImageView iv_desactivar, iv_activar, iv_cambiar, iv_estado, iv_volver, iv_salir;
 
     int tipoConfig;
 
@@ -42,32 +43,76 @@ public class ConfigFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_config, container, false);
 
 
-            //BOTON ACTIVAR
+            /*BOTON ACTIVAR
             iv_activar = (ImageView) v.findViewById(R.id.btnActivar);
             iv_activar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     mm.enviarMensaje(numero, activar);
                 }
-            });
+            });*/
 
-            //BOTON DESACTIVAR
+            /*BOTON DESACTIVAR
             iv_desactivar = (ImageView) v.findViewById(R.id.btnDesactivar);
             iv_desactivar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     mm.enviarMensaje(numero, desactivar);
                 }
-            });
+            })*/
 
-            //BOTON CAMBIAR CLAVE
+            /*BOTON CAMBIAR CLAVE
             iv_cambiar = (ImageView) v.findViewById(R.id.btnCambiarClave);
             iv_cambiar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     mm.enviarMensaje("Clave Vieja" + clave + "CU", "Clave Nueva" + nuevaclave);
                 }
-            });
+            });*/
+
+
+        iv_activar = (ImageView)v.findViewById(R.id.btnActivar);
+        iv_activar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(),"ACTIVAR", Toast.LENGTH_SHORT).show();
+            }
+        });
+        iv_desactivar = (ImageView)v.findViewById(R.id.btnDesactivar);
+        iv_desactivar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(),"DESACTIVAR", Toast.LENGTH_SHORT).show();
+            }
+        });
+        iv_cambiar = (ImageView)v.findViewById(R.id.btnCambiarClave);
+        iv_cambiar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(),"CAMBIAR", Toast.LENGTH_SHORT).show();
+            }
+        });
+        iv_estado = (ImageView)v.findViewById(R.id.btnEstado);
+        iv_estado.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(),"ESTADO", Toast.LENGTH_SHORT).show();
+            }
+        });
+        iv_volver = (ImageView)v.findViewById(R.id.btnAtras);
+        iv_volver.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(),"VOLVER", Toast.LENGTH_SHORT).show();
+            }
+        });
+        iv_salir = (ImageView)v.findViewById(R.id.btnSalir);
+        iv_salir.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(),"SALIR", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         return v;
     }
