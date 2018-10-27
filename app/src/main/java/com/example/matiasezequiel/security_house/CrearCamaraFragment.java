@@ -2,9 +2,11 @@ package com.example.matiasezequiel.security_house;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -137,6 +139,7 @@ public class CrearCamaraFragment extends Fragment {
                     FragmentTransaction fr = getFragmentManager().beginTransaction();
                     fr.replace(R.id.contenedor, new PrincipalFragment(), "Principal");
                     fr.commit();
+                    agregar(v);
                 }
                 else
                     Toast.makeText(v.getContext(),"Por favor complete los campos.",Toast.LENGTH_LONG).show();
@@ -145,13 +148,47 @@ public class CrearCamaraFragment extends Fragment {
         return v;
     }
 
+    public void agregar(View v){
+        if(!comprobarCampos()){
+            String ip,user,pass,puerto;
+
+            ip = etIP.getText().toString();
+            user = etUser.getText().toString();
+            pass = etPass.getText().toString();
+            puerto = etPort.getText().toString();
+
+            //sqlite bh = new sqlite(AgregarActivity.this,"usuarios",null,1);
+            AlarmaSQLite bd = new AlarmaSQLite(this.getActivity(),"camara",null,1);
+            if(bd!=null){
+                SQLiteDatabase db = bd.getWritableDatabase();
+                ContentValues con = new ContentValues();
+                con.put("ip",ip);
+                con.put("usuario",user);
+                con.put("password",pass);
+                con.put("puerto",puerto);
+
+                long insertado = db.insert("camara",null,con);
+                if(insertado>0){
+                    Toast.makeText(this.getActivity(),"Camara Insertada", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(this.getActivity(),"No se inserto",Toast.LENGTH_SHORT).show();
+                }
+            }
+        }else{
+            Toast.makeText(this.getActivity(),"hay campos vacios",Toast.LENGTH_LONG).show();
+        }
+        etIP.requestFocus();
+        etUser.setText("");
+        etPass.setText("");
+        etPort.setText("");
+    }
+
     public boolean comprobarCampos() {
         if(etIP.getText().toString().isEmpty() || etUser.getText().toString().isEmpty() || etPass.getText().toString().isEmpty() || etPort.getText().toString().isEmpty()) {
-            Log.d("prueba", "paso por aca");
+            //Log.d("prueba", "paso por aca");
             return true;
         }
         else
-
             return false;
     }
 

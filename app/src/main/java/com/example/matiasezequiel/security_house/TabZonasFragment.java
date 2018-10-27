@@ -36,13 +36,12 @@ import java.util.List;
 public class TabZonasFragment extends Fragment {
 
     Button boton;
-    int cantZ=0,clickAlarma=0;
+    int clickAlarma=0;
     ListView listaZonas;
     int cant=0;
 
     String estadoAlarma;
-    SharedPreferences prefs4;
-    String actualizarListaZonas;
+    SharedPreferences prefs4, prefs2;
 
     //nuevo
     ArrayList<Zona> tabZonas;
@@ -56,7 +55,7 @@ public class TabZonasFragment extends Fragment {
         listaZonas = (ListView)v.findViewById(R.id.LVMostrarZonas);
 
         //Shared para saber el id de la alarma clickeada en la lista de las alarmas
-        SharedPreferences prefs2 = getContext().getSharedPreferences("cc",Context.MODE_PRIVATE);
+        prefs2 = getContext().getSharedPreferences("cc",Context.MODE_PRIVATE);
         clickAlarma=(int)prefs2.getLong("idAlarma",-1);
         //Toast.makeText(this.getActivity(),"ID de la Alarma Seleccionada: " + clickAlarma, Toast.LENGTH_SHORT).show();
 
@@ -129,6 +128,10 @@ public class TabZonasFragment extends Fragment {
         // Se muestran las zonas segun la alarma que se clickee en la lista de alarmas
         if(estadoAlarma == " ")
         {
+            //Shareds para el fragment principal
+            SharedPreferences.Editor editor = getContext().getSharedPreferences("idAlarmaPrin",Context.MODE_PRIVATE).edit();
+            editor.putLong("idAlarmaPrincipal", clickAlarma);
+            editor.commit();
             llenarLista(clickAlarma);
         }
     }
@@ -150,6 +153,7 @@ public class TabZonasFragment extends Fragment {
                 }while(c.moveToNext());
             }
         }
+        bd.close();
         //Toast.makeText(this.getActivity(), "Cantidad de Zonas: " + tabZonas.size(), Toast.LENGTH_SHORT).show();
         for(int x = 0; x < tabZonas.size(); x++){
             datosZonas.add(new DatosItemZona(x,tabZonas.get(x).getNombre()+" -- "+tabZonas.get(x).getEstado(), R.drawable.snooze1));
@@ -191,40 +195,73 @@ public class TabZonasFragment extends Fragment {
             nombreZona.setText(listaObjetos.get(position).getNombreZona());
             estadoZona.setImageResource(listaObjetos.get(position).getImagen());
 
-            //Boton del menu del item de la lista de las alarmas
-            nombreZona.setOnClickListener(new View.OnClickListener(){
-                @Override
-                public void onClick(View v) {
-                    // Menu con alert builder
-                    AlertDialog.Builder builder = new AlertDialog.Builder(contexto);
-                    //builder.setTitle("Elegir Opcion");
-                    builder.setTitle("Informacion de la Zona");
-                    // add a list
-                    String[] animals = {"Modificar Alarma", "Eliminar Alarma"};
-                    builder.setItems(animals, new DialogInterface.OnClickListener() {
+            estadoZona.setVisibility(vista.INVISIBLE);
+            //conexion a la base para traer la notificacion de las zonas
+            final AlarmaSQLite bdZ = new AlarmaSQLite(getActivity(),"zona",null,1);
+            final SQLiteDatabase dbZ = bdZ.getWritableDatabase();
+            final ContentValues conZ = new ContentValues();
+            //selecciono todas las zonas almacenadas segun el id de la alarma que traigo del tabZonas
+            ArrayList<Zona> zonas = new ArrayList<>();
+            Cursor c = dbZ.rawQuery("SELECT * FROM zona where idAlarma="+clickAlarma,null);
+            if(c.moveToFirst()){
+                do{
+                    zonas.add(new Zona(c.getInt(0),c.getInt(1),c.getString(2),c.getInt(3),c.getInt(4)));
+                }while(c.moveToNext());
+            }
+            final ArrayList<Integer> noti = new ArrayList<>();
+            final ArrayList<Integer> idZonas = new ArrayList<>();
+            for (int i = 0;i<zonas.size();i++){
+                idZonas.add (zonas.get(i).getIdZona());
+                noti.add(zonas.get(i).getNotificacion());
+            }
+
+            if(noti.size() > 0) {
+                if (noti.get(position).equals(1)) {
+                    estadoZona.setVisibility(vista.VISIBLE);
+                    new TextoParpadeante(getContext(),estadoZona);
+                    //Boton del menu del item de la lista de las alarmas
+                    estadoZona.setOnClickListener(new View.OnClickListener() {
                         @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            switch (which) {
-                                case 0:
+                        public void onClick(final View v) {
+                            // Menu con alert builder
+                            AlertDialog.Builder builder = new AlertDialog.Builder(contexto);
+                            //builder.setTitle("Elegir Opcion");
+                            builder.setTitle("Informacion de la Zona");
+                            // add a list
+                            String[] animals = {"Modificar Alarma", "Eliminar Alarma"};
+                            builder.setItems(animals, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    switch (which) {
+                                        case 0:
+                                            //estadoZona.setVisibility(v.INVISIBLE);
+                                            conZ.put("notificacion", 0);
+                                            long response = dbZ.update("zona", conZ, "idZona="+idZonas.get(position), null);
+                                            if(response>0){
+                                                Toast.makeText(getActivity(),"Editado con exito",Toast.LENGTH_LONG).show();
+                                            }else{
+                                                Toast.makeText(getActivity(),"Ocurrio un error",Toast.LENGTH_LONG).show();
+                                            }
+                                            FragmentTransaction fr = getFragmentManager().beginTransaction();
+                                            fr.replace(R.id.contenedor, new PrincipalFragment(), "Principal");
+                                            fr.commit();
 
-                                    break;
-                                case 1:
+                                            break;
+                                        case 1:
 
-                                    break;
-                                case 2:
+                                            break;
+                                        case 2:
 
-                            }
+                                    }
+                                }
+                            });
+                            // create and show the alert dialog
+                            AlertDialog dialog = builder.create();
+                            dialog.show();
                         }
                     });
-                    // create and show the alert dialog
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
                 }
-            });
-
-            //consulta a la base para saber el estado de cada zona
-
-
+            }
             return vista;
         }
 

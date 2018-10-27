@@ -27,6 +27,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -122,6 +123,37 @@ public class AlarmasFragment extends Fragment {
 
             Button nombreAlarma = (Button) vista.findViewById(R.id.btNombreAlarma);
             Button iconoMenu = (Button) vista.findViewById(R.id.btIconoMenu);
+            ImageView iconoAlarma = (ImageView) vista.findViewById(R.id.ivIconoAlarma);
+
+            //Conexion a la Base de datos para la tabla Alarmas
+            ArrayList<Alarma> alarmas1 = new ArrayList<>();
+            ArrayList<String> tipoAlarma1 = new ArrayList<>();
+            //conexion a la base de datos
+            AlarmaSQLite bd = new AlarmaSQLite(getActivity(),"alarma",null,1);
+            if(bd!=null){
+                SQLiteDatabase db = bd.getReadableDatabase();
+                //selecciono todas las alarmas almacenadas
+                Cursor c = db.rawQuery("SELECT * FROM alarma",null);
+                if(c.moveToFirst()){
+                    do{
+                        //alarmas.add(new Alarma(c.getInt(0),c.getString(1),c.getString(2),c.getInt(3)));
+                        alarmas1.add(new Alarma(c.getInt(0),c.getString(1),c.getString(2),c.getString(3),c.getString(4),c.getInt(5)));
+                    }while(c.moveToNext());
+                }
+            }
+            for (int i = 0;i<alarmas1.size();i++){
+                tipoAlarma1.add (alarmas.get(i).getTipo());
+            }
+            if(tipoAlarma1.get(position).equals("Casa")){
+                iconoAlarma.setImageResource(R.drawable.home);
+            }
+            if(tipoAlarma1.get(position).equals("Oficina")){
+                iconoAlarma.setImageResource(R.drawable.busines);
+            }
+            if(tipoAlarma1.get(position).equals("Tienda")){
+                iconoAlarma.setImageResource(R.drawable.store);
+            }
+            bd.close();
 
             nombreAlarma.setText(listaObjetos.get(position).getNombre());
             iconoMenu.setText(listaObjetos.get(position).getIcono());
@@ -209,6 +241,7 @@ public class AlarmasFragment extends Fragment {
                                                     Toast.makeText(getActivity(), "Fallo", Toast.LENGTH_LONG).show();
                                                 }
                                             }
+                                            bd.close();
                                         }});
                                     builder.create();
                                     builder.show();

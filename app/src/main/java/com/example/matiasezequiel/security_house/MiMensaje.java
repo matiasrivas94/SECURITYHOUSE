@@ -60,11 +60,14 @@ public class MiMensaje extends BroadcastReceiver {
                 celular = mensajes[i].getOriginatingAddress();// https://developer.android.com/reference/android/telephony/SmsMessage#getOriginatingAddress()
                 textomensaje = mensajes[i].getMessageBody();// Devuelve el cuerpo del mensaje como una Cadena, si existe y está basada en texto.
 
+                //Cel tien los ultimos 10 numeros del numero del mensaje recibido de la alarma
+                String cel = celular.substring(celular.length()-10);
+
                 AlarmaSQLite bd = new AlarmaSQLite(context,"alarma",null,1);
                 SQLiteDatabase db = bd.getReadableDatabase();
-                String nomCelular = celular;
+                //String nomCelular = celular;
 
-                SQLiteStatement s1 = db.compileStatement("SELECT nombre FROM alarma WHERE numTelefono LIKE '%"+celular+"'");
+                SQLiteStatement s1 = db.compileStatement("SELECT nombre FROM alarma WHERE numTelefono LIKE '%"+cel+"'");
                 nombreAlarm = s1.simpleQueryForString();
 
                 //Funcion para recuperar el ultimo caracter(entero) del mensaje para saber que ZONA hay actividad
@@ -73,16 +76,10 @@ public class MiMensaje extends BroadcastReceiver {
                     ultimo = textomensaje.charAt(textomensaje.length()-1);
                     int x = ultimo - '0';
                     if((x >= 1) && (x <= 6)) {
-                        //verificar cantidad de zonas
-                        SQLiteStatement s2 = db.compileStatement("SELECT cantZonas FROM alarma WHERE numTelefono LIKE '%"+celular+"'");
-                        int canZonas = (int)s2.simpleQueryForLong();
-                        if(canZonas >= 1 && x <= canZonas ) {
-                            Notificar(context);
-                        }
 
                         //Primer paso: verificar el idAlarma de la alarma segun la zona entrante del SMS
                         //
-                        /*SQLiteStatement s3 = db.compileStatement("SELECT idAlarma FROM alarma WHERE numTelefono LIKE '%"+celular+"'");
+                        SQLiteStatement s3 = db.compileStatement("SELECT idAlarma FROM alarma WHERE numTelefono LIKE '%"+celular+"'");
                         int idAlarma = (int)s3.simpleQueryForLong();
                         //Segundo paso: busco la/las zonas segun el idAlarma de arriba
                         //
@@ -101,37 +98,21 @@ public class MiMensaje extends BroadcastReceiver {
                             }while(c.moveToNext());
                         }
                         final ArrayList<Integer> idZonas = new ArrayList<>();
-                        for (int y = 0;y<zonas.size();y++){
+                        for (int y = 0; y < zonas.size(); y++){
                             idZonas.add (zonas.get(y).getIdZona());
                         }
-                        //Cuarto paso: recorrer el arraylist idZonas para buscar la zona segun la zona que se active en el SMS
-                        int zona=x-1;
-                        if(idZonas.get(0) == zona){
-                            dbZ.update("zona", conZ, "notificacion="+1, null);
+                        int y = idZonas.get(x-1);
+                        for(int z = 0; z < idZonas.size(); z++){
+                            if(idZonas.get(z) == y){
+                                conZ.put("notificacion", 1);
+                                dbZ.update("zona", conZ, "idZona="+idZonas.get(z), null);
+                            }
                         }
-                        if(idZonas.get(1) == zona){
-                            dbZ.update("zona", conZ, "notificacion="+1, null);
-                        }
-                        if(idZonas.get(2) == zona){
-                            dbZ.update("zona", conZ, "notificacion="+1, null);
-                        }
-                        if(idZonas.get(3) == zona){
-                            dbZ.update("zona", conZ, "notificacion="+1, null);
-                        }
-                        if(idZonas.get(4) == zona){
-                            dbZ.update("zona", conZ, "notificacion="+1, null);
-                        }
-                        if(idZonas.get(5) == zona){
-                            dbZ.update("zona", conZ, "notificacion="+1, null);
-                        }
-                        //Quinto paso: mandar datos al tabzonas para mostrar el icono de la zona que está activada
-                        //Shareds para el fragment tabZonas
                         SharedPreferences.Editor editor = context.getSharedPreferences("cc",Context.MODE_PRIVATE).edit();
                         editor.putLong("idAlarma", idAlarma);
                         editor.commit();
 
-                        //Sexto paso: falta como acceder al Fragment TabZonas
-                        */
+                        Notificar(context);
                     }
                 }
             }
@@ -154,7 +135,8 @@ public class MiMensaje extends BroadcastReceiver {
         NotificationManager mNotifyMgr =(NotificationManager)context.getApplicationContext().getSystemService(NOTIFICATION_SERVICE);
 
         int icono = R.mipmap.ic_launcher;
-        Intent i=new Intent(String.valueOf(context));
+        Intent i = new Intent(context,MainActivity.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, i, 0);
         //PendingIntent: Una descripción de una acción de intención y objetivo para realizar con ella.
 
@@ -165,5 +147,10 @@ public class MiMensaje extends BroadcastReceiver {
                 .setContentText("Se ha activado la ZONA "+ultimo)
                 .setAutoCancel(true);
         mNotifyMgr.notify(1, mBuilder.build());
+
+        //Shared para el MainActivity
+        SharedPreferences.Editor editor1 = context.getSharedPreferences("noti",Context.MODE_PRIVATE).edit();
+        editor1.putString("notificacion", "dale");
+        editor1.commit();
     }
 }

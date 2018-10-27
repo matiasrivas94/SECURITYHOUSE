@@ -10,6 +10,8 @@ public class AlarmaSQLite extends SQLiteOpenHelper {
             "cantZonas INTEGER)";
     public String zona = "CREATE TABLE zona(idZona INTEGER PRIMARY KEY AUTOINCREMENT,idAlarma INTEGER,nombre TEXT,estado INTEGER,"+
             "notificacion INTEGER)";
+    public String camara = "CREATE TABLE camara(idCamara INTEGER PRIMARY KEY AUTOINCREMENT,ip TEXT,usuario TEXT,password TEXT,"+
+            "puerto TEXT)";
 
     public AlarmaSQLite(Context context, String name, SQLiteDatabase.CursorFactory factory, int version){
         super(context,name,factory,version);
@@ -18,6 +20,7 @@ public class AlarmaSQLite extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL(alarma);
         sqLiteDatabase.execSQL(zona);
+        sqLiteDatabase.execSQL(camara);
     }
 
     @Override

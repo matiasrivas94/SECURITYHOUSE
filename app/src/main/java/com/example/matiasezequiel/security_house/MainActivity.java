@@ -62,7 +62,17 @@ public class MainActivity extends AppCompatActivity
         if(fragmentManager == null) {
             fragmentManager = getSupportFragmentManager();
         }
-        fragmentManager.beginTransaction().replace(R.id.contenedor,new AlarmasFragment(),"Alarmas").commit();
+        SharedPreferences prefs = getSharedPreferences("noti",Context.MODE_PRIVATE);
+        String n = prefs.getString("notificacion"," ");
+        //Toast.makeText(this,"Noti: "+n, Toast.LENGTH_SHORT).show();
+        if(n.equals("dale")){
+            //Toast.makeText(this,"Voy al TAB ZONAS", Toast.LENGTH_SHORT).show();
+            fragmentManager.beginTransaction().replace(R.id.contenedor,new PrincipalFragment(),"Principal").commit();
+            prefs.edit().remove("notificacion").commit();
+        }else {
+            //Toast.makeText(this,"Llego mal,VOY AL ALARMAS", Toast.LENGTH_SHORT).show();
+            fragmentManager.beginTransaction().replace(R.id.contenedor, new AlarmasFragment(), "Alarmas").commit();
+        }
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {

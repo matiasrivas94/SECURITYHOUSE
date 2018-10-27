@@ -18,38 +18,35 @@
             android:paddingBottom="0dp"
             android:paddingTop="50dp"
             android:rowCount="9">
-			
+
 			<ImageView
-                android:id="@+id/iconoAlarma"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_column="0"
-                android:background="@drawable/store"
+				android:id="@+id/ivIconoAlarma"
+				android:layout_width="40dp"
+				android:layout_height="40dp"
+				android:layout_column="0"
 				android:layout_marginTop="5dp"/>
 			<Button
-                android:id="@+id/btNombreAlarma"
-                android:layout_width="225dp"
-                android:layout_height="wrap_content"
-                android:layout_column="1"
-                android:layout_marginLeft="10dp"
-                android:layout_row="0"
-                android:background="#01f5f5f5"
-                android:text="Nombre:"
-                android:textAlignment="viewStart" />
-				
+				android:id="@+id/btNombreAlarma"
+				android:layout_width="225dp"
+				android:layout_height="wrap_content"
+				android:layout_column="1"
+				android:layout_marginLeft="10dp"
+				android:layout_row="0"
+				android:background="#01f5f5f5"
+				android:text="Nombre:"
+				android:textAlignment="viewStart" />
+
 			<Button
-                android:id="@+id/btIconoMenu"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_column="2"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:layout_row="0"
-                android:background="@drawable/white"
-                android:onClick="menuLista"
-                android:textSize="10dp" />
-				
-				
+				android:id="@+id/btIconoMenu"
+				android:layout_width="30dp"
+				android:layout_height="30dp"
+				android:layout_column="2"
+				android:layout_marginLeft="15dp"
+				android:layout_marginRight="15dp"
+				android:layout_row="0"
+				android:background="@drawable/white"
+				android:onClick="menuLista"
+				android:textSize="10dp" />
 
         </GridLayout>
     </LinearLayout>

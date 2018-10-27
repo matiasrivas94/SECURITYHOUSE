@@ -7,6 +7,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -20,7 +22,9 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
@@ -35,15 +39,15 @@ public class CrearAlarmaFragment extends Fragment {
     EditText nombre, numTelefono, clave;
     MainActivity mainActivity = (MainActivity)getActivity();
     int auxiliar = 0;
-    int cantZona,modiAlarma;
+    int modiAlarma;
     String estadoEditarAlarma="default";
     SharedPreferences prefs4;
     SharedPreferences.Editor editor1;
 
     //Cosas del Spinner
     Spinner opciones;
-    List<String> listaTipos;
-    ArrayAdapter<String> adapterSpinner;
+    private ArrayList<DatosItemZona> mZonas;
+    private AdaptadorZonas mAdapter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -52,25 +56,10 @@ public class CrearAlarmaFragment extends Fragment {
 
 
         //cosas del SPINNER
-        //opciones = (Spinner) v.findViewById(R.id.SPTipo);
+        initList();
         opciones = (Spinner) v.findViewById(R.id.SPTipo);
-        listaTipos = new ArrayList<>();
-
-        //Arreglo String de tipos
-        String[] tipos = {"Casa", "Oficina", "Tienda"};
-        //Cargo las frutas en listaTipos
-        Collections.addAll(listaTipos, tipos);
-        //Paso los valores a mi adapter
-        adapterSpinner = new ArrayAdapter<>(this.getActivity(), android.R.layout.simple_spinner_item, listaTipos);
-        //Linea de código secundario sirve para asignar un layout a los ítems
-        adapterSpinner.setDropDownViewResource(android.R.layout.preference_category);
-        //Muestro los ítems en el spinner, obtenidos gracias al adapter
-        opciones.setAdapter(adapterSpinner);
-
-        //String que almacena el nombre de la fruta donde inicializara el valor ítem del spinner
-        //ESTE STRING LO PODEMOS OBTENER DE DIFERENTES FORMAS (DESDE UN BASE DE DATOS, UN ARREGLO, ...)
-        String inicializarItem = "Casa";
-
+        mAdapter = new AdaptadorZonas(this.getActivity(),mZonas);
+        opciones.setAdapter(mAdapter);
 
         nombre = (EditText) v.findViewById(R.id.ETNombre);
         opciones = (Spinner) v.findViewById(R.id.SPTipo);
@@ -184,21 +173,46 @@ public class CrearAlarmaFragment extends Fragment {
         return v;
     }
 
-    //Método para obtener la posición de un ítem del spinner
-    public int obtenerPosicionItem(Spinner spinner, String tipo) {
-        //Creamos la variable posicion y lo inicializamos en 0
-        int posicion = 0;
-        //Recorre el spinner en busca del ítem que coincida con el parametro `String tipo`
-        //que lo pasaremos posteriormente
-        for (int i = 0; i < spinner.getCount(); i++) {
-            //Almacena la posición del ítem que coincida con la búsqueda
-            if (spinner.getItemAtPosition(i).toString().equals(tipo)) {
-                posicion = i;
-            }
+    public void initList(){
+        mZonas = new ArrayList<>();
+        mZonas.add(new DatosItemZona(0,"Casa",R.drawable.home));
+        mZonas.add(new DatosItemZona(1,"Oficina",R.drawable.busines));
+        mZonas.add(new DatosItemZona(2,"Tienda",R.drawable.store));
+    }
+
+    //clase interna para manejar el item de la lista de las alarmas
+    public class AdaptadorZonas extends ArrayAdapter<DatosItemZona> {
+
+        public AdaptadorZonas(Context contexto, ArrayList<DatosItemZona> listaObjetos) {
+            super(contexto,0, listaObjetos);
         }
-        //Devuelve un valor entero (si encontro una coincidencia devuelve la
-        // posición 0 o N, de lo contrario devuelve 0 = posición inicial)
-        return posicion;
+
+        @Override
+        public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+            return initView(position, convertView, parent);
+        }
+
+        @NonNull
+        @Override
+        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+            return initView(position, convertView, parent);
+        }
+
+        private View initView(int position, View convertView, ViewGroup parent){
+            if(convertView == null){
+                convertView = LayoutInflater.from(getContext()).inflate(R.layout.items_spinner_tipo_alarmas,parent,false);
+            }
+            ImageView iconoZona = (ImageView)convertView.findViewById(R.id.ivIconoZona);
+            TextView tipoZona = (TextView)convertView.findViewById(R.id.tvTipoZona);
+
+            DatosItemZona currentItem = getItem(position);
+
+            if(currentItem != null) {
+                iconoZona.setImageResource(currentItem.getImagen());
+                tipoZona.setText(currentItem.getNombreZona());
+            }
+            return convertView;
+        }
     }
 
     public void agregar(View v){
@@ -207,7 +221,8 @@ public class CrearAlarmaFragment extends Fragment {
 
             nom = nombre.getText().toString();
             numTel = numTelefono.getText().toString();
-            tipo = opciones.getSelectedItem().toString();
+            int ipo = opciones.getSelectedItemPosition();
+            tipo = mZonas.get(ipo).nombreZona;
             password = clave.getText().toString();
 
             //sqlite bh = new sqlite(AgregarActivity.this,"usuarios",null,1);
@@ -225,10 +240,6 @@ public class CrearAlarmaFragment extends Fragment {
                 editor2.putString ("estadoZonaString","sapeeeeeeeee");
                 editor2.commit();
 
-                SharedPreferences.Editor editor1 = getContext().getSharedPreferences("bb",Context.MODE_PRIVATE).edit();
-                editor1.putLong("cantZ", cantZona);
-                editor1.commit();
-
                 //Shared para el nombre de la alarma
                 SharedPreferences.Editor editor = getContext().getSharedPreferences("ee",Context.MODE_PRIVATE).edit();
                 editor.putString ("nombreAlarma",nom);
@@ -240,6 +251,7 @@ public class CrearAlarmaFragment extends Fragment {
                 }else{
                     Toast.makeText(this.getActivity(),"No se inserto",Toast.LENGTH_SHORT).show();
                 }
+                bd.close();
             }
         }else{
             Toast.makeText(this.getActivity(),"hay campos vacios",Toast.LENGTH_LONG).show();
@@ -313,18 +325,14 @@ public class CrearAlarmaFragment extends Fragment {
                     nombre.setText(c.getString(1));
 
                     String algo = c.getString(2);
-                    int pos=-1;
                     if (algo.equals("Casa")) {
-                        pos = obtenerPosicionItem(opciones, algo);
-                        opciones.setSelection(pos);
+                        opciones.setSelection(0);
                     }
                     if (algo.equals("Oficina")) {
-                        pos = obtenerPosicionItem(opciones, algo);
-                        opciones.setSelection(pos);
+                        opciones.setSelection(1);
                     }
                     if (algo.equals("Tienda")) {
-                        pos = obtenerPosicionItem(opciones, algo);
-                        opciones.setSelection(pos);
+                        opciones.setSelection(2);
                     }
 
                     numTelefono.setText(c.getString(3));
@@ -342,7 +350,10 @@ public class CrearAlarmaFragment extends Fragment {
             SQLiteDatabase db = bh.getWritableDatabase();
             ContentValues val = new ContentValues();
             val.put("nombre",nombre.getText().toString());
-            val.put("tipo",opciones.getSelectedItem().toString());
+
+            int ipo = opciones.getSelectedItemPosition();
+            val.put("tipo",mZonas.get(ipo).nombreZona);
+
             val.put("numTelefono",numTelefono.getText().toString());
             val.put("clave",clave.getText().toString());
 

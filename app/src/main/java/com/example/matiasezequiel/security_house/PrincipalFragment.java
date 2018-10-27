@@ -92,6 +92,7 @@ public class PrincipalFragment extends Fragment {
         String nombreAlarm = prefs.getString("nombreAlarma"," ");
         titulo.setText(nombreAlarm);
 
+        //actualizarZonas2(view);
         //boton Editar Camara
         iv_edit2.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,6 +107,7 @@ public class PrincipalFragment extends Fragment {
             public void onClick(View v) {
 
                 eliminarShared(v);
+                //actualizarZonas2(v);
 
                 AlertDialog.Builder mBuilder = new AlertDialog.Builder(getActivity());
                 View mView = getLayoutInflater().inflate(R.layout.modif_zonas, null);
@@ -152,13 +154,20 @@ public class PrincipalFragment extends Fragment {
                         zonas.add(new Zona(c.getInt(0),c.getInt(1),c.getString(2),c.getInt(3),c.getInt(4)));
                     }while(c.moveToNext());
                 }
-                final ArrayList<String> arreglo = new ArrayList<>();
-
+                arreglo = new ArrayList<>();
+                estado = new ArrayList<>();
+                idZona = new ArrayList<>();
                 for (int i = 0;i<zonas.size();i++){
-                    arreglo.add (zonas.get(i).getNombre());
+                    arreglo.add(zonas.get(i).getNombre());
+                    idZona.add(zonas.get(i).getIdZona());
+                    estado.add(zonas.get(i).getEstado());
                 }
-
-                actualizarZonas(v);
+                t1.setText(arreglo.get(0));
+                t2.setText(arreglo.get(1));
+                t3.setText(arreglo.get(2));
+                t4.setText(arreglo.get(3));
+                t5.setText(arreglo.get(4));
+                t6.setText(arreglo.get(5));
 
                 //seteo los checkboxs
                 if(estado.get(0) == 1)
@@ -237,7 +246,7 @@ public class PrincipalFragment extends Fragment {
                                     }
                                     prefsZ1.edit().remove("idZona1").commit();
                                 }
-                                actualizarZonas(viewEZ);
+                                actualizarZonas2(viewEZ);
                                 dialog.dismiss();
                             }
                         });
@@ -292,7 +301,7 @@ public class PrincipalFragment extends Fragment {
                                     }
                                     prefsZ2.edit().remove("idZona2").commit();
                                 }
-                                actualizarZonas(viewEZ);
+                                actualizarZonas2(viewEZ);
                                 dialog.dismiss();
                             }
                         });
@@ -348,7 +357,7 @@ public class PrincipalFragment extends Fragment {
                                     }
                                     prefsZ3.edit().remove("idZona3").commit();
                                 }
-                                actualizarZonas(viewEZ);
+                                actualizarZonas2(viewEZ);
                                 dialog.dismiss();
                             }
                         });
@@ -404,7 +413,7 @@ public class PrincipalFragment extends Fragment {
                                     }
                                     prefsZ4.edit().remove("idZona4").commit();
                                 }
-                                actualizarZonas(viewEZ);
+                                actualizarZonas2(viewEZ);
                                 dialog.dismiss();
                             }
                         });
@@ -460,7 +469,7 @@ public class PrincipalFragment extends Fragment {
                                     }
                                     prefsZ5.edit().remove("idZona5").commit();
                                 }
-                                actualizarZonas(viewEZ);
+                                actualizarZonas2(viewEZ);
                                 dialog.dismiss();
                             }
                         });
@@ -516,7 +525,7 @@ public class PrincipalFragment extends Fragment {
                                     }
                                     prefsZ6.edit().remove("idZona6").commit();
                                 }
-                                actualizarZonas(viewEZ);
+                                actualizarZonas2(viewEZ);
                                 dialog.dismiss();
                             }
                         });
@@ -530,6 +539,7 @@ public class PrincipalFragment extends Fragment {
                 btnVolver.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        actualizarZonas2(view);
                         dialog.dismiss();
                         FragmentTransaction fr = getFragmentManager().beginTransaction();
                         fr.replace(R.id.contenedor, new PrincipalFragment(), "Principal");
@@ -561,6 +571,7 @@ public class PrincipalFragment extends Fragment {
                 });
 
 
+                eliminarShared(view);
                 //evito que se cierre al presionar fuera del dialog
                 dialog.setCanceledOnTouchOutside(false);
             }
@@ -623,7 +634,7 @@ public class PrincipalFragment extends Fragment {
         }
     }
 
-    public ArrayList<String> actualizarZonas(View v){
+    public void actualizarZonas2(View v){
         //Tabla ZONA
         final AlarmaSQLite bdZ = new AlarmaSQLite(getActivity(),"zona",null,1);
         final SQLiteDatabase dbZ = bdZ.getWritableDatabase();
@@ -636,6 +647,7 @@ public class PrincipalFragment extends Fragment {
                 zonas.add(new Zona(c.getInt(0),c.getInt(1),c.getString(2),c.getInt(3),c.getInt(4)));
             }while(c.moveToNext());
         }
+        bdZ.close();
         arreglo = new ArrayList<>();
         estado = new ArrayList<>();
         idZona = new ArrayList<>();
@@ -650,13 +662,11 @@ public class PrincipalFragment extends Fragment {
         t4.setText(arreglo.get(3));
         t5.setText(arreglo.get(4));
         t6.setText(arreglo.get(5));
-
-        return arreglo;
     }
-
     public void eliminarShared(View v){
         prefs2 = getContext().getSharedPreferences("idAlarmaPrin",Context.MODE_PRIVATE);
         idAlarmaTabZona=(int)prefs2.getLong("idAlarmaPrincipal",-1);
+        //Toast.makeText(getContext(),"ID Alarma: "+idAlarmaTabZona,Toast.LENGTH_LONG).show();
     }
 
     public class PagerAdapter extends FragmentStatePagerAdapter {
