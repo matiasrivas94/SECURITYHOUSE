@@ -2,48 +2,36 @@ package com.example.matiasezequiel.security_house;
 
 public class Camara {
     private int idCamara;
-    private int idZona;
-    private String tipo;
-    private String numTelefono;
+    private String nombre;
     private String ip;
     private String usuario;
     private String contraseña;
-    private String codigoQR;
+    private int puerto;
 
 
-    public Camara(int idCamara, int idZona, String tipo, String numTelefono, String ip, String usuario, String contraseña, String codigoQR) {
+    public Camara(int idCamara, String nombre, String ip, String usuario, String contraseña, int puerto) {
         this.idCamara = idCamara;
-        this.idZona = idZona;
-        this.tipo = tipo;
-        this.numTelefono = numTelefono;
+        this.nombre = nombre;
         this.ip = ip;
         this.usuario = usuario;
         this.contraseña = contraseña;
-        this.codigoQR = codigoQR;
+        this.puerto = puerto;
     }
 
     public int getIdCamara() {
         return idCamara;
     }
 
-    public int getIdZona() {
-        return idZona;
+    public void setIdCamara(int idCamara) {
+        this.idCamara = idCamara;
     }
 
-    public String getTipo() {
-        return tipo;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
-    }
-
-    public String getNumTelefono() {
-        return numTelefono;
-    }
-
-    public void setNumTelefono(String numTelefono) {
-        this.numTelefono = numTelefono;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public String getIp() {
@@ -70,11 +58,11 @@ public class Camara {
         this.contraseña = contraseña;
     }
 
-    public String getCodigoQR() {
-        return codigoQR;
+    public int getPuerto() {
+        return puerto;
     }
 
-    public void setCodigoQR(String codigoQR) {
-        this.codigoQR = codigoQR;
+    public void setPuerto(int puerto) {
+        this.puerto = puerto;
     }
 }

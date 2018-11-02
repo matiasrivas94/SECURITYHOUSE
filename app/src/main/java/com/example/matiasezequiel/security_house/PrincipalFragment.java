@@ -37,19 +37,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.matiasezequiel.security_house.Aplication.BaseAplication;
+
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
 
 public class PrincipalFragment extends Fragment {
-
     TextView titulo;
     ViewPager mViewPager;
     ImageView iv_edit, iv_edit2;
     Button aplicarZonas;
     TabLayout tabLayout;
-
 
     int idAlarmaTabZona=0;
     SharedPreferences prefs2;
@@ -67,7 +67,6 @@ public class PrincipalFragment extends Fragment {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_principal, container, false);
 
-
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) view.findViewById(R.id.pager);
         mViewPager.setAdapter(new PagerAdapter(getFragmentManager(),2));
@@ -76,13 +75,10 @@ public class PrincipalFragment extends Fragment {
         iv_edit = view.findViewById(R.id.view_edit);
         iv_edit2 = view.findViewById(R.id.view_edit2);
 
-
         aplicarZonas = (Button) view.findViewById(R.id.btnAplicarZonas);
 
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
-
-
 
         //para cambiarle el encabezado al principal fragment con el nombre de la nueva alamra insertada
         titulo = (TextView) view.findViewById(R.id.textTituloAlarma);
@@ -135,25 +131,9 @@ public class PrincipalFragment extends Fragment {
                 btnVolver = (Button)mView.findViewById(R.id.btnAplicarZonas);
                 btnGuardarEstadoZonas = (Button)mView.findViewById(R.id.btnGuardarEstadosZonas);
 
-                //Conexin a la BASE
-                //Tabla ALARMA
-                AlarmaSQLite bdA = new AlarmaSQLite(getActivity(),"alarma",null,1);
-                SQLiteDatabase dbA = bdA.getReadableDatabase();
+                //selecciono todas las zonas almacenadas segun el id de la alarma que traigo
+                ArrayList<Zona> zonas = ((BaseAplication) getActivity().getApplication()).getZonas(idAlarmaTabZona);
 
-                //Tabla ZONA
-                final AlarmaSQLite bdZ = new AlarmaSQLite(getActivity(),"zona",null,1);
-                final SQLiteDatabase dbZ = bdZ.getWritableDatabase();
-                final ContentValues conZ = new ContentValues();
-
-                //Toast.makeText(getActivity(), "ID ALARMA del SHARED: " + idAlarmaTabZona, Toast.LENGTH_LONG).show();
-                //selecciono todas las zonas almacenadas segun el id de la alarma que traigo del tabZonas
-                ArrayList<Zona> zonas = new ArrayList<>();
-                Cursor c = dbZ.rawQuery("SELECT * FROM zona where idAlarma="+idAlarmaTabZona,null);
-                if(c.moveToFirst()){
-                    do{
-                        zonas.add(new Zona(c.getInt(0),c.getInt(1),c.getString(2),c.getInt(3),c.getInt(4)));
-                    }while(c.moveToNext());
-                }
                 arreglo = new ArrayList<>();
                 estado = new ArrayList<>();
                 idZona = new ArrayList<>();
@@ -232,20 +212,16 @@ public class PrincipalFragment extends Fragment {
                         btnAceptar.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                if(bdZ!=null) {
-                                    prefsZ1 = getContext().getSharedPreferences("zona1",Context.MODE_PRIVATE);
-                                    Integer idZ1 = (int)prefsZ1.getLong("idZona1",-1);
-                                    //Toast.makeText(getActivity(), "ID ZONA del SHARED: " + idZ1, Toast.LENGTH_LONG).show();
-                                    conZ.put("nombre", etZona.getText().toString());
+                                prefsZ1 = getContext().getSharedPreferences("zona1",Context.MODE_PRIVATE);
+                                Integer idZ1 = (int)prefsZ1.getLong("idZona1",-1);
+                                //Toast.makeText(getActivity(), "ID ZONA del SHARED: " + idZ1, Toast.LENGTH_LONG).show();
+                                long res = ((BaseAplication) getActivity().getApplication()).updateNombreZona(idZ1, etZona.getText().toString());
+                                if (res > 0)
+                                    Toast.makeText(getActivity(), "Nombre Actualizado", Toast.LENGTH_LONG).show();
+                                else
+                                    Toast.makeText(getActivity(), "No se pudo actualizar el nombre", Toast.LENGTH_LONG).show();
+                                prefsZ1.edit().remove("idZona1").commit();
 
-                                    long response = dbZ.update("zona", conZ, "idZona=" + idZ1, null);
-                                    if (response > 0) {
-                                        Toast.makeText(getActivity(), "Editado con exito", Toast.LENGTH_LONG).show();
-                                    } else {
-                                        Toast.makeText(getActivity(), "Ocurrio un error", Toast.LENGTH_LONG).show();
-                                    }
-                                    prefsZ1.edit().remove("idZona1").commit();
-                                }
                                 actualizarZonas2(viewEZ);
                                 dialog.dismiss();
                             }
@@ -287,20 +263,16 @@ public class PrincipalFragment extends Fragment {
                         btnAceptar.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                if(bdZ!=null) {
-                                    prefsZ2 = getContext().getSharedPreferences("zona2",Context.MODE_PRIVATE);
-                                    Integer idZ2 = (int)prefsZ2.getLong("idZona2",-1);
-                                    //Toast.makeText(getActivity(), "ID ZONA del SHARED: " + idZ2, Toast.LENGTH_LONG).show();
-                                    conZ.put("nombre", etZona.getText().toString());
+                                prefsZ2 = getContext().getSharedPreferences("zona2",Context.MODE_PRIVATE);
+                                Integer idZ2 = (int)prefsZ2.getLong("idZona2",-1);
+                                //Toast.makeText(getActivity(), "ID ZONA del SHARED: " + idZ2, Toast.LENGTH_LONG).show();
+                                long res = ((BaseAplication) getActivity().getApplication()).updateNombreZona(idZ2, etZona.getText().toString());
+                                if (res > 0)
+                                    Toast.makeText(getActivity(), "Nombre Actualizado", Toast.LENGTH_LONG).show();
+                                else
+                                    Toast.makeText(getActivity(), "No se pudo actualizar el nombre", Toast.LENGTH_LONG).show();
+                                prefsZ2.edit().remove("idZona2").commit();
 
-                                    long response = dbZ.update("zona", conZ, "idZona=" + idZ2, null);
-                                    if (response > 0) {
-                                        Toast.makeText(getActivity(), "Editado con exito", Toast.LENGTH_LONG).show();
-                                    } else {
-                                        Toast.makeText(getActivity(), "Ocurrio un error", Toast.LENGTH_LONG).show();
-                                    }
-                                    prefsZ2.edit().remove("idZona2").commit();
-                                }
                                 actualizarZonas2(viewEZ);
                                 dialog.dismiss();
                             }
@@ -343,20 +315,16 @@ public class PrincipalFragment extends Fragment {
                         btnAceptar.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                if(bdZ!=null) {
-                                    prefsZ3 = getContext().getSharedPreferences("zona3",Context.MODE_PRIVATE);
-                                    Integer idZ3 = (int)prefsZ3.getLong("idZona3",-1);
-                                    //Toast.makeText(getActivity(), "ID ZONA del SHARED: " + idZ3, Toast.LENGTH_LONG).show();
-                                    conZ.put("nombre", etZona.getText().toString());
+                                prefsZ3 = getContext().getSharedPreferences("zona3",Context.MODE_PRIVATE);
+                                Integer idZ3 = (int)prefsZ3.getLong("idZona3",-1);
+                                //Toast.makeText(getActivity(), "ID ZONA del SHARED: " + idZ3, Toast.LENGTH_LONG).show();
+                                long res = ((BaseAplication) getActivity().getApplication()).updateNombreZona(idZ3, etZona.getText().toString());
+                                if (res > 0)
+                                    Toast.makeText(getActivity(), "Nombre Actualizado", Toast.LENGTH_LONG).show();
+                                else
+                                    Toast.makeText(getActivity(), "No se pudo actualizar el nombre", Toast.LENGTH_LONG).show();
+                                prefsZ3.edit().remove("idZona3").commit();
 
-                                    long response = dbZ.update("zona", conZ, "idZona=" + idZ3, null);
-                                    if (response > 0) {
-                                        Toast.makeText(getActivity(), "Editado con exito", Toast.LENGTH_LONG).show();
-                                    } else {
-                                        Toast.makeText(getActivity(), "Ocurrio un error", Toast.LENGTH_LONG).show();
-                                    }
-                                    prefsZ3.edit().remove("idZona3").commit();
-                                }
                                 actualizarZonas2(viewEZ);
                                 dialog.dismiss();
                             }
@@ -399,20 +367,16 @@ public class PrincipalFragment extends Fragment {
                         btnAceptar.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                if(bdZ!=null) {
-                                    prefsZ4 = getContext().getSharedPreferences("zona4",Context.MODE_PRIVATE);
-                                    Integer idZ4 = (int)prefsZ4.getLong("idZona4",-1);
-                                    //Toast.makeText(getActivity(), "ID ZONA del SHARED: " + idZ4, Toast.LENGTH_LONG).show();
-                                    conZ.put("nombre", etZona.getText().toString());
+                                prefsZ4 = getContext().getSharedPreferences("zona4",Context.MODE_PRIVATE);
+                                Integer idZ4 = (int)prefsZ4.getLong("idZona4",-1);
+                                //Toast.makeText(getActivity(), "ID ZONA del SHARED: " + idZ4, Toast.LENGTH_LONG).show();
+                                long res = ((BaseAplication) getActivity().getApplication()).updateNombreZona(idZ4, etZona.getText().toString());
+                                if (res > 0)
+                                    Toast.makeText(getActivity(), "Nombre Actualizado", Toast.LENGTH_LONG).show();
+                                else
+                                    Toast.makeText(getActivity(), "No se pudo actualizar el nombre", Toast.LENGTH_LONG).show();
+                                prefsZ4.edit().remove("idZona4").commit();
 
-                                    long response = dbZ.update("zona", conZ, "idZona=" + idZ4, null);
-                                    if (response > 0) {
-                                        Toast.makeText(getActivity(), "Editado con exito", Toast.LENGTH_LONG).show();
-                                    } else {
-                                        Toast.makeText(getActivity(), "Ocurrio un error", Toast.LENGTH_LONG).show();
-                                    }
-                                    prefsZ4.edit().remove("idZona4").commit();
-                                }
                                 actualizarZonas2(viewEZ);
                                 dialog.dismiss();
                             }
@@ -455,20 +419,16 @@ public class PrincipalFragment extends Fragment {
                         btnAceptar.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                if(bdZ!=null) {
-                                    prefsZ5 = getContext().getSharedPreferences("zona5",Context.MODE_PRIVATE);
-                                    Integer idZ5 = (int)prefsZ5.getLong("idZona5",-1);
-                                    //Toast.makeText(getActivity(), "ID ZONA del SHARED: " + idZ5, Toast.LENGTH_LONG).show();
-                                    conZ.put("nombre", etZona.getText().toString());
-
-                                    long response = dbZ.update("zona", conZ, "idZona=" + idZ5, null);
-                                    if (response > 0) {
-                                        Toast.makeText(getActivity(), "Editado con exito", Toast.LENGTH_LONG).show();
-                                    } else {
-                                        Toast.makeText(getActivity(), "Ocurrio un error", Toast.LENGTH_LONG).show();
-                                    }
+                                prefsZ5 = getContext().getSharedPreferences("zona5",Context.MODE_PRIVATE);
+                                Integer idZ5 = (int)prefsZ5.getLong("idZona5",-1);
+                                //Toast.makeText(getActivity(), "ID ZONA del SHARED: " + idZ5, Toast.LENGTH_LONG).show();
+                                long res = ((BaseAplication) getActivity().getApplication()).updateNombreZona(idZ5, etZona.getText().toString());
+                                if (res > 0)
+                                    Toast.makeText(getActivity(), "Nombre Actualizado", Toast.LENGTH_LONG).show();
+                                else
+                                    Toast.makeText(getActivity(), "No se pudo actualizar el nombre", Toast.LENGTH_LONG).show();
                                     prefsZ5.edit().remove("idZona5").commit();
-                                }
+
                                 actualizarZonas2(viewEZ);
                                 dialog.dismiss();
                             }
@@ -511,20 +471,16 @@ public class PrincipalFragment extends Fragment {
                         btnAceptar.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                if(bdZ!=null) {
-                                    prefsZ6 = getContext().getSharedPreferences("zona6",Context.MODE_PRIVATE);
-                                    Integer idZ6 = (int)prefsZ6.getLong("idZona6",-1);
-                                    //Toast.makeText(getActivity(), "ID ZONA del SHARED: " + idZ6, Toast.LENGTH_LONG).show();
-                                    conZ.put("nombre", etZona.getText().toString());
+                                prefsZ6 = getContext().getSharedPreferences("zona6",Context.MODE_PRIVATE);
+                                Integer idZ6 = (int)prefsZ6.getLong("idZona6",-1);
+                                //Toast.makeText(getActivity(), "ID ZONA del SHARED: " + idZ6, Toast.LENGTH_LONG).show();
+                                long res = ((BaseAplication) getActivity().getApplication()).updateNombreZona(idZ6, etZona.getText().toString());
+                                if (res > 0)
+                                    Toast.makeText(getActivity(), "Nombre Actualizado", Toast.LENGTH_LONG).show();
+                                else
+                                    Toast.makeText(getActivity(), "No se pudo actualizar el nombre", Toast.LENGTH_LONG).show();
+                                prefsZ6.edit().remove("idZona6").commit();
 
-                                    long response = dbZ.update("zona", conZ, "idZona=" + idZ6, null);
-                                    if (response > 0) {
-                                        Toast.makeText(getActivity(), "Editado con exito", Toast.LENGTH_LONG).show();
-                                    } else {
-                                        Toast.makeText(getActivity(), "Ocurrio un error", Toast.LENGTH_LONG).show();
-                                    }
-                                    prefsZ6.edit().remove("idZona6").commit();
-                                }
                                 actualizarZonas2(viewEZ);
                                 dialog.dismiss();
                             }
@@ -580,63 +536,48 @@ public class PrincipalFragment extends Fragment {
     }
 
     public void verificaCheckBoxs(){
-        final AlarmaSQLite bdZ = new AlarmaSQLite(getActivity(),"zona",null,1);
-        final SQLiteDatabase dbZ = bdZ.getWritableDatabase();
-        final ContentValues conZ = new ContentValues();
 
         if(c1.isChecked()) {
-            conZ.put("estado", 1);
-            dbZ.update("zona", conZ, "idZona="+idZona.get(0), null);
+            long res = ((BaseAplication) getActivity().getApplication()).updateEstadoZona(idZona.get(0), 1);
             //Toast.makeText(getContext(), "CheckBox 1 ''SI'' está Tildado", Toast.LENGTH_LONG).show();
         }else {
-            conZ.put("estado", 0);
-            dbZ.update("zona", conZ, "idZona=" + idZona.get(0), null);
+            long res = ((BaseAplication) getActivity().getApplication()).updateEstadoZona(idZona.get(0), 0);
         }
         if(c2.isChecked()) {
-            conZ.put("estado", 1);
-            dbZ.update("zona", conZ, "idZona="+idZona.get(1), null);
+            long res = ((BaseAplication) getActivity().getApplication()).updateEstadoZona(idZona.get(1), 1);
             //Toast.makeText(getContext(), "CheckBox 1 ''SI'' está Tildado", Toast.LENGTH_LONG).show();
         }else {
-            conZ.put("estado", 0);
-            dbZ.update("zona", conZ, "idZona=" + idZona.get(1), null);
+            long res = ((BaseAplication) getActivity().getApplication()).updateEstadoZona(idZona.get(1), 0);
         }
         if(c3.isChecked()) {
-            conZ.put("estado", 1);
-            dbZ.update("zona", conZ, "idZona="+idZona.get(2), null);
+            long res = ((BaseAplication) getActivity().getApplication()).updateEstadoZona(idZona.get(2), 1);
             //Toast.makeText(getContext(), "CheckBox 1 ''SI'' está Tildado", Toast.LENGTH_LONG).show();
         }else {
-            conZ.put("estado", 0);
-            dbZ.update("zona", conZ, "idZona=" + idZona.get(2), null);
+            long res = ((BaseAplication) getActivity().getApplication()).updateEstadoZona(idZona.get(2), 0);
         }
         if(c4.isChecked()) {
-            conZ.put("estado", 1);
-            dbZ.update("zona", conZ, "idZona="+idZona.get(3), null);
+            long res = ((BaseAplication) getActivity().getApplication()).updateEstadoZona(idZona.get(3), 1);
             //Toast.makeText(getContext(), "CheckBox 1 ''SI'' está Tildado", Toast.LENGTH_LONG).show();
         }else {
-            conZ.put("estado", 0);
-            dbZ.update("zona", conZ, "idZona=" + idZona.get(3), null);
+            long res = ((BaseAplication) getActivity().getApplication()).updateEstadoZona(idZona.get(3), 0);
         }
         if(c5.isChecked()) {
-            conZ.put("estado", 1);
-            dbZ.update("zona", conZ, "idZona="+idZona.get(4), null);
+            long res = ((BaseAplication) getActivity().getApplication()).updateEstadoZona(idZona.get(4), 1);
             //Toast.makeText(getContext(), "CheckBox 1 ''SI'' está Tildado", Toast.LENGTH_LONG).show();
         }else {
-            conZ.put("estado", 0);
-            dbZ.update("zona", conZ, "idZona=" + idZona.get(4), null);
+            long res = ((BaseAplication) getActivity().getApplication()).updateEstadoZona(idZona.get(4), 0);
         }
         if(c6.isChecked()) {
-            conZ.put("estado", 1);
-            dbZ.update("zona", conZ, "idZona="+idZona.get(5), null);
+            long res = ((BaseAplication) getActivity().getApplication()).updateEstadoZona(idZona.get(5), 1);
             //Toast.makeText(getContext(), "CheckBox 1 ''SI'' está Tildado", Toast.LENGTH_LONG).show();
         }else {
-            conZ.put("estado", 0);
-            dbZ.update("zona", conZ, "idZona=" + idZona.get(5), null);
+            long res = ((BaseAplication) getActivity().getApplication()).updateEstadoZona(idZona.get(5), 0);
         }
     }
 
     public void actualizarZonas2(View v){
         //Tabla ZONA
-        final AlarmaSQLite bdZ = new AlarmaSQLite(getActivity(),"zona",null,1);
+        /*final AlarmaSQLite bdZ = new AlarmaSQLite(getActivity(),"zona",null,1);
         final SQLiteDatabase dbZ = bdZ.getWritableDatabase();
         final ContentValues conZ = new ContentValues();
         //selecciono todas las zonas almacenadas segun el id de la alarma que traigo del tabZonas
@@ -647,7 +588,8 @@ public class PrincipalFragment extends Fragment {
                 zonas.add(new Zona(c.getInt(0),c.getInt(1),c.getString(2),c.getInt(3),c.getInt(4)));
             }while(c.moveToNext());
         }
-        bdZ.close();
+        bdZ.close();*/
+        ArrayList<Zona> zonas = ((BaseAplication) getActivity().getApplication()).getZonas(idAlarmaTabZona);
         arreglo = new ArrayList<>();
         estado = new ArrayList<>();
         idZona = new ArrayList<>();

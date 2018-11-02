@@ -157,23 +157,7 @@ public class CrearCamaraFragment extends Fragment {
             pass = etPass.getText().toString();
             puerto = etPort.getText().toString();
 
-            //sqlite bh = new sqlite(AgregarActivity.this,"usuarios",null,1);
-            AlarmaSQLite bd = new AlarmaSQLite(this.getActivity(),"camara",null,1);
-            if(bd!=null){
-                SQLiteDatabase db = bd.getWritableDatabase();
-                ContentValues con = new ContentValues();
-                con.put("ip",ip);
-                con.put("usuario",user);
-                con.put("password",pass);
-                con.put("puerto",puerto);
 
-                long insertado = db.insert("camara",null,con);
-                if(insertado>0){
-                    Toast.makeText(this.getActivity(),"Camara Insertada", Toast.LENGTH_SHORT).show();
-                }else{
-                    Toast.makeText(this.getActivity(),"No se inserto",Toast.LENGTH_SHORT).show();
-                }
-            }
         }else{
             Toast.makeText(this.getActivity(),"hay campos vacios",Toast.LENGTH_LONG).show();
         }

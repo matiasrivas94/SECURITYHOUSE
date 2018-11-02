@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.NotificationCompatSideChannelService;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -28,6 +29,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.database.sqlite.SQLiteStatement;
 
+import com.example.matiasezequiel.security_house.Aplication.BaseAplication;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +41,6 @@ public class TabZonasFragment extends Fragment {
     Button boton;
     int clickAlarma=0;
     ListView listaZonas;
-    int cant=0;
 
     String estadoAlarma;
     SharedPreferences prefs4, prefs2;
@@ -69,59 +71,26 @@ public class TabZonasFragment extends Fragment {
     }
 
     public void visibilidadSoloTextView(View v) {
-        //Parte de la Alarma, busco el id de la ultima alarma insertada
-        AlarmaSQLite bdA = new AlarmaSQLite(this.getActivity(),"alarma",null,1);
-        SQLiteDatabase dbA = bdA.getReadableDatabase();
 
         //busco el idAlarma de la ultima alarma ingresada
-        SQLiteStatement s = dbA.compileStatement( "SELECT MAX(idAlarma) FROM alarma");
-        cant = (int)s.simpleQueryForLong();
-
-        //Conexion a la base de Zona
-        AlarmaSQLite bdZ = new AlarmaSQLite(this.getActivity(),"zona",null,1);
-        SQLiteDatabase dbZ = bdZ.getWritableDatabase();
-        ContentValues conZ = new ContentValues();
+        int ultiIdAlarma = ((BaseAplication) getActivity().getApplication()).ultimaAlarmaIngresada();
 
         // Se crean los TextView cuando se crea una alarma
         if(estadoAlarma != " ")
         {
             //Shareds para el fragment principal
             SharedPreferences.Editor editor = getContext().getSharedPreferences("idAlarmaPrin",Context.MODE_PRIVATE).edit();
-            editor.putLong("idAlarmaPrincipal", cant);
+            editor.putLong("idAlarmaPrincipal", ultiIdAlarma);
             editor.commit();
 
-            //Toast.makeText(this.getActivity(), "Cantidad de Zonas: " + cantidad, Toast.LENGTH_SHORT).show();
-            conZ.put("idAlarma", cant);
-            conZ.put("nombre", "Zona 1");
-            conZ.put("estado", 1);
-            dbZ.insert("zona", null, conZ);
+            boolean insertZona = ((BaseAplication) getActivity().getApplication()).insertarZona(ultiIdAlarma,1,0);
+            /*if(insertZona)
+                Toast.makeText(this.getActivity(), "Zonas INSERTADAS", Toast.LENGTH_SHORT).show();
+            else
+                Toast.makeText(this.getActivity(), "Error al insertar zonas", Toast.LENGTH_SHORT).show();
+            */
 
-            conZ.put("idAlarma", cant);
-            conZ.put("nombre", "Zona 2");
-            conZ.put("estado", 1);
-            dbZ.insert("zona", null, conZ);
-
-            conZ.put("idAlarma", cant);
-            conZ.put("nombre", "Zona 3");
-            conZ.put("estado", 1);
-            dbZ.insert("zona", null, conZ);
-
-            conZ.put("idAlarma", cant);
-            conZ.put("nombre", "Zona 4");
-            conZ.put("estado", 1);
-            dbZ.insert("zona", null, conZ);
-
-            conZ.put("idAlarma", cant);
-            conZ.put("nombre", "Zona 5");
-            conZ.put("estado", 1);
-            dbZ.insert("zona", null, conZ);
-
-            conZ.put("idAlarma", cant);
-            conZ.put("nombre", "Zona 6");
-            conZ.put("estado", 1);
-            dbZ.insert("zona", null, conZ);
-
-            llenarLista(cant);
+            llenarLista(ultiIdAlarma);
             prefs4.edit().remove("estadoZonaString").commit();
         }
 
@@ -136,25 +105,11 @@ public class TabZonasFragment extends Fragment {
         }
     }
 
+    //llenarLista de Zonas
     public void llenarLista(int idAla){
+        tabZonas = ((BaseAplication) getActivity().getApplication()).getZonas(idAla);
         datosZonas = new ArrayList<>();
-        //conexion a la base de datos
-        AlarmaSQLite bd = new AlarmaSQLite(this.getActivity(),"zona",null,1);
-        //nuevo
-        tabZonas = new ArrayList<>();
-        if(bd!=null){
-            SQLiteDatabase db = bd.getReadableDatabase();
-            //selecciono todas las alarmas almacenadas
-            Cursor c = db.rawQuery("SELECT * FROM zona WHERE idAlarma="+idAla,null);
-            if(c.moveToFirst()){
-                //tvTitulo.setVisibility(View.INVISIBLE);
-                do{
-                    tabZonas.add(new Zona(c.getInt(0),c.getInt(1),c.getString(2),c.getInt(3),c.getInt(4)));
-                }while(c.moveToNext());
-            }
-        }
-        bd.close();
-        //Toast.makeText(this.getActivity(), "Cantidad de Zonas: " + tabZonas.size(), Toast.LENGTH_SHORT).show();
+
         for(int x = 0; x < tabZonas.size(); x++){
             datosZonas.add(new DatosItemZona(x,tabZonas.get(x).getNombre()+" -- "+tabZonas.get(x).getEstado(), R.drawable.snooze1));
         }
@@ -196,18 +151,10 @@ public class TabZonasFragment extends Fragment {
             estadoZona.setImageResource(listaObjetos.get(position).getImagen());
 
             estadoZona.setVisibility(vista.INVISIBLE);
-            //conexion a la base para traer la notificacion de las zonas
-            final AlarmaSQLite bdZ = new AlarmaSQLite(getActivity(),"zona",null,1);
-            final SQLiteDatabase dbZ = bdZ.getWritableDatabase();
-            final ContentValues conZ = new ContentValues();
+
             //selecciono todas las zonas almacenadas segun el id de la alarma que traigo del tabZonas
-            ArrayList<Zona> zonas = new ArrayList<>();
-            Cursor c = dbZ.rawQuery("SELECT * FROM zona where idAlarma="+clickAlarma,null);
-            if(c.moveToFirst()){
-                do{
-                    zonas.add(new Zona(c.getInt(0),c.getInt(1),c.getString(2),c.getInt(3),c.getInt(4)));
-                }while(c.moveToNext());
-            }
+            ArrayList<Zona> zonas = ((BaseAplication) getActivity().getApplication()).getZonas(clickAlarma);
+
             final ArrayList<Integer> noti = new ArrayList<>();
             final ArrayList<Integer> idZonas = new ArrayList<>();
             for (int i = 0;i<zonas.size();i++){
@@ -235,13 +182,12 @@ public class TabZonasFragment extends Fragment {
                                     switch (which) {
                                         case 0:
                                             //estadoZona.setVisibility(v.INVISIBLE);
-                                            conZ.put("notificacion", 0);
-                                            long response = dbZ.update("zona", conZ, "idZona="+idZonas.get(position), null);
-                                            if(response>0){
-                                                Toast.makeText(getActivity(),"Editado con exito",Toast.LENGTH_LONG).show();
-                                            }else{
-                                                Toast.makeText(getActivity(),"Ocurrio un error",Toast.LENGTH_LONG).show();
-                                            }
+                                            long res =((BaseAplication)getActivity().getApplication()).updateNotiZona(idZonas.get(position),0);
+                                            if(res > 0)
+                                                Toast.makeText(getActivity().getApplication(), "Noti Actualizada", Toast.LENGTH_LONG).show();
+                                            else
+                                                Toast.makeText(getActivity().getApplication(), "No se pudo actualizar la Notificacion", Toast.LENGTH_LONG).show();
+
                                             FragmentTransaction fr = getFragmentManager().beginTransaction();
                                             fr.replace(R.id.contenedor, new PrincipalFragment(), "Principal");
                                             fr.commit();

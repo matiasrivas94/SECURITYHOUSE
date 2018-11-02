@@ -28,6 +28,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
+import com.example.matiasezequiel.security_house.Aplication.BaseAplication;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -217,42 +219,26 @@ public class CrearAlarmaFragment extends Fragment {
 
     public void agregar(View v){
         if(ComprobarCampos()){
-            String nom,numTel,tipo,password;
-
-            nom = nombre.getText().toString();
-            numTel = numTelefono.getText().toString();
             int ipo = opciones.getSelectedItemPosition();
-            tipo = mZonas.get(ipo).nombreZona;
-            password = clave.getText().toString();
 
-            //sqlite bh = new sqlite(AgregarActivity.this,"usuarios",null,1);
-            AlarmaSQLite bd = new AlarmaSQLite(this.getActivity(),"alarma",null,1);
-            if(bd!=null){
-                SQLiteDatabase db = bd.getWritableDatabase();
-                ContentValues con = new ContentValues();
-                con.put("nombre",nom);
-                con.put("tipo",tipo);
-                con.put("numTelefono","+549"+numTel);
-                con.put("clave",password);
-
-                //Shared para el string de la alrma ingresada
-                SharedPreferences.Editor editor2 = getContext().getSharedPreferences("dd",Context.MODE_PRIVATE).edit();
-                editor2.putString ("estadoZonaString","sapeeeeeeeee");
-                editor2.commit();
-
-                //Shared para el nombre de la alarma
-                SharedPreferences.Editor editor = getContext().getSharedPreferences("ee",Context.MODE_PRIVATE).edit();
-                editor.putString ("nombreAlarma",nom);
-                editor.commit();
-
-                long insertado = db.insert("alarma",null,con);
-                if(insertado>0){
-                    Toast.makeText(this.getActivity(),"Alarma Insertada", Toast.LENGTH_SHORT).show();
-                }else{
-                    Toast.makeText(this.getActivity(),"No se inserto",Toast.LENGTH_SHORT).show();
-                }
-                bd.close();
+            //inserto la alarma
+            boolean res =((BaseAplication)this.getActivity().getApplication()).insertarAlarma(nombre.getText().toString(),mZonas.get(ipo).nombreZona.toString(),numTelefono.getText().toString(),clave.getText().toString());
+            if(res){
+                Toast.makeText(v.getContext(), "Alarma Creada", Toast.LENGTH_LONG).show();
+            }else{
+                Toast.makeText(v.getContext(), "Error al ingresar Alarma", Toast.LENGTH_LONG).show();
             }
+
+            //Shared para el string de la alrma ingresada
+            SharedPreferences.Editor editor2 = getContext().getSharedPreferences("dd",Context.MODE_PRIVATE).edit();
+            editor2.putString ("estadoZonaString","sapeeeeeeeee");
+            editor2.commit();
+
+            //Shared para el nombre de la alarma
+            SharedPreferences.Editor editor = getContext().getSharedPreferences("ee",Context.MODE_PRIVATE).edit();
+            editor.putString ("nombreAlarma",nombre.getText().toString());
+            editor.commit();
+
         }else{
             Toast.makeText(this.getActivity(),"hay campos vacios",Toast.LENGTH_LONG).show();
         }
@@ -312,62 +298,37 @@ public class CrearAlarmaFragment extends Fragment {
         }
     }
 
-
     //metodos para mostrar datos en los campos y editarlos
     public void reflejarCampos(){
-        AlarmaSQLite bh  = new AlarmaSQLite(this.getActivity(),"alarma",null,1);
-        int idAlarmaModi = modiAlarma;
-        if(bh!=null){
-            SQLiteDatabase db = bh.getReadableDatabase();
-            Cursor c = db.rawQuery("SELECT * FROM alarma WHERE idAlarma = "+idAlarmaModi,null);
-            try{
-                if(c.moveToNext()){
-                    nombre.setText(c.getString(1));
 
-                    String algo = c.getString(2);
-                    if (algo.equals("Casa")) {
-                        opciones.setSelection(0);
-                    }
-                    if (algo.equals("Oficina")) {
-                        opciones.setSelection(1);
-                    }
-                    if (algo.equals("Tienda")) {
-                        opciones.setSelection(2);
-                    }
-
-                    numTelefono.setText(c.getString(3));
-                    clave.setText(c.getString(4));
-                }
-            }finally {
-
-            }
+        //inserto la alarma
+        Alarma a =((BaseAplication)getActivity().getApplication()).getAlarma(modiAlarma);
+        nombre.setText(a.getNombre());
+        String tipo = a.getTipo();
+        if (tipo.equals("Casa")) {
+            opciones.setSelection(0);
         }
+        if (tipo.equals("Oficina")) {
+            opciones.setSelection(1);
+        }
+        if (tipo.equals("Tienda")) {
+            opciones.setSelection(2);
+        }
+        numTelefono.setText(a.getNumTelefono());
+        clave.setText(a.getClave());
     }
     public void editar(View v){
-        AlarmaSQLite bh = new AlarmaSQLite(this.getActivity(),"alarma",null,1);
-        int idAlarmaModi = modiAlarma;
-        if(bh!=null){
-            SQLiteDatabase db = bh.getWritableDatabase();
-            ContentValues val = new ContentValues();
-            val.put("nombre",nombre.getText().toString());
-
-            int ipo = opciones.getSelectedItemPosition();
-            val.put("tipo",mZonas.get(ipo).nombreZona);
-
-            val.put("numTelefono",numTelefono.getText().toString());
-            val.put("clave",clave.getText().toString());
-
-            long response = db.update("alarma",val,"idAlarma="+idAlarmaModi,null);
-            if(response>0){
-                Toast.makeText(this.getActivity(),"Editado con exito",Toast.LENGTH_LONG).show();
-                nombre.requestFocus();
-                nombre.setText("");
-                numTelefono.setText("");
-                opciones.setSelection(0);
-                clave.setText("");
-            }else{
-                Toast.makeText(this.getActivity(),"Ocurrio un error",Toast.LENGTH_LONG).show();
-            }
+        int ipo = opciones.getSelectedItemPosition();
+        long response = ((BaseAplication)getActivity().getApplication()).updateAlarma(modiAlarma,nombre.getText().toString(),mZonas.get(ipo).nombreZona,numTelefono.getText().toString(),clave.getText().toString());
+        if(response>0){
+            Toast.makeText(this.getActivity(),"Editado con exito",Toast.LENGTH_LONG).show();
+            nombre.requestFocus();
+            nombre.setText("");
+            numTelefono.setText("");
+            opciones.setSelection(0);
+            clave.setText("");
+        }else{
+            Toast.makeText(this.getActivity(),"Ocurrio un error",Toast.LENGTH_LONG).show();
         }
     }
 

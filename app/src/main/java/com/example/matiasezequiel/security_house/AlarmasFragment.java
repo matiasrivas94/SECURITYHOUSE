@@ -10,6 +10,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -32,6 +34,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.matiasezequiel.security_house.Aplication.BaseAplication;
+
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
@@ -46,7 +50,6 @@ public class AlarmasFragment extends Fragment {
 
     //nuevo
     ArrayList<Alarma> alarmas;
-    ArrayList<DatosItemAlarma> datosAlarma;
 
     // cosas de la alarma al hacer click ena alarma de la lista
     private int usuarioSelecionado = -1;
@@ -68,98 +71,55 @@ public class AlarmasFragment extends Fragment {
     }
 
     public void llenarLista(){
-        datosAlarma = new ArrayList<>();
-        //conexion a la base de datos
-        AlarmaSQLite bd = new AlarmaSQLite(this.getActivity(),"alarma",null,1);
-        //nuevo
-        alarmas = new ArrayList<>();
-        if(bd!=null){
-            SQLiteDatabase db = bd.getReadableDatabase();
-            //selecciono todas las alarmas almacenadas
-            Cursor c = db.rawQuery("SELECT * FROM alarma",null);
-            if(c.moveToFirst()){
-                tvTitulo.setVisibility(View.INVISIBLE);
-                do{
-                    //alarmas.add(new Alarma(c.getInt(0),c.getString(1),c.getString(2),c.getInt(3)));
-                    alarmas.add(new Alarma(c.getInt(0),c.getString(1),c.getString(2),c.getString(3),c.getString(4),c.getInt(5)));
-                }while(c.moveToNext());
-            }
+        alarmas = ((BaseAplication) getActivity().getApplication()).nombresAlarmas();
+        //Toast.makeText(this.getActivity(),"Alarmas:"+alarmas.size(),Toast.LENGTH_SHORT).show();
+        if((alarmas.size() == 0) || (alarmas == null)) {
+            tvTitulo.setVisibility(View.VISIBLE);
+            AdapterLista ld = new AdapterLista();
+            lista.setAdapter(ld);
+        }else {
+            tvTitulo.setVisibility(View.INVISIBLE);
+            AdapterLista ld = new AdapterLista();
+            lista.setAdapter(ld);
         }
-        for(int x = 0; x < alarmas.size(); x++){
-            datosAlarma.add(new DatosItemAlarma(x , alarmas.get(x).getNombre()," "));
-        }
-        AdaptadorAlarma adapter = new AdaptadorAlarma(this.getActivity(), datosAlarma);
-        lista.setAdapter(adapter);
     }
 
-
     //clase interna para manejar el item de la lista de las alarmas
-    private class AdaptadorAlarma extends BaseAdapter implements View.OnCreateContextMenuListener {
-        Context contexto;
-        List<DatosItemAlarma> listaObjetos;
+    private class AdapterLista extends ArrayAdapter<Alarma>
+    {
+        public AdapterLista() {
+            super(getActivity(), R.layout.items_listview, alarmas);
+        }
 
-        public AdaptadorAlarma(Context contexto, List<DatosItemAlarma> listaObjetos) {
-            this.contexto = contexto;
-            this.listaObjetos = listaObjetos;
-        }
+        @NonNull
         @Override
-        public int getCount() {
-            return listaObjetos.size(); //retorna cantidad de la lista
-        }
-        @Override
-        public Object getItem(int position) {
-            return listaObjetos.get(position); //retorna el objeto de la posicion indicada
-        }
-        @Override
-        public long getItemId(int position) {
-            return listaObjetos.get(position).getId();
-        }
-        @Override
-        public View getView(final int position, View convertView, ViewGroup parent) {
-            View vista = convertView;
+        public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+            View itemView=convertView;
+            if (itemView == null){
+                itemView= getLayoutInflater().inflate(R.layout.items_listview, parent,false);
+            }
+            Alarma itemActual= alarmas.get(position);
 
-            LayoutInflater inflate = LayoutInflater.from(contexto);
-            vista = inflate.inflate(R.layout.items_listview, null);
-
-            Button nombreAlarma = (Button) vista.findViewById(R.id.btNombreAlarma);
-            Button iconoMenu = (Button) vista.findViewById(R.id.btIconoMenu);
-            ImageView iconoAlarma = (ImageView) vista.findViewById(R.id.ivIconoAlarma);
+            Button nombreAlarma = (Button) itemView.findViewById(R.id.btNombreAlarma);
+            Button iconoMenu = (Button) itemView.findViewById(R.id.btIconoMenu);
+            ImageView iconoAlarma = (ImageView) itemView.findViewById(R.id.ivIconoAlarma);
 
             //Conexion a la Base de datos para la tabla Alarmas
-            ArrayList<Alarma> alarmas1 = new ArrayList<>();
-            ArrayList<String> tipoAlarma1 = new ArrayList<>();
-            //conexion a la base de datos
-            AlarmaSQLite bd = new AlarmaSQLite(getActivity(),"alarma",null,1);
-            if(bd!=null){
-                SQLiteDatabase db = bd.getReadableDatabase();
-                //selecciono todas las alarmas almacenadas
-                Cursor c = db.rawQuery("SELECT * FROM alarma",null);
-                if(c.moveToFirst()){
-                    do{
-                        //alarmas.add(new Alarma(c.getInt(0),c.getString(1),c.getString(2),c.getInt(3)));
-                        alarmas1.add(new Alarma(c.getInt(0),c.getString(1),c.getString(2),c.getString(3),c.getString(4),c.getInt(5)));
-                    }while(c.moveToNext());
-                }
+            ArrayList<String> tipoAlarma = new ArrayList<>();
+            for (int i = 0;i<alarmas.size();i++){
+                tipoAlarma.add (alarmas.get(i).getTipo());
             }
-            for (int i = 0;i<alarmas1.size();i++){
-                tipoAlarma1.add (alarmas.get(i).getTipo());
-            }
-            if(tipoAlarma1.get(position).equals("Casa")){
+            if(tipoAlarma.get(position).equals("Casa")){
                 iconoAlarma.setImageResource(R.drawable.home);
             }
-            if(tipoAlarma1.get(position).equals("Oficina")){
+            if(tipoAlarma.get(position).equals("Oficina")){
                 iconoAlarma.setImageResource(R.drawable.busines);
             }
-            if(tipoAlarma1.get(position).equals("Tienda")){
+            if(tipoAlarma.get(position).equals("Tienda")){
                 iconoAlarma.setImageResource(R.drawable.store);
             }
-            bd.close();
 
-            nombreAlarma.setText(listaObjetos.get(position).getNombre());
-            iconoMenu.setText(listaObjetos.get(position).getIcono());
-
-
-            registerForContextMenu(iconoMenu);
+            nombreAlarma.setText(itemActual.getNombre());
 
             //Boton del menu del item de la lista de las alarmas
             iconoMenu.setOnClickListener(new View.OnClickListener(){
@@ -183,7 +143,7 @@ public class AlarmasFragment extends Fragment {
 
 
                     // Menu con alert builder
-                    AlertDialog.Builder builder = new AlertDialog.Builder(contexto);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                     //builder.setTitle("Elegir Opcion");
                     builder.setTitle("Elegir Opción");
                     // add a list
@@ -205,7 +165,7 @@ public class AlarmasFragment extends Fragment {
                                 case 1:
                                     //Abrir un alertDialog preguntando si desea cancelar
                                     //Log.d("prueba2","comprobar true");
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(contexto);
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                                     builder.setMessage("Confirmar! \n");
                                     builder.setTitle(Html.fromHtml("<font color='#000000'>Eliminar la Alarma</font>"));
 
@@ -228,20 +188,15 @@ public class AlarmasFragment extends Fragment {
 
                                             //int x = deleteAlarm;
                                             //Toast.makeText(getActivity(),"Posiscion de la alarma seleccionada en la lista: " + deleteAlarmLista,Toast.LENGTH_LONG).show();
-                                            AlarmaSQLite bd = new AlarmaSQLite(getActivity(), "alarma", null, 1);
-                                            if (bd != null) {
-                                                SQLiteDatabase db = bd.getReadableDatabase();
-                                                Alarma alarm = alarmas.get(deleteAlarmLista);
-                                                long response = db.delete("alarma", "idAlarma=" + alarm.getIdAlarma(), null);
-                                                if (response > 0) {
-                                                    Toast.makeText(getActivity(), "Eliminado con exito", Toast.LENGTH_LONG).show();
-                                                    alarmas.removeAll(alarmas);
-                                                    llenarLista();
-                                                } else {
-                                                    Toast.makeText(getActivity(), "Fallo", Toast.LENGTH_LONG).show();
-                                                }
+                                            Alarma alarm = alarmas.get(deleteAlarmLista);
+                                            boolean response = ((BaseAplication) getActivity().getApplication()).borrarAlarma(alarm.getIdAlarma());
+                                            if (response) {
+                                                Toast.makeText(getActivity(), "Eliminado con exito", Toast.LENGTH_LONG).show();
+                                                alarmas.removeAll(alarmas);
+                                                llenarLista();
+                                            } else {
+                                                Toast.makeText(getActivity(), "Fallo", Toast.LENGTH_LONG).show();
                                             }
-                                            bd.close();
                                         }});
                                     builder.create();
                                     builder.show();
@@ -265,7 +220,7 @@ public class AlarmasFragment extends Fragment {
             });
 
             //Boton del menu del item de las alarmas que maneja el nombre para llevar al
-            //fragmentTazZonas para ver las zonas que tiene cada alarma de la lista
+            //fragmentTabZonas para ver las zonas que tiene cada alarma de la lista
             nombreAlarma.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -291,12 +246,7 @@ public class AlarmasFragment extends Fragment {
                     fr.commit();
                 }
             });
-
-            return vista;
-        }
-
-        public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
-            // empty implementation
+            return itemView;
         }
     }
 

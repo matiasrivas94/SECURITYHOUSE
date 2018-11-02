@@ -18,36 +18,32 @@ import android.telephony.SmsMessage;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.matiasezequiel.security_house.Aplication.BaseAplication;
+
 import java.util.ArrayList;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
 
 
 public class MiMensaje extends BroadcastReceiver {
-
     String celular;
     String textomensaje;
 
     char ultimo;
     Context context;
-
+    ArrayList<Alarma> a;
     String nombreAlarm;
     //Recibir y Leer Mensajes
     @Override
     public void onReceive(Context context, Intent intent){
-
-
-        Log.d("MiMensaje","SMS Recibido");
+        //Log.d("MiMensaje","SMS Recibido");
 
         Bundle b = intent.getExtras(); //https://developer.android.com/reference/android/os/Bundle
 
         if(b!= null){
             Object[] pdus = (Object[]) b.get("pdus");
-
             SmsMessage[] mensajes = new SmsMessage[pdus.length];
-
             for(int i=0;i<mensajes.length;i++){
-
                 //https://developer.android.com/reference/android/os/Build.VERSION_CODES
                 if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
                     String format = b.getString("format");
@@ -63,58 +59,43 @@ public class MiMensaje extends BroadcastReceiver {
                 //Cel tien los ultimos 10 numeros del numero del mensaje recibido de la alarma
                 String cel = celular.substring(celular.length()-10);
 
-                AlarmaSQLite bd = new AlarmaSQLite(context,"alarma",null,1);
-                SQLiteDatabase db = bd.getReadableDatabase();
-                //String nomCelular = celular;
-
-                SQLiteStatement s1 = db.compileStatement("SELECT nombre FROM alarma WHERE numTelefono LIKE '%"+cel+"'");
-                nombreAlarm = s1.simpleQueryForString();
-
                 //Funcion para recuperar el ultimo caracter(entero) del mensaje para saber que ZONA hay actividad
-                if((mensajes[i].getOriginatingAddress()).equals(celular))
-                {
-                    ultimo = textomensaje.charAt(textomensaje.length()-1);
+                if((mensajes[i].getOriginatingAddress()).equals(celular)) {
+                    ultimo = textomensaje.charAt(textomensaje.length() - 1);
                     int x = ultimo - '0';
-                    if((x >= 1) && (x <= 6)) {
+                    if ((x >= 1) && (x <= 6)) {
+                        a = ((BaseAplication) context.getApplicationContext()).getAlarmaNum(cel);
+                        if((a.size() == 1)) {
+                            Toast.makeText(context, "Tamaño: "+a.size(), Toast.LENGTH_LONG).show();
+                            //metodo que devuelve una alarma segun el numero de telefono
+                            nombreAlarm = a.get(0).getNombre();
 
-                        //Primer paso: verificar el idAlarma de la alarma segun la zona entrante del SMS
-                        //
-                        SQLiteStatement s3 = db.compileStatement("SELECT idAlarma FROM alarma WHERE numTelefono LIKE '%"+celular+"'");
-                        int idAlarma = (int)s3.simpleQueryForLong();
-                        //Segundo paso: busco la/las zonas segun el idAlarma de arriba
-                        //
-                        final AlarmaSQLite bdZ = new AlarmaSQLite(context,"zona",null,1);
-                        final SQLiteDatabase dbZ = bdZ.getWritableDatabase();
-                        final ContentValues conZ = new ContentValues();
-
-                        //Toast.makeText(getActivity(), "ID ALARMA del SHARED: " + idAlarmaTabZona, Toast.LENGTH_LONG).show();
-                        //Tercer paso: selecciono todas las zonas almacenadas segun el id de la alarma que traigo de arriba
-                        //
-                        ArrayList<Zona> zonas = new ArrayList<>();
-                        Cursor c = dbZ.rawQuery("SELECT * FROM zona where idAlarma="+idAlarma,null);
-                        if(c.moveToFirst()){
-                            do{
-                                zonas.add(new Zona(c.getInt(0),c.getInt(1),c.getString(2),c.getInt(3),c.getInt(4)));
-                            }while(c.moveToNext());
-                        }
-                        final ArrayList<Integer> idZonas = new ArrayList<>();
-                        for (int y = 0; y < zonas.size(); y++){
-                            idZonas.add (zonas.get(y).getIdZona());
-                        }
-                        int y = idZonas.get(x-1);
-                        for(int z = 0; z < idZonas.size(); z++){
-                            if(idZonas.get(z) == y){
-                                conZ.put("notificacion", 1);
-                                dbZ.update("zona", conZ, "idZona="+idZonas.get(z), null);
+                            //selecciono todas las zonas almacenadas segun el id de la alarma que traigo de arriba
+                            //
+                            ArrayList<Zona> zonas = ((BaseAplication) context.getApplicationContext()).getZonas(a.get(0).getIdAlarma());
+                            final ArrayList<Integer> idZonas = new ArrayList<>();
+                            for (int y = 0; y < zonas.size(); y++) {
+                                idZonas.add(zonas.get(y).getIdZona());
                             }
-                        }
-                        SharedPreferences.Editor editor = context.getSharedPreferences("cc",Context.MODE_PRIVATE).edit();
-                        editor.putLong("idAlarma", idAlarma);
-                        editor.commit();
+                            int y = idZonas.get(x - 1);
+                            for (int z = 0; z < idZonas.size(); z++) {
+                                if (idZonas.get(z) == y) {
+                                    long res = ((BaseAplication) context.getApplicationContext()).updateNotiZona(idZonas.get(z), 1);
+                                    /*if (res > 0)
+                                        Toast.makeText(context, "Noti Actualizada", Toast.LENGTH_LONG).show();
+                                    else
+                                        Toast.makeText(context, "No se pudo actualizar la Notificacion", Toast.LENGTH_LONG).show();*/
+                                }
+                            }
+                            SharedPreferences.Editor editor = context.getSharedPreferences("cc", Context.MODE_PRIVATE).edit();
+                            editor.putLong("idAlarma", a.get(0).getIdAlarma());
+                            editor.commit();
 
-                        Notificar(context);
+                            Notificar(context);
+                        }
                     }
                 }
+
             }
         }
     }

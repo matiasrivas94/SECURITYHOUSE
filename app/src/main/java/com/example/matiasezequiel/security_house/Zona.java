@@ -15,6 +15,12 @@ public class Zona {
         this.notificacion = notificacion;
     }
 
+    public Zona(int idZona, int idAlarma, int estado, int notificacion) {
+        this.idZona = idZona;
+        this.idAlarma = idAlarma;
+        this.estado = estado;
+        this.notificacion = notificacion;
+    }
     public int getIdZona() {
         return idZona;
     }
