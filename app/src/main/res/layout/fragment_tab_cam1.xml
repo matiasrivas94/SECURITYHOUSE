@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".TabCam1Fragment">
+
+    <RelativeLayout
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:id="@+id/frame1"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:background="#c01b1b1b">
+
+            <VideoView
+                android:id="@+id/videoView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="5dp"
+                android:background="#414141"/>
+
+            <ImageView
+                android:id="@+id/agregarCam1"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                android:layout_gravity="center"
+                android:background="@drawable/add_black2" />
+        </FrameLayout>
+    </RelativeLayout>
+
+</FrameLayout>
