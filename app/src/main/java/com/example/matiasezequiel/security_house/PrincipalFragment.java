@@ -576,19 +576,6 @@ public class PrincipalFragment extends Fragment {
     }
 
     public void actualizarZonas2(View v){
-        //Tabla ZONA
-        /*final AlarmaSQLite bdZ = new AlarmaSQLite(getActivity(),"zona",null,1);
-        final SQLiteDatabase dbZ = bdZ.getWritableDatabase();
-        final ContentValues conZ = new ContentValues();
-        //selecciono todas las zonas almacenadas segun el id de la alarma que traigo del tabZonas
-        ArrayList<Zona> zonas = new ArrayList<>();
-        Cursor c = dbZ.rawQuery("SELECT * FROM zona where idAlarma="+idAlarmaTabZona,null);
-        if(c.moveToFirst()){
-            do{
-                zonas.add(new Zona(c.getInt(0),c.getInt(1),c.getString(2),c.getInt(3),c.getInt(4)));
-            }while(c.moveToNext());
-        }
-        bdZ.close();*/
         ArrayList<Zona> zonas = ((BaseAplication) getActivity().getApplication()).getZonas(idAlarmaTabZona);
         arreglo = new ArrayList<>();
         estado = new ArrayList<>();

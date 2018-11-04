@@ -66,7 +66,6 @@ public class MiMensaje extends BroadcastReceiver {
                     if ((x >= 1) && (x <= 6)) {
                         a = ((BaseAplication) context.getApplicationContext()).getAlarmaNum(cel);
                         if((a.size() == 1)) {
-                            Toast.makeText(context, "Tamaño: "+a.size(), Toast.LENGTH_LONG).show();
                             //metodo que devuelve una alarma segun el numero de telefono
                             nombreAlarm = a.get(0).getNombre();
 
@@ -133,5 +132,8 @@ public class MiMensaje extends BroadcastReceiver {
         SharedPreferences.Editor editor1 = context.getSharedPreferences("noti",Context.MODE_PRIVATE).edit();
         editor1.putString("notificacion", "dale");
         editor1.commit();
+		SharedPreferences.Editor editor2 = context.getSharedPreferences("ee",Context.MODE_PRIVATE).edit();
+        editor2.putString("nombreAlarma", nombreAlarm);
+        editor2.commit();
     }
 }
