@@ -79,15 +79,14 @@
 
             <Spinner
                 android:id="@+id/SPTipo"
-                android:layout_width="199dp"
+                android:layout_width="195dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tvTitulo"
                 android:layout_gravity="center"
-                android:layout_margin="15dp"
+                android:layout_margin="10dp"
                 android:layout_marginTop="32dp"
                 android:layout_row="1"
                 android:background="#949494"
-                android:padding="0dp"
                 android:prompt="@string/tipoAlarma"
                 android:spinnerMode="dialog"
                 android:textColor="@android:color/black"></Spinner>
@@ -113,6 +112,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_row="2"
                 android:ems="10"
+                android:maxLength="10"
                 android:inputType="number"
                 android:textColor="#f5f5f5" />
 

@@ -153,7 +153,7 @@
                     android:layout_gravity="center"
                     android:layout_marginTop="8dp"
                     android:fontFamily="@font/acme"
-                    android:text="Verificar estados"
+                    android:text="Verificar estado"
                     android:textSize="20dp" />
             </LinearLayout>
             <!-- FIN DE FILA 1-->

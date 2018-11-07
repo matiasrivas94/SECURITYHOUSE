@@ -2,7 +2,6 @@ package com.example.matiasezequiel.security_house;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 class PagerViewAdapter extends FragmentStatePagerAdapter {
@@ -24,7 +23,7 @@ class PagerViewAdapter extends FragmentStatePagerAdapter {
                 fragment = new TabCam4Fragment();
                 break;
             case 2:
-                fragment = new TabCam9Fragment();
+                fragment = new TabCam6Fragment();
                 break;
         }
         return fragment;

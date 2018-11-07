@@ -147,8 +147,8 @@ public class AlarmasFragment extends Fragment {
                     //builder.setTitle("Elegir Opcion");
                     builder.setTitle("Elegir Opción");
                     // add a list
-                    String[] animals = {"Modificar Alarma", "Eliminar Alarma", "Configuracion General"};
-                    builder.setItems(animals, new DialogInterface.OnClickListener() {
+                    String[] itemsAlarma = {"Modificar Alarma", "Eliminar Alarma", "Configuracion General"};
+                    builder.setItems(itemsAlarma, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             switch (which) {
@@ -167,7 +167,7 @@ public class AlarmasFragment extends Fragment {
                                     //Log.d("prueba2","comprobar true");
                                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                                     builder.setMessage("Confirmar! \n");
-                                    builder.setTitle(Html.fromHtml("<font color='#000000'>Eliminar la Alarma</font>"));
+                                    builder.setTitle("Eliminar la Alarma");
 
                                     builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
                                         @Override
@@ -203,12 +203,10 @@ public class AlarmasFragment extends Fragment {
                                     break;
                                 case 2:
                                     //shared para mostrar el tipo de la alarma en el spinner de configuracion
-                                    SharedPreferences.Editor editor = getContext().getSharedPreferences("tipoAlarmaSpinner",Context.MODE_PRIVATE).edit();
-                                    editor.putLong("configSpinner", deleteAlarma);
-                                    editor.commit();
+
 
                                     FragmentTransaction fr = getFragmentManager().beginTransaction();
-                                    fr.replace(R.id.contenedor, new ConfigFragment(),"Configuacion").addToBackStack(null);
+                                    fr.replace(R.id.contenedor, new ConfigFragment(),"Configuracion").addToBackStack(null);
                                     fr.commit();
                             }
                         }
