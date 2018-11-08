@@ -19,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -151,6 +152,8 @@ public class CrearAlarmaFragment extends Fragment {
                             FragmentTransaction fr = getFragmentManager().beginTransaction();
                             fr.replace(R.id.contenedor, new PrincipalFragment(), "Principal");
                             fr.commit();
+                            InputMethodManager mgr = (InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                            mgr.hideSoftInputFromWindow(clave.getWindowToken(),0);
                             agregar(v);
                         } else {
                             Toast.makeText(v.getContext(), "Hay campos vacios, por favor ingrese datos", Toast.LENGTH_LONG).show();

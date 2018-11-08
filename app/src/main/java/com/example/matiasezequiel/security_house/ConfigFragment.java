@@ -173,6 +173,7 @@ public class ConfigFragment extends Fragment {
                         if(claveBase.equals(clave)){
                             Toast.makeText(getContext(),"Enviando sms: "+cambiarClave, Toast.LENGTH_SHORT).show();
                             //mm.enviarMensaje(numero, cambiarClave);
+                            //actualizar la clave de la alarma en la base de datos
                             dialog.dismiss();
                         }
                         else

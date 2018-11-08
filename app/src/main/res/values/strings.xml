@@ -5,10 +5,9 @@
     <string name="nav_header_title">Android Studio</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Editar</string>
+    <string name="action_settings">Info</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="alarmas">ALARMAS</string>
-    <string name="tipoAlarma"></string>
 
 </resources>

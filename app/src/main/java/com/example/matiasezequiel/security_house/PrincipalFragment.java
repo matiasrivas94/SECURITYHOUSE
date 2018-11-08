@@ -50,6 +50,7 @@ public class PrincipalFragment extends Fragment {
     ImageView iv_edit, iv_edit2;
     Button aplicarZonas;
     TabLayout tabLayout;
+    int numPestaña = 0;
 
     int idAlarmaTabZona=0;
     SharedPreferences prefs2;
@@ -88,6 +89,14 @@ public class PrincipalFragment extends Fragment {
         String nombreAlarm = prefs.getString("nombreAlarma"," ");
         titulo.setText(nombreAlarm);
 
+        SharedPreferences prefs2 = getContext().getSharedPreferences("camCreada",Context.MODE_PRIVATE);
+        numPestaña = (int)prefs2.getLong("auxCam",0);
+
+        //Inicializa el tabLayout con el item 1
+        if(numPestaña == 1){
+            mViewPager.setCurrentItem(numPestaña);
+        }
+        prefs2.edit().remove("auxCam").commit();
         //actualizarZonas2(view);
         //boton Editar Camara
         iv_edit2.setOnClickListener(new View.OnClickListener() {

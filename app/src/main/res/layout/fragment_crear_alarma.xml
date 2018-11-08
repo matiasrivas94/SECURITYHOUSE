@@ -87,7 +87,6 @@
                 android:layout_marginTop="32dp"
                 android:layout_row="1"
                 android:background="#949494"
-                android:prompt="@string/tipoAlarma"
                 android:spinnerMode="dialog"
                 android:textColor="@android:color/black"></Spinner>
 

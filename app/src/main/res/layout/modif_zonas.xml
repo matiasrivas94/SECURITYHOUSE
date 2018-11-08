@@ -48,6 +48,7 @@
             android:layout_column="3"
             android:layout_gravity="center"
             android:layout_row="0"
+            android:onClick="showKeyboard"
             android:background="@drawable/edit" />
 
         <View

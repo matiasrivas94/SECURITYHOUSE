@@ -19,6 +19,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -136,9 +137,14 @@ public class CrearCamaraFragment extends Fragment {
                 //Usar metodo comprobar campos de los otros fragments
                 if(!comprobarCampos()) {
                     Toast.makeText(v.getContext(),"Camara Creada",Toast.LENGTH_LONG).show();
+                    SharedPreferences.Editor editor = getContext().getSharedPreferences("camCreada",Context.MODE_PRIVATE).edit();
+                    editor.putLong("auxCam", 1);
+                    editor.commit();
                     FragmentTransaction fr = getFragmentManager().beginTransaction();
                     fr.replace(R.id.contenedor, new PrincipalFragment(), "Principal");
                     fr.commit();
+                    InputMethodManager mgr = (InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    mgr.hideSoftInputFromWindow(etPort.getWindowToken(),0);
                     agregar(v);
                 }
                 else
