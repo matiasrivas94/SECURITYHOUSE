@@ -1,37 +1,23 @@
 package com.example.matiasezequiel.security_house;
 
 import android.app.AlertDialog;
-import android.content.ContentValues;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.media.Image;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.NotificationCompatSideChannelService;
-import android.util.Log;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
-import android.database.sqlite.SQLiteStatement;
 
 import com.example.matiasezequiel.security_house.Aplication.BaseAplication;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -170,40 +156,40 @@ public class TabZonasFragment extends Fragment {
                     estadoZona.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(final View v) {
-                            // Menu con alert builder
-                            AlertDialog.Builder builder = new AlertDialog.Builder(contexto);
-                            //builder.setTitle("Elegir Opcion");
-                            builder.setTitle("Informacion de la Zona");
-                            // add a list
-                            String[] animals = {"Modificar Alarma", "Eliminar Alarma"};
-                            builder.setItems(animals, new DialogInterface.OnClickListener() {
+                            final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                            final View vistaDetalles = getLayoutInflater().inflate(R.layout.dialog_detalles, null);
+                            final Button aceptarDet = (Button)vistaDetalles.findViewById(R.id.btnAceptarDetalles);
+                            final Button verCam = (Button)vistaDetalles.findViewById(R.id.btnVerCamaras);
+                            builder.setView(vistaDetalles);
+                            final AlertDialog dialog = builder.create();
+
+                            aceptarDet.setOnClickListener(new View.OnClickListener() {
                                 @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    switch (which) {
-                                        case 0:
-                                            //estadoZona.setVisibility(v.INVISIBLE);
-                                            long res =((BaseAplication)getActivity().getApplication()).updateNotiZona(idZonas.get(position),0);
-                                            if(res > 0)
-                                                Toast.makeText(getActivity().getApplication(), "Noti Actualizada", Toast.LENGTH_LONG).show();
-                                            else
-                                                Toast.makeText(getActivity().getApplication(), "No se pudo actualizar la Notificacion", Toast.LENGTH_LONG).show();
+                                public void onClick(View v) {
+                                    //estadoZona.setVisibility(v.INVISIBLE);
+                                    long res =((BaseAplication)getActivity().getApplication()).updateNotiZona(idZonas.get(position),0);
+                                    if(res > 0)
+                                        Toast.makeText(getActivity().getApplication(), "Noti Actualizada", Toast.LENGTH_LONG).show();
+                                    else
+                                        Toast.makeText(getActivity().getApplication(), "No se pudo actualizar la Notificacion", Toast.LENGTH_LONG).show();
 
-                                            FragmentTransaction fr = getFragmentManager().beginTransaction();
-                                            fr.replace(R.id.contenedor, new PrincipalFragment(), "Principal");
-                                            fr.commit();
-
-                                            break;
-                                        case 1:
-
-                                            break;
-                                        case 2:
-
-                                    }
+                                    FragmentTransaction fr = getFragmentManager().beginTransaction();
+                                    fr.replace(R.id.contenedor, new PrincipalFragment(), "Principal");
+                                    fr.commit();
+                                    dialog.dismiss();
                                 }
                             });
-                            // create and show the alert dialog
-                            AlertDialog dialog = builder.create();
+                            verCam.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    FragmentTransaction fr = getFragmentManager().beginTransaction();
+                                    fr.replace(R.id.contenedor, new CamarasFragment(), "VerCamaras");
+                                    fr.commit();
+                                    dialog.dismiss();
+                                }
+                            });
                             dialog.show();
+                            dialog.setCanceledOnTouchOutside(false);
                         }
                     });
                 }

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="5dp"
+    android:background="#f33b3b3b">
+
+    <GridLayout
+        android:layout_width="316dp"
+        android:layout_height="wrap_content"
+        android:background="#33747474"
+        android:padding="10dp"
+        android:rowCount="4">
+
+        <TextView
+            android:layout_width="290dp"
+            android:layout_height="wrap_content"
+            android:layout_column="0"
+            android:layout_columnSpan="2"
+            android:layout_row="0"
+            android:ems="20"
+            android:gravity="center"
+            android:inputType="text"
+            android:text="Detalles"
+            android:textSize="23dp" />
+
+        <TextView
+            android:id="@+id/tvNombreAlarma"
+            android:layout_width="146dp"
+            android:layout_height="wrap_content"
+            android:layout_column="0"
+            android:layout_marginTop="5dp"
+            android:layout_row="1"
+            android:ems="20"
+            android:inputType="text"
+            android:text="Alarma 1 "
+            android:textSize="13dp" />
+
+        <TextView
+            android:id="@+id/tvDetallesMje"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:layout_column="0"
+            android:layout_columnSpan="2"
+            android:layout_marginTop="10dp"
+            android:layout_row="2"
+            android:ems="20"
+            android:text="aca irian los detalles del mensaje, la hora, numero, etc"
+            android:textAlignment="center"
+            android:textSize="17dp" />
+
+        <Button
+            android:id="@+id/btnAceptarDetalles"
+            android:layout_width="140dp"
+            android:layout_height="40dp"
+            android:layout_column="0"
+            android:layout_marginTop="20dp"
+            android:layout_row="3"
+            android:background="@drawable/shape"
+            android:text="Aceptar"
+            android:textColor="#f0f0f0" />
+
+        <Button
+            android:id="@+id/btnVerCamaras"
+            android:layout_width="140dp"
+            android:layout_height="40dp"
+            android:layout_column="1"
+            android:layout_marginTop="20dp"
+            android:layout_row="3"
+            android:background="@drawable/shape"
+            android:text="Ver Camaras"
+            android:textColor="#000000"
+            android:textSize="15dp" />
+
+    </GridLayout>
+</LinearLayout>

@@ -123,8 +123,8 @@ public class MiMensaje extends BroadcastReceiver {
         mBuilder =new NotificationCompat.Builder(context.getApplicationContext(), canal)
                 .setContentIntent(pendingIntent)
                 .setSmallIcon(icono)
-                .setContentTitle(nombreAlarm)
-                .setContentText("Se ha activado la ZONA "+ultimo)
+                .setContentTitle("Alarma "+nombreAlarm)
+                .setContentText("Se ha activado la zona "+ultimo)
                 .setAutoCancel(true);
         mNotifyMgr.notify(1, mBuilder.build());
 
