@@ -6,12 +6,4 @@
     android:background="@mipmap/fondo1"
     tools:context=".TabZonasFragment">
 
-    <ListView
-        android:id="@+id/LVMostrarZonas"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:cacheColorHint="#f5f5f5"
-        android:layout_marginTop="110dp">
-    </ListView>
-
 </RelativeLayout>

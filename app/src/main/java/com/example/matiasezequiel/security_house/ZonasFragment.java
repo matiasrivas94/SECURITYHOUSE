@@ -1,59 +1,45 @@
 package com.example.matiasezequiel.security_house;
 
-import android.content.ContentValues;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteStatement;
-import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.matiasezequiel.security_house.Aplication.BaseAplication;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
+import java.util.List;
 
 
-public class PrincipalFragment extends Fragment {
+public class ZonasFragment extends Fragment {
     TextView titulo;
-    ViewPager mViewPager;
-    ImageView iv_edit, iv_edit2;
+    ImageView iv_edit;
     Button aplicarZonas;
-    TabLayout tabLayout;
-    int numPestaña = 0;
+
+    //----- VARIABLES DEL TAB ZONAS ----//
+    ListView listaZonas;
+    int clickAlarma=0;
+    String estadoAlarma;
+    SharedPreferences prefs4, prefs2;
+    ArrayList<Zona> tabZonas;
+    ArrayList<DatosItemZona> datosZonas;
+    //------- FIN VARIABLES -------//
 
     int idAlarmaTabZona=0;
-    SharedPreferences prefs2;
     TextView t1,t2,t3,t4,t5,t6;
     Button b1, b2, b3, b4, b5, b6, btnVolver, btnGuardarEstadoZonas;
     SharedPreferences prefsZ1, prefsZ2, prefsZ3, prefsZ4, prefsZ5, prefsZ6;
@@ -66,20 +52,25 @@ public class PrincipalFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        final View view = inflater.inflate(R.layout.fragment_principal, container, false);
+        final View view = inflater.inflate(R.layout.fragment_zonas, container, false);
 
-        // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) view.findViewById(R.id.pager);
-        mViewPager.setAdapter(new PagerAdapter(getFragmentManager(),2));
+        //------ TODO DEL TAB ZONAS --------//
+        listaZonas = (ListView)view.findViewById(R.id.LVMostrarZonas);
+        //Shared para saber el id de la alarma clickeada en la lista de las alarmas
+        prefs2 = getContext().getSharedPreferences("cc",Context.MODE_PRIVATE);
+        clickAlarma=(int)prefs2.getLong("idAlarma",-1);
+        //Toast.makeText(this.getActivity(),"ID de la Alarma Seleccionada: " + clickAlarma, Toast.LENGTH_SHORT).show();
 
-        tabLayout = (TabLayout) view.findViewById(R.id.tabs);
+        //Shared para saber el id de la alarma clickeada en la lista de las alarmas
+        prefs4 = getContext().getSharedPreferences("dd",Context.MODE_PRIVATE);
+        estadoAlarma=prefs4.getString("estadoZonaString"," ");
+
+        visibilidadSoloTextView(view);
+
+        //--TODO DEL TAB ZONAS--//
+
         iv_edit = view.findViewById(R.id.view_edit);
-        iv_edit2 = view.findViewById(R.id.view_edit2);
-
         aplicarZonas = (Button) view.findViewById(R.id.btnAplicarZonas);
-
-        mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
 
         //para cambiarle el encabezado al principal fragment con el nombre de la nueva alamra insertada
         titulo = (TextView) view.findViewById(R.id.textTituloAlarma);
@@ -89,22 +80,7 @@ public class PrincipalFragment extends Fragment {
         String nombreAlarm = prefs.getString("nombreAlarma"," ");
         titulo.setText(nombreAlarm);
 
-        SharedPreferences prefs2 = getContext().getSharedPreferences("camCreada",Context.MODE_PRIVATE);
-        numPestaña = (int)prefs2.getLong("auxCam",0);
-
-        //Inicializa el tabLayout con el item 1
-        if(numPestaña == 1){
-            mViewPager.setCurrentItem(numPestaña);
-        }
-        prefs2.edit().remove("auxCam").commit();
         //actualizarZonas2(view);
-        //boton Editar Camara
-        iv_edit2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getActivity(),"Holis",Toast.LENGTH_SHORT).show();
-            }
-        });
 
         //Boton general de Editar Zonas
         iv_edit.setOnClickListener(new View.OnClickListener() {
@@ -507,7 +483,7 @@ public class PrincipalFragment extends Fragment {
                         actualizarZonas2(view);
                         dialog.dismiss();
                         FragmentTransaction fr = getFragmentManager().beginTransaction();
-                        fr.replace(R.id.contenedor, new PrincipalFragment(), "Principal");
+                        fr.replace(R.id.contenedor, new ZonasFragment(), "Zonas");
                         fr.commit();
                     }
                 });
@@ -528,7 +504,7 @@ public class PrincipalFragment extends Fragment {
 
                         dialog.dismiss();
                         FragmentTransaction fr = getFragmentManager().beginTransaction();
-                        fr.replace(R.id.contenedor, new PrincipalFragment(), "Principal");
+                        fr.replace(R.id.contenedor, new ZonasFragment(), "Zonas");
                         fr.commit();
 
                         //actualizarZonas(view);
@@ -607,59 +583,156 @@ public class PrincipalFragment extends Fragment {
         //Toast.makeText(getContext(),"ID Alarma: "+idAlarmaTabZona,Toast.LENGTH_LONG).show();
     }
 
-    public class PagerAdapter extends FragmentStatePagerAdapter {
-        int mNumOfTabs;
+    //----------- METODOS DEL TAB ZONAS --------- //
 
-        public PagerAdapter(FragmentManager fm, int NumOfTabs) {
-            super(fm);
-            this.mNumOfTabs = NumOfTabs;
+    public void visibilidadSoloTextView(View v) {
+
+        //busco el idAlarma de la ultima alarma ingresada
+        int ultiIdAlarma = ((BaseAplication) getActivity().getApplication()).ultimaAlarmaIngresada();
+
+        // Se crean los TextView cuando se crea una alarma
+        if(estadoAlarma != " ")
+        {
+            //Shareds para el fragment principal
+            SharedPreferences.Editor editor = getContext().getSharedPreferences("idAlarmaPrin",Context.MODE_PRIVATE).edit();
+            editor.putLong("idAlarmaPrincipal", ultiIdAlarma);
+            editor.commit();
+
+            boolean insertZona = ((BaseAplication) getActivity().getApplication()).insertarZona(ultiIdAlarma,1,0);
+            /*if(insertZona)
+                Toast.makeText(this.getActivity(), "Zonas INSERTADAS", Toast.LENGTH_SHORT).show();
+            else
+                Toast.makeText(this.getActivity(), "Error al insertar zonas", Toast.LENGTH_SHORT).show();
+            */
+
+            llenarLista(ultiIdAlarma);
+            prefs4.edit().remove("estadoZonaString").commit();
         }
 
-
-        @Override
-        public Fragment getItem(int position) {
-
-            switch (position) {
-                case 0:
-                    TabZonasFragment tab2 = new TabZonasFragment();
-                    return tab2;
-                case 1:
-                    TabCamarasFragment tab3 = new TabCamarasFragment();
-                    return tab3;
-                default:
-                    return null;
-            }
-        }
-
-        @Override
-        public int getCount() {
-            return 2;
+        // Se muestran las zonas segun la alarma que se clickee en la lista de alarmas
+        if(estadoAlarma == " ")
+        {
+            //Shareds para el fragment principal
+            SharedPreferences.Editor editor = getContext().getSharedPreferences("idAlarmaPrin",Context.MODE_PRIVATE).edit();
+            editor.putLong("idAlarmaPrincipal", clickAlarma);
+            editor.commit();
+            llenarLista(clickAlarma);
         }
     }
 
+    //llenarLista de Zonas
+    public void llenarLista(int idAla){
+        tabZonas = ((BaseAplication) getActivity().getApplication()).getZonas(idAla);
+        datosZonas = new ArrayList<>();
 
+        for(int x = 0; x < tabZonas.size(); x++){
+            datosZonas.add(new DatosItemZona(x,tabZonas.get(x).getNombre()+" -- "+tabZonas.get(x).getEstado(), R.drawable.snooze1));
+        }
+        AdaptadorZona adapter = new AdaptadorZona(this.getActivity(), datosZonas);
+        listaZonas.setAdapter(adapter);
+    }
+    //clase interna para manejar el item de la lista de las zonas
+    private class AdaptadorZona extends BaseAdapter {
+        Context contexto;
+        List<DatosItemZona> listaObjetos;
+
+        public AdaptadorZona(Context contexto, List<DatosItemZona> listaObjetos) {
+            this.contexto = contexto;
+            this.listaObjetos = listaObjetos;
+        }
+        @Override
+        public int getCount() {
+            return listaObjetos.size(); //retorna cantidad de la lista
+        }
+        @Override
+        public Object getItem(int position) {
+            return listaObjetos.get(position); //retorna el objeto de la posicion indicada
+        }
+        @Override
+        public long getItemId(int position) {
+            return listaObjetos.get(position).getId();
+        }
+        @Override
+        public View getView(final int position, View convertView, ViewGroup parent) {
+            View vista = convertView;
+
+            LayoutInflater inflate = LayoutInflater.from(contexto);
+            vista = inflate.inflate(R.layout.items_zonas, null);
+
+            Button nombreZona = (Button) vista.findViewById(R.id.btNombreZona);
+            ImageView estadoZona = (ImageView) vista.findViewById(R.id.ivNotificacionZona);
+
+            nombreZona.setText(listaObjetos.get(position).getNombreZona());
+            estadoZona.setImageResource(listaObjetos.get(position).getImagen());
+
+            estadoZona.setVisibility(vista.INVISIBLE);
+
+            //selecciono todas las zonas almacenadas segun el id de la alarma que traigo del tabZonas
+            ArrayList<Zona> zonas = ((BaseAplication) getActivity().getApplication()).getZonas(clickAlarma);
+
+            final ArrayList<Integer> noti = new ArrayList<>();
+            final ArrayList<Integer> idZonas = new ArrayList<>();
+            for (int i = 0;i<zonas.size();i++){
+                idZonas.add (zonas.get(i).getIdZona());
+                noti.add(zonas.get(i).getNotificacion());
+            }
+
+            if(noti.size() > 0) {
+                if (noti.get(position).equals(1)) {
+                    estadoZona.setVisibility(vista.VISIBLE);
+                    new TextoParpadeante(getContext(),estadoZona);
+                    //Boton del menu del item de la lista de las alarmas
+                    estadoZona.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(final View v) {
+                            final android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getActivity());
+                            final View vistaDetalles = getLayoutInflater().inflate(R.layout.dialog_detalles, null);
+                            final Button aceptarDet = (Button)vistaDetalles.findViewById(R.id.btnAceptarDetalles);
+                            final Button verCam = (Button)vistaDetalles.findViewById(R.id.btnVerCamaras);
+                            builder.setView(vistaDetalles);
+                            final android.app.AlertDialog dialog = builder.create();
+
+                            aceptarDet.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    //estadoZona.setVisibility(v.INVISIBLE);
+                                    long res =((BaseAplication)getActivity().getApplication()).updateNotiZona(idZonas.get(position),0);
+                                    if(res > 0)
+                                         Toast.makeText(getActivity().getApplication(), "Noti Actualizada", Toast.LENGTH_LONG).show();
+                                    else
+                                        Toast.makeText(getActivity().getApplication(), "No se pudo actualizar la Notificacion", Toast.LENGTH_LONG).show();
+
+                                    FragmentTransaction fr = getFragmentManager().beginTransaction();
+                                    fr.replace(R.id.contenedor, new ZonasFragment(), "Zonas");
+                                    fr.commit();
+                                    dialog.dismiss();
+                                }
+                            });
+                            verCam.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    FragmentTransaction fr = getFragmentManager().beginTransaction();
+                                    fr.replace(R.id.contenedor, new CamarasFragment(), "VerCamaras");
+                                    fr.commit();
+                                    dialog.dismiss();
+                                }
+                            });
+                            dialog.show();
+                            dialog.setCanceledOnTouchOutside(false);
+                        }
+                    });
+                }
+            }
+            return vista;
+        }
+
+    }
+    //------------- FIN METODOS TAB ZONA ----------//
 
 
     @Override
     public void onResume() {
         super.onResume();
-        tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager) {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                switch(tab.getPosition()) {
-                    case 0:{
-                        iv_edit.setVisibility(View.VISIBLE);
-                        iv_edit2.setVisibility(View.GONE);}
-                    break;
-                    case 1:{
-                        iv_edit.setVisibility(View.GONE);
-                        iv_edit2.setVisibility(View.VISIBLE);}
-                    break;
-                    default: break;
-                }
-                super.onTabSelected(tab);
-            }
-        });
         if (!getUserVisibleHint()) {
             return;
         }

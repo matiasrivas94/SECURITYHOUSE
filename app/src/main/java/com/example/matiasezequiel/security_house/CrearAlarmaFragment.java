@@ -1,11 +1,7 @@
 package com.example.matiasezequiel.security_house;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,7 +10,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -27,13 +22,10 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import com.example.matiasezequiel.security_house.Aplication.BaseAplication;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 
 public class CrearAlarmaFragment extends Fragment {
@@ -150,7 +142,7 @@ public class CrearAlarmaFragment extends Fragment {
                     if(estadoEditarAlarma.equals("insert")) {
                         if (ComprobarCampos()) {
                             FragmentTransaction fr = getFragmentManager().beginTransaction();
-                            fr.replace(R.id.contenedor, new PrincipalFragment(), "Principal");
+                            fr.replace(R.id.contenedor, new ZonasFragment(), "Zonas");
                             fr.commit();
                             InputMethodManager mgr = (InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                             mgr.hideSoftInputFromWindow(clave.getWindowToken(),0);

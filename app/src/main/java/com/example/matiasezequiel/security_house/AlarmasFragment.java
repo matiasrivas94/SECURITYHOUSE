@@ -3,31 +3,17 @@ package com.example.matiasezequiel.security_house;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteStatement;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.text.Html;
-import android.util.Log;
-import android.view.ActionMode;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -36,10 +22,7 @@ import android.widget.Toast;
 
 import com.example.matiasezequiel.security_house.Aplication.BaseAplication;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class AlarmasFragment extends Fragment {
@@ -240,7 +223,7 @@ public class AlarmasFragment extends Fragment {
 
                     // COSAS DEL FRAGMENT
                     FragmentTransaction fr = getFragmentManager().beginTransaction();
-                    fr.replace(R.id.contenedor, new PrincipalFragment(),"Principal").addToBackStack(null);
+                    fr.replace(R.id.contenedor, new ZonasFragment(),"Zonas").addToBackStack(null);
                     fr.commit();
                 }
             });

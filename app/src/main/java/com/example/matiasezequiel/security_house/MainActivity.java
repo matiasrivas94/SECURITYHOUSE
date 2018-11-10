@@ -1,6 +1,5 @@
 package com.example.matiasezequiel.security_house;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -14,7 +13,6 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -67,7 +65,7 @@ public class MainActivity extends AppCompatActivity
         //Toast.makeText(this,"Noti: "+n, Toast.LENGTH_SHORT).show();
         if(n.equals("dale")){
             //Toast.makeText(this,"Voy al TAB ZONAS", Toast.LENGTH_SHORT).show();
-            fragmentManager.beginTransaction().replace(R.id.contenedor,new PrincipalFragment(),"Principal").commit();
+            fragmentManager.beginTransaction().replace(R.id.contenedor,new ZonasFragment(),"Zonas").commit();
             prefs.edit().remove("notificacion").commit();
         }else {
             //Toast.makeText(this,"Llego mal,VOY AL ALARMAS", Toast.LENGTH_SHORT).show();
@@ -156,12 +154,13 @@ public class MainActivity extends AppCompatActivity
                 dialog.setCanceledOnTouchOutside(false);
                 return;
             }
-            if (getVisibleFragment().equals("Principal")) {
+            if (getVisibleFragment().equals("Zonas")) {
                 fragmentManager.beginTransaction().replace(R.id.contenedor, new AlarmasFragment(), "Alarmas").commit();
                 return;
             }
             if (getVisibleFragment().equals("VerCamaras")) {
                 fragmentManager.beginTransaction().replace(R.id.contenedor, new AlarmasFragment(), "Alarmas").commit();
+
                 return;
             }
             if (getVisibleFragment().equals("Config")) {
@@ -194,7 +193,7 @@ public class MainActivity extends AppCompatActivity
                         public void onClick(DialogInterface dialog, int which) {
                             switch (which) {
                                 case 0:
-                                    fragmentManager.beginTransaction().replace(R.id.contenedor, new PrincipalFragment(), "Principal").commit();
+                                    fragmentManager.beginTransaction().replace(R.id.contenedor, new ZonasFragment(), "Zonas").commit();
                                     break;
                                 case 1:
                                     //Abrir un alertDialog preguntando si desea cancelar
@@ -213,7 +212,7 @@ public class MainActivity extends AppCompatActivity
                     return;
                 }
                 if (auxiliar == 0) {
-                    fragmentManager.beginTransaction().replace(R.id.contenedor, new PrincipalFragment(), "Principal").commit();
+                    fragmentManager.beginTransaction().replace(R.id.contenedor, new ZonasFragment(), "Zonas").commit();
                     return;
                 }
             }
