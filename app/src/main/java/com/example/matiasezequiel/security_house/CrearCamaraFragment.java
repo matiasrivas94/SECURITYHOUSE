@@ -19,7 +19,7 @@ import android.widget.Toast;
 
 public class CrearCamaraFragment extends Fragment {
 
-    EditText etIP, etUser, etPass, etPort;
+    EditText etNombreCam, etIP, etUser, etPass, etPort;
     Button btnAceptarCam, btnCancelarCam;
     Activity a = (Activity)getActivity();
     MainActivity ma = (MainActivity)getActivity();
@@ -32,12 +32,34 @@ public class CrearCamaraFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_crear_camara, container, false);
 
-
+        etNombreCam = (EditText)v.findViewById(R.id.etNombreCam);
         etIP = (EditText)v.findViewById(R.id.etIP);
         etUser = (EditText)v.findViewById(R.id.etUsuario);
         etPass = (EditText)v.findViewById(R.id.etPass);
         etPort = (EditText)v.findViewById(R.id.etPuerto);
 
+
+        etNombreCam.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (etIP.length() > 0) {
+                    auxiliar = -1;
+                    editor = getContext().getSharedPreferences("aaa", Context.MODE_PRIVATE).edit();
+                    editor.putLong("auxiliar", auxiliar);
+                    editor.commit();
+                }
+                else {
+                    auxiliar = 0;
+                    editor = getContext().getSharedPreferences("aaa", Context.MODE_PRIVATE).edit();
+                    editor.putLong("auxiliar", auxiliar);
+                    editor.commit();
+                }
+            }
+            @Override
+            public void afterTextChanged(Editable s) { }
+        });
         etIP.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
@@ -134,7 +156,7 @@ public class CrearCamaraFragment extends Fragment {
                     editor.putLong("auxCam", 1);
                     editor.commit();
                     FragmentTransaction fr = getFragmentManager().beginTransaction();
-                    fr.replace(R.id.contenedor, new ZonasFragment(), "Principal");
+                    fr.replace(R.id.contenedor, new CamarasFragment(), "Camaras");
                     fr.commit();
                     InputMethodManager mgr = (InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                     mgr.hideSoftInputFromWindow(etPort.getWindowToken(),0);
@@ -149,8 +171,8 @@ public class CrearCamaraFragment extends Fragment {
 
     public void agregar(View v){
         if(!comprobarCampos()){
-            String ip,user,pass,puerto;
-
+            String nombre,ip,user,pass,puerto;
+            nombre = etNombreCam.getText().toString();
             ip = etIP.getText().toString();
             user = etUser.getText().toString();
             pass = etPass.getText().toString();
@@ -160,14 +182,15 @@ public class CrearCamaraFragment extends Fragment {
         }else{
             Toast.makeText(this.getActivity(),"hay campos vacios",Toast.LENGTH_LONG).show();
         }
-        etIP.requestFocus();
+        etNombreCam.requestFocus();
+        etIP.setText("");
         etUser.setText("");
         etPass.setText("");
         etPort.setText("");
     }
 
     public boolean comprobarCampos() {
-        if(etIP.getText().toString().isEmpty() || etUser.getText().toString().isEmpty() || etPass.getText().toString().isEmpty() || etPort.getText().toString().isEmpty()) {
+        if(etNombreCam.getText().toString().isEmpty() || etIP.getText().toString().isEmpty() || etUser.getText().toString().isEmpty() || etPass.getText().toString().isEmpty() || etPort.getText().toString().isEmpty()) {
             //Log.d("prueba", "paso por aca");
             return true;
         }

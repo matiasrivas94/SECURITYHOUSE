@@ -29,7 +29,7 @@
                 android:background="#414141" />
 
             <ImageView
-                android:id="@+id/agregarCam1"
+                android:id="@+id/agregarCam1-4"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:layout_gravity="center"
@@ -51,7 +51,7 @@
                 android:background="#414141"/>
 
             <ImageView
-                android:id="@+id/agregarCam2"
+                android:id="@+id/agregarCam2-4"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:layout_gravity="center"
@@ -74,7 +74,7 @@
                 android:background="#414141"/>
 
             <ImageView
-                android:id="@+id/agregarCam3"
+                android:id="@+id/agregarCam3-4"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:layout_gravity="center"
@@ -96,7 +96,7 @@
                 android:background="#414141"/>
 
             <ImageView
-                android:id="@+id/agregarCam4"
+                android:id="@+id/agregarCam4-4"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:layout_gravity="center"

@@ -712,7 +712,7 @@ public class ZonasFragment extends Fragment {
                                 @Override
                                 public void onClick(View v) {
                                     FragmentTransaction fr = getFragmentManager().beginTransaction();
-                                    fr.replace(R.id.contenedor, new CamarasFragment(), "VerCamaras");
+                                    fr.replace(R.id.contenedor, new VerCamarasFragment(), "VerCamaras");
                                     fr.commit();
                                     dialog.dismiss();
                                 }

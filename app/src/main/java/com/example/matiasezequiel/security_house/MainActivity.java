@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity
     }*/
 
     public String getVisibleFragment() {
-        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager = getSupportFragmentManager();
         List<Fragment> fragments = fragmentManager.getFragments();
         if(fragments != null) {
             for (Fragment fragment : fragments) {
@@ -113,6 +113,13 @@ public class MainActivity extends AppCompatActivity
             }
         }
         return null;
+    }
+
+    private void clearBackStack() {
+        final FragmentManager fragmentManager = getSupportFragmentManager();
+        while (fragmentManager.getBackStackEntryCount() != 0) {
+            fragmentManager.popBackStackImmediate();
+        }
     }
 
     @Override
@@ -156,29 +163,48 @@ public class MainActivity extends AppCompatActivity
             }
             if (getVisibleFragment().equals("Zonas")) {
                 fragmentManager.beginTransaction().replace(R.id.contenedor, new AlarmasFragment(), "Alarmas").commit();
+                clearBackStack();
+                return;
+            }
+            if(getVisibleFragment().equals("Camaras")){
+                fragmentManager.beginTransaction().replace(R.id.contenedor, new AlarmasFragment(), "Alarmas").commit();
+                clearBackStack();
                 return;
             }
             if (getVisibleFragment().equals("VerCamaras")) {
                 fragmentManager.beginTransaction().replace(R.id.contenedor, new AlarmasFragment(), "Alarmas").commit();
-
+                clearBackStack();
                 return;
             }
             if (getVisibleFragment().equals("Config")) {
                 fragmentManager.beginTransaction().replace(R.id.contenedor, new AlarmasFragment(), "Alarmas").commit();
+                clearBackStack();
                 return;
             }
             if (getVisibleFragment().equals("Contacto")) {
                 fragmentManager.beginTransaction().replace(R.id.contenedor, new AlarmasFragment(), "Alarmas").commit();
+                clearBackStack();
+                return;
+            }
+            if (getVisibleFragment().equals("VerCamaras")) {
+                fragmentManager.beginTransaction().replace(R.id.contenedor, new AlarmasFragment(), "Alarmas").commit();
+                clearBackStack();
+                return;
+            }
+            if (getVisibleFragment().equals("Camaras")) {
+                fragmentManager.beginTransaction().replace(R.id.contenedor, new AlarmasFragment(), "Alarmas").commit();
+                clearBackStack();
                 return;
             }
             if (getVisibleFragment().equals("QuienesSomos")) {
                 fragmentManager.beginTransaction().replace(R.id.contenedor, new AlarmasFragment(), "Alarmas").commit();
+                clearBackStack();
                 return;
             }
             if (getVisibleFragment().equals("CrearCamara")) {
                 int auxiliar = 0;
                 SharedPreferences prefs1 = this.getSharedPreferences("aaa", Context.MODE_PRIVATE);
-                auxiliar = (int) prefs1.getLong("auxiliar", 0);
+                auxiliar = (int) prefs1.getLong("auxiliar", 0); //error nose porque, controlar
                 prefs1.edit().remove("auxiliar").commit();
 
                 if (auxiliar == -1) {
@@ -193,7 +219,7 @@ public class MainActivity extends AppCompatActivity
                         public void onClick(DialogInterface dialog, int which) {
                             switch (which) {
                                 case 0:
-                                    fragmentManager.beginTransaction().replace(R.id.contenedor, new ZonasFragment(), "Zonas").commit();
+                                    fragmentManager.beginTransaction().replace(R.id.contenedor, new CamarasFragment(), "Camaras").commit();
                                     break;
                                 case 1:
                                     //Abrir un alertDialog preguntando si desea cancelar
@@ -212,7 +238,7 @@ public class MainActivity extends AppCompatActivity
                     return;
                 }
                 if (auxiliar == 0) {
-                    fragmentManager.beginTransaction().replace(R.id.contenedor, new ZonasFragment(), "Zonas").commit();
+                    fragmentManager.beginTransaction().replace(R.id.contenedor, new CamarasFragment(), "Camaras").commit();
                     return;
                 }
             }
@@ -239,6 +265,7 @@ public class MainActivity extends AppCompatActivity
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             fragmentManager.beginTransaction().replace(R.id.contenedor, new AlarmasFragment(), "Alarmas").commit();
+                            clearBackStack();
                         }
                     });
                     AlertDialog dialog = builder.create();
@@ -248,6 +275,7 @@ public class MainActivity extends AppCompatActivity
                 }
                 if (auxiliar == 0) {
                     fragmentManager.beginTransaction().replace(R.id.contenedor, new AlarmasFragment(), "Alarmas").commit();
+                    clearBackStack();
                     return;
                 }
 
@@ -300,13 +328,13 @@ public class MainActivity extends AppCompatActivity
             AlarmasFragment alarmas = new AlarmasFragment();
             fragmentManager.beginTransaction().replace(R.id.contenedor,alarmas,"Alarmas" ).addToBackStack(null)
                     .commit();
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_gallery) { //Lista de camaras
             CamarasFragment camaras = new CamarasFragment();
-            fragmentManager.beginTransaction().replace(R.id.contenedor,camaras,"VerCamaras" ).addToBackStack(null)
+            fragmentManager.beginTransaction().replace(R.id.contenedor,camaras,"Camaras" ).addToBackStack(null)
                     .commit();
-        }  else if (id == R.id.nav_manage) {
-            ConfigFragment config = new ConfigFragment();
-            fragmentManager.beginTransaction().replace(R.id.contenedor,config,"Config" ).addToBackStack(null)
+        }  else if (id == R.id.nav_manage) { //Reproducir
+            VerCamarasFragment ver_camaras = new VerCamarasFragment();
+            fragmentManager.beginTransaction().replace(R.id.contenedor,ver_camaras,"VerCamaras" ).addToBackStack(null)
                     .commit();
         } else if (id == R.id.nav_share) {
             ContactoFragment contacto = new ContactoFragment();
@@ -316,6 +344,8 @@ public class MainActivity extends AppCompatActivity
             QuienesSomosFragment somos = new QuienesSomosFragment();
             fragmentManager.beginTransaction().replace(R.id.contenedor, somos, "QuienesSomos").addToBackStack(null)
                     .commit();
+        } else if (id == R.id.nav_premium) {
+            Toast.makeText(this, "Premium", Toast.LENGTH_SHORT).show();
         }
 
 
@@ -323,6 +353,8 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
 
     private boolean validaPermisos() {
 

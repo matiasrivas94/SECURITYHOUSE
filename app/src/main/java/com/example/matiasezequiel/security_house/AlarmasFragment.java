@@ -36,7 +36,6 @@ public class AlarmasFragment extends Fragment {
 
     // cosas de la alarma al hacer click ena alarma de la lista
     private int usuarioSelecionado = -1;
-    private Object mActionMode;
     int idAlarm=0,deleteAlarma,deleteAlarm=0,deleteAlarmLista;
 
     @Override
