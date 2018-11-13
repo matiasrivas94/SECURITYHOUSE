@@ -44,7 +44,7 @@
                 android:columnCount="4"
                 android:padding="10dp"
                 android:paddingBottom="0dp"
-                android:paddingTop="50dp"
+                android:paddingTop="0dp"
                 android:rowCount="9">
 
                 <TextView

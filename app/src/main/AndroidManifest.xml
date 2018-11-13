@@ -3,9 +3,9 @@
     package="com.example.matiasezequiel.security_house">
 
     <!-- Permisos para los SMS -->
-    <uses-permission android:name="android.permission.RECEIVE_SMS"/>
-    <uses-permission android:name="android.permission.READ_SMS"/>
-    <uses-permission android:name="android.permission.SEND_SMS"/>
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
 
     <application
         android:name=".Aplication.BaseAplication"
@@ -26,19 +26,31 @@
             </intent-filter>
         </activity>
         <activity
-            android:name = "MainActivity"
+            android:name="MainActivity"
             android:configChanges="orientation"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:scheme="https"
+                    android:host="securityhouse"
+                    android:pathPattern="/pagos" />
+            </intent-filter>
+        </activity>
 
         <receiver
             android:name=".MiMensaje"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
-                <action android:name="android.provider.Telephony.SMS_RECEIVED"/>
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
             <intent-filter>
-                <action android:name="android.provider.Telephony.SMS_SEND"/>
+                <action android:name="android.provider.Telephony.SMS_SEND" />
             </intent-filter>
         </receiver>
         <meta-data

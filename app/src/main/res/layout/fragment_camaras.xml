@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -31,11 +31,12 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="430dp"
         android:layout_alignParentStart="true"
-        android:layout_centerVertical="true">
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="68dp">
 
-        <LinearLayout
+        <!--<LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -85,7 +86,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="20dp"
                             android:layout_marginRight="20dp"
-                            android:text="Esta es una funcionalidad premium.. Proximamente"
+                            android:text="Esta es una funcionalidad prepaga, adquieralá haciendo click aqui abajo"
                             android:textAlignment="center"
                             android:textColor="#f5f5f5"
                             android:textSize="14dp"
@@ -93,19 +94,45 @@
 
                         <Button
                             android:id="@+id/btnVerCamPremium"
-                            android:layout_width="90dp"
+                            android:layout_width="140dp"
                             android:layout_height="50dp"
                             android:layout_gravity="center"
                             android:layout_marginTop="20dp"
-                            android:background="#ff850b"
-                            android:text="Premium"
+                            android:background="@drawable/shape_premium"
+                            android:fontFamily="@font/acme"
+                            android:text="PREMIUM"
+                            android:textSize="15dp"
                             android:textColor="#000" />
                     </LinearLayout>
                 </LinearLayout>
 
             </android.support.v7.widget.CardView>
-        </LinearLayout>
+        </LinearLayout>-->
+
+        <ListView
+            android:id="@+id/LVCamaras"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="0dp"
+            android:cacheColorHint="#f5f5f5"
+            android:scrollbars="vertical">
+
+
+        </ListView>
+
 
     </ScrollView>
+    <TextView
+        android:id="@+id/tvTituloCamaras"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="No existen cámaras creadas"
+        android:textColor="#f5f5f5"
+        android:visibility="visible" />
 
-</LinearLayout>
+
+
+</RelativeLayout>

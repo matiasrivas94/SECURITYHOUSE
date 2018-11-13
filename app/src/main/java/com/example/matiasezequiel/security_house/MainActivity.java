@@ -46,7 +46,6 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
 
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -57,17 +56,17 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         //Infla el AlarmasFragment como Fragment principal
-        if(fragmentManager == null) {
+        if (fragmentManager == null) {
             fragmentManager = getSupportFragmentManager();
         }
-        SharedPreferences prefs = getSharedPreferences("noti",Context.MODE_PRIVATE);
-        String n = prefs.getString("notificacion"," ");
+        SharedPreferences prefs = getSharedPreferences("noti", Context.MODE_PRIVATE);
+        String n = prefs.getString("notificacion", " ");
         //Toast.makeText(this,"Noti: "+n, Toast.LENGTH_SHORT).show();
-        if(n.equals("dale")){
+        if (n.equals("dale")) {
             //Toast.makeText(this,"Voy al TAB ZONAS", Toast.LENGTH_SHORT).show();
-            fragmentManager.beginTransaction().replace(R.id.contenedor,new ZonasFragment(),"Zonas").commit();
+            fragmentManager.beginTransaction().replace(R.id.contenedor, new ZonasFragment(), "Zonas").commit();
             prefs.edit().remove("notificacion").commit();
-        }else {
+        } else {
             //Toast.makeText(this,"Llego mal,VOY AL ALARMAS", Toast.LENGTH_SHORT).show();
             fragmentManager.beginTransaction().replace(R.id.contenedor, new AlarmasFragment(), "Alarmas").commit();
         }
@@ -78,11 +77,23 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View view) {
                 /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();*/
-                fragmentManager.beginTransaction().replace(R.id.contenedor,new CrearAlarmaFragment(),"CrearAlarma").addToBackStack(null)
+                fragmentManager.beginTransaction().replace(R.id.contenedor, new CrearAlarmaFragment(), "CrearAlarma").addToBackStack(null)
                         .commit();
             }
         });
 
+        // ATTENTION: This was auto-generated to handle app links.
+        Intent appLinkIntent = getIntent();
+        String appLinkAction = appLinkIntent.getAction();
+        Uri appLinkData = appLinkIntent.getData();
+    }
+
+    private void handleIntent(Intent intent) {
+        String appLinkAction = intent.getAction();
+        Uri appLinkData = intent.getData();
+        if (Intent.ACTION_VIEW.equals(appLinkAction) && appLinkData != null){
+            //metodo_pelado
+        }
     }
 
     public void showFloatingActionButton(){
@@ -345,7 +356,9 @@ public class MainActivity extends AppCompatActivity
             fragmentManager.beginTransaction().replace(R.id.contenedor, somos, "QuienesSomos").addToBackStack(null)
                     .commit();
         } else if (id == R.id.nav_premium) {
-            Toast.makeText(this, "Premium", Toast.LENGTH_SHORT).show();
+            PremiumFragment premium = new PremiumFragment();
+            fragmentManager.beginTransaction().replace(R.id.contenedor, premium, "Premium").addToBackStack(null)
+                    .commit();
         }
 
 
