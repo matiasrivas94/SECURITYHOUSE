@@ -50,8 +50,8 @@ public class DBAdapter {
     public boolean zonaInsert(int idAlarma, int estado, int notificacion){
         return zona.insert( idAlarma, estado, notificacion);
     }
-    public boolean camaraInsert(int idCamara, String nombre, String ip, String usuario, String password, int puerto){
-        return camara.insert(idCamara, nombre, ip, usuario, password, puerto);
+    public boolean camaraInsert(String nombre, String ip, String usuario, String password, int puerto){
+        return camara.insert(nombre, ip, usuario, password, puerto);
     }
 
 

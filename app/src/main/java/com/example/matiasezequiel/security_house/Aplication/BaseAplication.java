@@ -51,8 +51,8 @@ public class BaseAplication extends Application {
         return dbAdapter.zonaInsert(idAlarma,estado,notificacion);
     }
 
-    public boolean insertarCamara(int idCamara, String nombre, String ip, String usuario, String password, int puerto){
-        return dbAdapter.camaraInsert(idCamara,nombre,ip,usuario,password,puerto);
+    public boolean insertarCamara(String nombre, String ip, String usuario, String password, int puerto){
+        return dbAdapter.camaraInsert(nombre,ip,usuario,password,puerto);
     }
 
     //listar

@@ -37,17 +37,18 @@ public class TabCam1Fragment extends Fragment {
 
         ivAddCam = (ImageView)v.findViewById(R.id.agregarCam1);
         tvTituloCam = (TextView)v.findViewById(R.id.tvTituloCamaras);
-        lista = (ListView)v.findViewById(R.id.LVCamaras);
+
+
 
         ivAddCam.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 final View viewCamaras = getLayoutInflater().inflate(R.layout.lista_camaras, null);
-
-                final TextView tvZona = (TextView)viewCamaras.findViewById(R.id.tvEditZ);
+                lista = (ListView)viewCamaras.findViewById(R.id.LVCamaras);
 
                 builder.setView(viewCamaras);
+                llenarLista();
                 final AlertDialog dialog = builder.create();
                 dialog.show();
             }
@@ -58,13 +59,13 @@ public class TabCam1Fragment extends Fragment {
 
     public void llenarLista(){
         camaras = ((BaseAplication) getActivity().getApplication()).nombresCamaras();
-        //Toast.makeText(this.getActivity(),"Alarmas:"+alarmas.size(),Toast.LENGTH_SHORT).show();
+        Toast.makeText(this.getActivity(),"Camaras:"+camaras.size(),Toast.LENGTH_SHORT).show();
         if((camaras.size() == 0) || (camaras == null)) {
-            tvTituloCam.setVisibility(View.VISIBLE);
+            //tvTituloCam.setVisibility(v.VISIBLE);
             AdapterLista ld = new AdapterLista();
             lista.setAdapter(ld);
         }else {
-            tvTituloCam.setVisibility(View.INVISIBLE);
+            //tvTituloCam.setVisibility(v.INVISIBLE);
             AdapterLista ld = new AdapterLista();
             lista.setAdapter(ld);
         }
@@ -87,6 +88,12 @@ public class TabCam1Fragment extends Fragment {
             ImageView ivIconoCam = (ImageView) itemView.findViewById(R.id.ivIconoCamara);
             Button nombreCamara = (Button) itemView.findViewById(R.id.btNombreCam);
             ImageView ivCamActivada = (ImageView) itemView.findViewById(R.id.ivCamActivada);
+
+            ArrayList<String> nombreCam = new ArrayList<>();
+            for (int i = 0;i<camaras.size();i++){
+                nombreCam.add (camaras.get(i).getNombre());
+            }
+            nombreCamara.setText(camaras.get(position).getNombre());
 
             //Boton que selecciona la camara que se va a reproducir
             nombreCamara.setOnClickListener(new View.OnClickListener() {

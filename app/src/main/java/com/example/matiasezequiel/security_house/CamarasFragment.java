@@ -1,6 +1,8 @@
 package com.example.matiasezequiel.security_house;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -8,17 +10,79 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.Toast;
+
+import com.example.matiasezequiel.security_house.Aplication.BaseAplication;
+
+import java.util.ArrayList;
 
 
 public class CamarasFragment extends Fragment {
 
+    ListView lvCamaras;
+    ArrayList<Camara> camaras;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_camaras, container, false);
+
+        lvCamaras = (ListView)v.findViewById(R.id.ListViewCamaras);
+        llenarLista();
+
         return v;
+    }
+
+    public void llenarLista(){
+        camaras = ((BaseAplication) getActivity().getApplication()).nombresCamaras();
+        //Toast.makeText(this.getActivity(),"Alarmas:"+alarmas.size(),Toast.LENGTH_SHORT).show();
+        if((camaras.size() == 0) || (camaras == null)) {
+            //tvTitulo.setVisibility(View.VISIBLE);
+            AdapterLista ld = new AdapterLista();
+            lvCamaras.setAdapter(ld);
+        }else {
+            //tvTitulo.setVisibility(View.INVISIBLE);
+            AdapterLista ld = new AdapterLista();
+            lvCamaras.setAdapter(ld);
+        }
+    }
+
+    private class AdapterLista extends ArrayAdapter<Camara> {
+        public AdapterLista() {
+            super(getActivity(), R.layout.items_listcam, camaras);
+        }
+
+        @NonNull
+        @Override
+        public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+            View itemView = convertView;
+            if (itemView == null) {
+                itemView = getLayoutInflater().inflate(R.layout.items_listcam, parent, false);
+            }
+
+            ImageView ivIconoCam = (ImageView) itemView.findViewById(R.id.ivIconoCamara);
+            Button nombreCamara = (Button) itemView.findViewById(R.id.btNombreCam);
+            ImageView ivCamActivada = (ImageView) itemView.findViewById(R.id.ivCamActivada);
+
+            ArrayList<String> nombreCam = new ArrayList<>();
+            for (int i = 0; i < camaras.size(); i++) {
+                nombreCam.add(camaras.get(i).getNombre());
+            }
+            nombreCamara.setText(camaras.get(position).getNombre());
+
+            //Boton que selecciona la camara que se va a reproducir
+            nombreCamara.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(getContext(), "toast para elegir la camara", Toast.LENGTH_SHORT).show();
+                }
+            });
+            return itemView;
+        }
     }
 
     @Override

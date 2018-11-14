@@ -29,12 +29,12 @@
         </android.support.v7.widget.Toolbar>
 
 
-    <ScrollView
+    <!--<ScrollView
         android:layout_width="match_parent"
         android:layout_height="430dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="68dp">
+        android:layout_marginTop="68dp">-->
 
         <!--<LinearLayout
             android:layout_width="match_parent"
@@ -109,21 +109,19 @@
             </android.support.v7.widget.CardView>
         </LinearLayout>-->
 
-        <ListView
-            android:id="@+id/LVCamaras"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="0dp"
-            android:cacheColorHint="#f5f5f5"
-            android:scrollbars="vertical">
+    <ListView
+        android:id="@+id/ListViewCamaras"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="68dp"
+        android:cacheColorHint="#f5f5f5"
+        android:scrollbars="vertical">
 
 
-        </ListView>
+    </ListView>
 
-
-    </ScrollView>
     <TextView
         android:id="@+id/tvTituloCamaras"
         android:layout_width="wrap_content"

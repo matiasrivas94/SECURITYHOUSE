@@ -37,7 +37,7 @@ public class CamaraAdapter {
             + Columns.PUERTO + " integer)";
 
 
-    public boolean insert(int idCamara, String nombre, String ip, String usuario, String password, int puerto){
+    public boolean insert(String nombre, String ip, String usuario, String password, int puerto){
 
         ContentValues values= new ContentValues();
         values.put(Columns.NOMBRE, nombre);
@@ -78,6 +78,7 @@ public class CamaraAdapter {
     }
 
     public Cursor getDatos(){
-        return sqlDB.query(NAME,COLUMNS,null,null,null,null,null);
+        Cursor c = sqlDB.rawQuery("SELECT * FROM camara",null);
+        return c;
     }
 }

@@ -17,6 +17,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.matiasezequiel.security_house.Aplication.BaseAplication;
+
 public class CrearCamaraFragment extends Fragment {
 
     EditText etNombreCam, etIP, etUser, etPass, etPort;
@@ -151,7 +153,6 @@ public class CrearCamaraFragment extends Fragment {
             public void onClick(View v) {
                 //Usar metodo comprobar campos de los otros fragments
                 if(!comprobarCampos()) {
-                    Toast.makeText(v.getContext(),"Camara Creada",Toast.LENGTH_LONG).show();
                     SharedPreferences.Editor editor = getContext().getSharedPreferences("camCreada",Context.MODE_PRIVATE).edit();
                     editor.putLong("auxCam", 1);
                     editor.commit();
@@ -171,12 +172,21 @@ public class CrearCamaraFragment extends Fragment {
 
     public void agregar(View v){
         if(!comprobarCampos()){
-            String nombre,ip,user,pass,puerto;
+            String nombre,ip,user,pass;
+            int puerto;
             nombre = etNombreCam.getText().toString();
             ip = etIP.getText().toString();
             user = etUser.getText().toString();
             pass = etPass.getText().toString();
-            puerto = etPort.getText().toString();
+            puerto = Integer.parseInt(etPort.getText().toString());
+
+            //inserto la camara
+            boolean res =((BaseAplication)this.getActivity().getApplication()).insertarCamara(nombre,ip,user,pass,puerto);
+            if(res){
+                Toast.makeText(v.getContext(), "Cámara Creada", Toast.LENGTH_LONG).show();
+            }else{
+                Toast.makeText(v.getContext(), "Error al ingresar Alarma", Toast.LENGTH_LONG).show();
+            }
 
 
         }else{
