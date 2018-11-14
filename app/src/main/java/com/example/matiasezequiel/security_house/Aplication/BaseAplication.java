@@ -87,7 +87,7 @@ public class BaseAplication extends Application {
     public ArrayList<Camara> nombresCamaras(){
 
         ArrayList<Camara> lista= new ArrayList<Camara>();
-        Cursor c = dbAdapter.getDatosAlarma();
+        Cursor c = dbAdapter.getDatosCamara();
         Camara cam;
 
         if(c.moveToFirst()){

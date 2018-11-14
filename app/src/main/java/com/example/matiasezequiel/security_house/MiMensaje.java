@@ -3,6 +3,7 @@ package com.example.matiasezequiel.security_house;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
+import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +11,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
@@ -20,7 +22,9 @@ import android.widget.Toast;
 
 import com.example.matiasezequiel.security_house.Aplication.BaseAplication;
 
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
 
@@ -28,6 +32,7 @@ import static android.content.Context.NOTIFICATION_SERVICE;
 public class MiMensaje extends BroadcastReceiver {
     String celular;
     String textomensaje;
+    String hora;
 
     char ultimo;
     Context context;
@@ -80,6 +85,11 @@ public class MiMensaje extends BroadcastReceiver {
                             for (int z = 0; z < idZonas.size(); z++) {
                                 if (idZonas.get(z) == y) {
                                     long res = ((BaseAplication) context.getApplicationContext()).updateNotiZona(idZonas.get(z), 1);
+                                    Calendar c = Calendar.getInstance();
+                                    hora = c.getTime().toString();
+                                    SharedPreferences.Editor editor = context.getSharedPreferences("time", Context.MODE_PRIVATE).edit();
+                                    editor.putString("hora", hora);
+                                    editor.commit();
                                     /*if (res > 0)
                                         Toast.makeText(context, "Noti Actualizada", Toast.LENGTH_LONG).show();
                                     else
@@ -89,6 +99,7 @@ public class MiMensaje extends BroadcastReceiver {
                             SharedPreferences.Editor editor = context.getSharedPreferences("cc", Context.MODE_PRIVATE).edit();
                             editor.putLong("idAlarma", a.get(0).getIdAlarma());
                             editor.commit();
+
 
                             Notificar(context);
                         }
@@ -120,12 +131,18 @@ public class MiMensaje extends BroadcastReceiver {
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, i, 0);
         //PendingIntent: Una descripción de una acción de intención y objetivo para realizar con ella.
 
+        //Uri sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        long[] pattern = {500,500,500,500,500,500,500,500,500}; //vibrate
+
         mBuilder =new NotificationCompat.Builder(context.getApplicationContext(), canal)
                 .setContentIntent(pendingIntent)
                 .setSmallIcon(icono)
                 .setContentTitle("Alarma "+nombreAlarm)
                 .setContentText("Se ha activado la zona "+ultimo)
-                .setAutoCancel(true);
+                .setAutoCancel(true)
+                .setVibrate(pattern)
+                .setSound(Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE+ "://" +context.getPackageName()+"/"+R.raw.alert))
+                ;
         mNotifyMgr.notify(1, mBuilder.build());
 
         //Shared para el MainActivity

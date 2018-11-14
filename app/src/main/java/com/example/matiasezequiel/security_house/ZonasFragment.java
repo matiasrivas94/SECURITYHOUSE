@@ -21,6 +21,8 @@ import android.widget.Toast;
 
 import com.example.matiasezequiel.security_house.Aplication.BaseAplication;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -685,10 +687,15 @@ public class ZonasFragment extends Fragment {
                     estadoZona.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(final View v) {
+                            SharedPreferences prefs1 = getContext().getSharedPreferences("time", Context.MODE_PRIVATE);
+                            String detallesMje = prefs1.getString("hora", "Error");
+                            detallesMje.substring(4,29); // no funciona
                             final android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getActivity());
                             final View vistaDetalles = getLayoutInflater().inflate(R.layout.dialog_detalles, null);
                             final Button aceptarDet = (Button)vistaDetalles.findViewById(R.id.btnAceptarDetalles);
                             final Button verCam = (Button)vistaDetalles.findViewById(R.id.btnVerCamaras);
+                            final TextView detalles = (TextView)vistaDetalles.findViewById(R.id.tvDetallesMje);
+                            detalles.setText("La hora y fecha en que la zona se activó es: \n"+detallesMje);
                             builder.setView(vistaDetalles);
                             final android.app.AlertDialog dialog = builder.create();
 
