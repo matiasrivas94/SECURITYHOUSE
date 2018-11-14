@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="324dp"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
@@ -25,10 +25,11 @@
 				android:layout_height="40dp"
 				android:layout_column="0"
 				android:layout_marginTop="5dp"
-				android:background="@drawable/ic_videocam2"/>
+                android:background="@drawable/ic_videocam2"/>
+
 			<Button
 				android:id="@+id/btNombreCam"
-				android:layout_width="225dp"
+				android:layout_width="188dp"
 				android:layout_height="wrap_content"
 				android:layout_column="1"
 				android:layout_marginLeft="10dp"
@@ -37,17 +38,18 @@
 				android:text="Nombre:"
 				android:textAlignment="viewStart" />
 
-			<Button
-				android:id="@+id/btIconoMenuCam"
-				android:layout_width="30dp"
-				android:layout_height="30dp"
-				android:layout_column="2"
-				android:layout_marginLeft="15dp"
-				android:layout_marginRight="15dp"
-				android:layout_row="0"
-				android:background="@drawable/white"
-				android:onClick="menuLista"
-				android:textSize="10dp" />
+            <ImageView
+                android:id="@+id/ivCamActivada"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_column="2"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="4dp"
+                android:layout_row="0"
+                android:background="@drawable/ic_play"
+                android:onClick="menuLista"
+                android:textSize="10dp" />
 
         </GridLayout>
     </LinearLayout>

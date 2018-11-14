@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="324dp"
+    android:layout_height="match_parent"
+    android:background="#f33b3b3b">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="324dp"
+        android:layout_height="65sp"
+        android:background="#3a010203"
+        android:minHeight="?attr/actionBarSize">
+
+        <TextView
+            android:id="@+id/textListaCamaras"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/acme"
+            android:text="Lista de cámaras"
+            android:textColor="#f5f5f5"
+            android:textSize="33sp"
+            android:textStyle="bold" />
+    </android.support.v7.widget.Toolbar>
+
+    <TextView
+        android:id="@+id/tvTituloCamaras"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="No existen cámaras creadas"
+        android:textColor="#f5f5f5"
+        android:visibility="visible" />
+
+
+    <ListView
+        android:id="@+id/LVCamaras"
+        android:layout_width="match_parent"
+        android:layout_height="470dp"
+        android:layout_marginTop="65dp"
+        android:cacheColorHint="#f5f5f5"
+        android:scrollbars="vertical">
+
+    </ListView>
+
+
+</RelativeLayout>

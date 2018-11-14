@@ -172,8 +172,9 @@ public class ConfigFragment extends Fragment {
                         cambiarClave = clave + "CU" + etClaveNueva.getText().toString();
                         if(claveBase.equals(clave)){
                             Toast.makeText(getContext(),"Enviando sms: "+cambiarClave, Toast.LENGTH_SHORT).show();
-                            //mm.enviarMensaje(numero, cambiarClave);
+                            mm.enviarMensaje(numero, cambiarClave);
                             //actualizar la clave de la alarma en la base de datos
+                            long response = ((BaseAplication)getActivity().getApplication()).updateAlarmaContraseña(idAlarmaConfig,etClaveNueva.getText().toString());
                             dialog.dismiss();
                         }
                         else

@@ -7,28 +7,7 @@
     android:background="@mipmap/fondo1"
     android:orientation="vertical"
     tools:context=".CamarasFragment">
-
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="65sp"
-            android:background="#3A32739c"
-            android:minHeight="?attr/actionBarSize">
-
-        <TextView
-            android:id="@+id/textListaCamaras"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:fontFamily="@font/acme"
-            android:text="Lista de cámaras"
-            android:textColor="#f5f5f5"
-            android:textSize="33sp"
-            android:textStyle="bold" />
-        </android.support.v7.widget.Toolbar>
-
-
+    
     <!--<ScrollView
         android:layout_width="match_parent"
         android:layout_height="430dp"

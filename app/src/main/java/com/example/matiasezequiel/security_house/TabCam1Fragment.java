@@ -44,7 +44,7 @@ public class TabCam1Fragment extends Fragment {
             @Override
             public void onClick(View v) {
                 final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                final View viewCamaras = getLayoutInflater().inflate(R.layout.lista_camaras, null);
+                final View viewCamaras = getLayoutInflater().inflate(R.layout.lista_dialog_camaras, null);
                 lista = (ListView)viewCamaras.findViewById(R.id.LVCamaras);
 
                 builder.setView(viewCamaras);
@@ -74,7 +74,7 @@ public class TabCam1Fragment extends Fragment {
     private class AdapterLista extends ArrayAdapter<Camara>
     {
         public AdapterLista() {
-            super(getActivity(), R.layout.items_listcam, camaras);
+            super(getActivity(), R.layout.items_listcam_dialog, camaras);
         }
 
         @NonNull
@@ -82,7 +82,7 @@ public class TabCam1Fragment extends Fragment {
         public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
             View itemView=convertView;
             if (itemView == null){
-                itemView= getLayoutInflater().inflate(R.layout.items_listcam, parent,false);
+                itemView= getLayoutInflater().inflate(R.layout.items_listcam_dialog, parent,false);
             }
 
             ImageView ivIconoCam = (ImageView) itemView.findViewById(R.id.ivIconoCamara);

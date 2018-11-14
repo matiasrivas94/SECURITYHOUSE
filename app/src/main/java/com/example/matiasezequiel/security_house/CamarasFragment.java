@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -66,7 +65,7 @@ public class CamarasFragment extends Fragment {
 
             ImageView ivIconoCam = (ImageView) itemView.findViewById(R.id.ivIconoCamara);
             Button nombreCamara = (Button) itemView.findViewById(R.id.btNombreCam);
-            ImageView ivCamActivada = (ImageView) itemView.findViewById(R.id.ivCamActivada);
+            Button ivIconoMenuCam = (Button) itemView.findViewById(R.id.btIconoMenuCam);
 
             ArrayList<String> nombreCam = new ArrayList<>();
             for (int i = 0; i < camaras.size(); i++) {
@@ -75,10 +74,10 @@ public class CamarasFragment extends Fragment {
             nombreCamara.setText(camaras.get(position).getNombre());
 
             //Boton que selecciona la camara que se va a reproducir
-            nombreCamara.setOnClickListener(new View.OnClickListener() {
+            ivIconoMenuCam.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(getContext(), "toast para elegir la camara", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Menu para elimianr y modificar camara", Toast.LENGTH_SHORT).show();
                 }
             });
             return itemView;

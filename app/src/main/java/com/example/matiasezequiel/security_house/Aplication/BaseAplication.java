@@ -123,6 +123,10 @@ public class BaseAplication extends Application {
     public long updateAlarma(int idAlarma, String nombre, String tipo, String numTelefono, String clave){
         return dbAdapter.updateAlarma(idAlarma,nombre,tipo,numTelefono,clave);
     }
+    public long updateAlarmaContraseña(int idAlarma, String clave){
+        return dbAdapter.updateAlarmaContraseña(idAlarma,clave);
+    }
+
     public long updateNotiZona(int idZona, int noti){
         return dbAdapter.updateNotiZona(idZona,noti);
     }

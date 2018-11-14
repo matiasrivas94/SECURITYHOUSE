@@ -124,6 +124,13 @@ public class DBAdapter {
         return response;
     }
 
+    public long updateAlarmaContraseña(int idAlarma, String clave){
+        ContentValues val = new ContentValues();
+        val.put("clave",clave);
+        long response = sqlDB.update("alarma",val,"idAlarma="+idAlarma,null);
+        return response;
+    }
+
     public long updateZona(int idZona,int idAlarma, String nombre, int estado, int notificacion){
         ContentValues val = new ContentValues();
         val.put("idAlarma",idAlarma);
