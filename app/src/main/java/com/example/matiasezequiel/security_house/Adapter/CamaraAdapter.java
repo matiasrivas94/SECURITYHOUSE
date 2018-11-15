@@ -5,6 +5,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.provider.BaseColumns;
 
+import com.example.matiasezequiel.security_house.Alarma;
+import com.example.matiasezequiel.security_house.Camara;
+
 public class CamaraAdapter {
     private static final String NAME="camara";
     private SQLiteDatabase sqlDB;
@@ -81,4 +84,13 @@ public class CamaraAdapter {
         Cursor c = sqlDB.rawQuery("SELECT * FROM camara",null);
         return c;
     }
+
+    //devuelvo una alarma segun el idAlarma para modificarla
+    public Camara getCamara(int idCamara){
+        Cursor c = sqlDB.rawQuery("SELECT * FROM camara WHERE idCamara = "+idCamara,null);
+        c.moveToFirst();
+        return new Camara(c.getInt(c.getColumnIndex("idCamara")),c.getString(c.getColumnIndex("nombre")),c.getString(c.getColumnIndex("ip")),c.getString(c.getColumnIndex("usuario")),c.getString(c.getColumnIndex("password")),c.getInt(c.getColumnIndex("puerto")));
+    }
+
+
 }

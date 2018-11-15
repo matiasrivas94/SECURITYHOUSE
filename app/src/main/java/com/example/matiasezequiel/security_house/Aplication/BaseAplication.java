@@ -103,6 +103,9 @@ public class BaseAplication extends Application {
     public Alarma getAlarma(int idAlarma){
         return dbAdapter.getAlarma(idAlarma);
     }
+    public Camara getCamara(int idCamara){
+        return dbAdapter.getCamara(idCamara);
+    }
 
     //busco por NUMTELEFONO
     public ArrayList<Alarma> getAlarmaNum(String numTelefono){

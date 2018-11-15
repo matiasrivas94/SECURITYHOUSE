@@ -628,7 +628,7 @@ public class ZonasFragment extends Fragment {
         datosZonas = new ArrayList<>();
 
         for(int x = 0; x < tabZonas.size(); x++){
-            datosZonas.add(new DatosItemZona(x,tabZonas.get(x).getNombre()+" -- "+tabZonas.get(x).getEstado(), R.drawable.snooze1));
+            datosZonas.add(new DatosItemZona(x,tabZonas.get(x).getNombre(), R.drawable.snooze1));
         }
         AdaptadorZona adapter = new AdaptadorZona(this.getActivity(), datosZonas);
         listaZonas.setAdapter(adapter);

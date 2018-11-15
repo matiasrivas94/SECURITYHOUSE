@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.example.matiasezequiel.security_house.Alarma;
+import com.example.matiasezequiel.security_house.Camara;
 import com.example.matiasezequiel.security_house.Zona;
 
 import java.util.ArrayList;
@@ -105,6 +106,9 @@ public class DBAdapter {
     //devuelvo una alarma segun numTelefono
     public ArrayList<Alarma> getAlarmaNum(String numTelefono){
         return alarma.getAlarmaNumTelefono(numTelefono);
+    }
+    public Camara getCamara(int idCamara){
+        return camara.getCamara(idCamara);
     }
 
     //obtengo las zonas segun idAlarma

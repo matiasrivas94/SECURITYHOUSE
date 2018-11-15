@@ -19,13 +19,18 @@
             android:layout_centerVertical="true"
             android:background="#c01b1b1b">
 
+            <!--<VideoView
+                android:id="@+id/videoViewTab1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true" />-->
             <VideoView
-                android:id="@+id/videoView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/videoViewTab1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:layout_margin="5dp"
-                android:background="#414141"/>
+                android:layout_margin="5dp"/>
 
             <ImageView
                 android:id="@+id/agregarCam1"
