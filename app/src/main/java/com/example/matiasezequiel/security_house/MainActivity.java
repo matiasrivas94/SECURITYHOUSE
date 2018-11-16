@@ -212,6 +212,11 @@ public class MainActivity extends AppCompatActivity
                 clearBackStack();
                 return;
             }
+            if (getVisibleFragment().equals("Premium")) {
+                fragmentManager.beginTransaction().replace(R.id.contenedor, new PremiumFragment(), "Premium").commit();
+                clearBackStack();
+                return;
+            }
             if (getVisibleFragment().equals("CrearCamara")) {
                 int auxiliar = 0;
                 SharedPreferences prefs1 = this.getSharedPreferences("aaa", Context.MODE_PRIVATE);
@@ -316,7 +321,9 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            Toast.makeText(this, "apretaste editar", Toast.LENGTH_SHORT).show();
+            QuienesSomosFragment somos = new QuienesSomosFragment();
+            fragmentManager.beginTransaction().replace(R.id.contenedor, somos, "QuienesSomos").addToBackStack(null)
+                    .commit();
             return true;
         }
 

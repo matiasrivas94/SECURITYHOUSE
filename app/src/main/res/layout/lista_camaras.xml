@@ -4,14 +4,14 @@
     android:layout_height="match_parent"
     android:background="@mipmap/fondo1">
 
-    <TextView
+    <!--<TextView
         android:id="@+id/tvTituloCamaras"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:text="No existen cámaras creadas"
         android:textColor="#f5f5f5"
-        android:visibility="visible" />
+        android:visibility="gone" />-->
 
 
     <ListView

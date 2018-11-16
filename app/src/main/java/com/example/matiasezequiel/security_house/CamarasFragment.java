@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.matiasezequiel.security_house.Aplication.BaseAplication;
@@ -24,12 +25,14 @@ public class CamarasFragment extends Fragment {
 
     ListView lvCamaras;
     ArrayList<Camara> camaras;
+    TextView tvTitulo;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_camaras, container, false);
 
+         tvTitulo = (TextView)v.findViewById(R.id.tvTituloCamaras);
         lvCamaras = (ListView)v.findViewById(R.id.ListViewCamaras);
         llenarLista();
 
@@ -40,11 +43,11 @@ public class CamarasFragment extends Fragment {
         camaras = ((BaseAplication) getActivity().getApplication()).nombresCamaras();
         //Toast.makeText(this.getActivity(),"Alarmas:"+alarmas.size(),Toast.LENGTH_SHORT).show();
         if((camaras.size() == 0) || (camaras == null)) {
-            //tvTitulo.setVisibility(View.VISIBLE);
+            tvTitulo.setVisibility(View.VISIBLE);
             AdapterLista ld = new AdapterLista();
             lvCamaras.setAdapter(ld);
         }else {
-            //tvTitulo.setVisibility(View.INVISIBLE);
+            tvTitulo.setVisibility(View.INVISIBLE);
             AdapterLista ld = new AdapterLista();
             lvCamaras.setAdapter(ld);
         }

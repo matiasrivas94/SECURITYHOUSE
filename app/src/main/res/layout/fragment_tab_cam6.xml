@@ -7,7 +7,7 @@
 
     <GridLayout
         android:layout_width="340dp"
-        android:layout_height="455dp"
+        android:layout_height="430dp"
         android:layout_gravity="center"
         android:layout_marginTop="25dp"
         android:background="#c01b1b1b"
@@ -22,7 +22,7 @@
             <VideoView
                 android:id="@+id/videoView1"
                 android:layout_width="160dp"
-                android:layout_height="142dp"
+                android:layout_height="137dp"
                 android:layout_gravity="center"
                 android:layout_margin="5dp"
                 android:background="#414141" />
@@ -44,10 +44,10 @@
             <VideoView
                 android:id="@+id/videoView2"
                 android:layout_width="160dp"
-                android:layout_height="142dp"
+                android:layout_height="137dp"
                 android:layout_gravity="center"
                 android:layout_margin="5dp"
-                android:background="#414141"/>
+                android:background="#414141" />
 
             <ImageView
                 android:id="@+id/agregarCam2"
@@ -67,10 +67,10 @@
             <VideoView
                 android:id="@+id/videoView3"
                 android:layout_width="160dp"
-                android:layout_height="142dp"
+                android:layout_height="137dp"
                 android:layout_gravity="center"
                 android:layout_margin="5dp"
-                android:background="#414141"/>
+                android:background="#414141" />
 
             <ImageView
                 android:id="@+id/agregarCam3"
@@ -89,10 +89,10 @@
             <VideoView
                 android:id="@+id/videoView4"
                 android:layout_width="160dp"
-                android:layout_height="142dp"
+                android:layout_height="137dp"
                 android:layout_gravity="center"
                 android:layout_margin="5dp"
-                android:background="#414141"/>
+                android:background="#414141" />
 
             <ImageView
                 android:id="@+id/agregarCam4"
@@ -111,10 +111,10 @@
             <VideoView
                 android:id="@+id/videoView5"
                 android:layout_width="160dp"
-                android:layout_height="142dp"
+                android:layout_height="137dp"
                 android:layout_gravity="center"
                 android:layout_margin="5dp"
-                android:background="#414141"/>
+                android:background="#414141" />
 
             <ImageView
                 android:id="@+id/agregarCam5"
@@ -133,10 +133,10 @@
             <VideoView
                 android:id="@+id/videoView6"
                 android:layout_width="160dp"
-                android:layout_height="142dp"
+                android:layout_height="137dp"
                 android:layout_gravity="center"
                 android:layout_margin="5dp"
-                android:background="#414141"/>
+                android:background="#414141" />
 
             <ImageView
                 android:id="@+id/agregarCam6"

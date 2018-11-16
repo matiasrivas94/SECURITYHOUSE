@@ -38,17 +38,16 @@
 				android:text="Nombre:"
 				android:textAlignment="viewStart" />
 
-            <ImageView
-                android:id="@+id/ivCamActivada"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_column="2"
-                android:layout_marginLeft="0dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginTop="4dp"
-                android:layout_row="0"
-                android:background="@drawable/ic_play"
-                android:textSize="10dp" />
+			<RadioButton
+				android:id="@+id/rbCamSeleccionada"
+				android:layout_width="40dp"
+				android:layout_height="40dp"
+				android:layout_column="2"
+				android:layout_marginLeft="0dp"
+				android:layout_marginRight="15dp"
+				android:layout_marginTop="2dp"
+				android:layout_row="0"
+				android:textSize="10dp" />
 
         </GridLayout>
     </LinearLayout>

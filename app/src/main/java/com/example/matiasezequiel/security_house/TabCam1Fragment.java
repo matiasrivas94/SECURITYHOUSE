@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.MediaController;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -29,7 +30,7 @@ import java.util.ArrayList;
 
 public class TabCam1Fragment extends Fragment {
 
-    ProgressDialog pDialog;
+
     VideoView vVTab1;
     ImageView ivAddCam;
     TextView tvTituloCam;
@@ -57,22 +58,27 @@ public class TabCam1Fragment extends Fragment {
                 final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 final View viewCamaras = getLayoutInflater().inflate(R.layout.lista_dialog_camaras, null);
                 lista = (ListView)viewCamaras.findViewById(R.id.LVCamaras);
+                final Button btnSelect = (Button)viewCamaras.findViewById(R.id.btnSeleccionarCam);
 
                 builder.setView(viewCamaras);
 
                 final AlertDialog dialog = builder.create();
 
-                llenarLista();
-                if(idCam == -1){
-                    dialog.dismiss();
-                }
+                btnSelect.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ProgressDialog pDialog;
+                        dialog.dismiss();
+                    }
+                });
 
+                llenarLista();
                 dialog.show();
             }
         });
 
-        Toast.makeText(this.getActivity(),"IDCAM: "+idCam,Toast.LENGTH_SHORT).show();
-        //addCamVideoView(1);
+        //Toast.makeText(this.getActivity(),"IDCAM: "+idCam,Toast.LENGTH_SHORT).show();
+        addCamVideoView(1);
 
         return v;
     }
@@ -83,7 +89,7 @@ public class TabCam1Fragment extends Fragment {
         Camara c =((BaseAplication)getActivity().getApplication()).getCamara(idCam);
 
         //String VideoURL = "rtsp://"+c.getIp()+"//video.3gp";
-        String VideoURL = "rtsp://190.5.183.139:554/video.3gp";
+        String VideoURL = "rtsp://"+c.getIp()+":554/video.3gp";
         // Create a progressbar
         //pDialog = new ProgressDialog(this.getContext());
         // Set progressbar title
@@ -121,13 +127,10 @@ public class TabCam1Fragment extends Fragment {
 
     public void llenarLista(){
         camaras = ((BaseAplication) getActivity().getApplication()).nombresCamaras();
-        //Toast.makeText(this.getActivity(),"Camaras:"+camaras.size(),Toast.LENGTH_SHORT).show();
         if((camaras.size() == 0) || (camaras == null)) {
-            //tvTituloCam.setVisibility(View.VISIBLE);
             AdapterLista ld = new AdapterLista();
             lista.setAdapter(ld);
         }else {
-            //tvTituloCam.setVisibility(View.INVISIBLE);
             AdapterLista ld = new AdapterLista();
             lista.setAdapter(ld);
         }
@@ -158,7 +161,7 @@ public class TabCam1Fragment extends Fragment {
 
             ImageView ivIconoCam = (ImageView) itemView.findViewById(R.id.ivIconoCamara);
             Button nombreCamara = (Button) itemView.findViewById(R.id.btNombreCam);
-            ImageView ivCamActivada = (ImageView) itemView.findViewById(R.id.ivCamActivada);
+            RadioButton rbCamSelect = (RadioButton) itemView.findViewById(R.id.rbCamSeleccionada);
 
             ArrayList<String> nombreCam = new ArrayList<>();
             for (int i = 0;i<camaras.size();i++){

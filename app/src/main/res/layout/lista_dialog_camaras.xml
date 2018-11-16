@@ -30,18 +30,27 @@
         android:layout_centerInParent="true"
         android:text="No existen cámaras creadas"
         android:textColor="#f5f5f5"
-        android:visibility="visible" />
+        android:visibility="gone" />
 
 
     <ListView
         android:id="@+id/LVCamaras"
         android:layout_width="match_parent"
-        android:layout_height="470dp"
+        android:layout_height="369dp"
         android:layout_marginTop="65dp"
         android:cacheColorHint="#f5f5f5"
         android:scrollbars="vertical">
 
     </ListView>
+
+    <Button
+        android:id="@+id/btnSeleccionarCam"
+        android:layout_width="177dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/LVCamaras"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/shape"
+        android:text="Seleccionar" />
 
 
 </RelativeLayout>

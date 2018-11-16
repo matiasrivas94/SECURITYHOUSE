@@ -8,11 +8,10 @@
 
     <LinearLayout
         android:layout_width="324dp"
-        android:layout_height="379dp"
+        android:layout_height="431dp"
         android:layout_gravity="center"
         android:background="@drawable/gris1"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
@@ -39,6 +38,18 @@
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
             android:background="@drawable/logo1" />
+
+        <TextView
+            android:id="@+id/tvEstadoPremium"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:background="#5516405c"
+            android:text="Eres un usuario Premium"
+            android:textAlignment="center"
+            android:textSize="15dp"
+            android:textStyle="italic" />
 
         <Button
             android:id="@+id/btnPremium3"

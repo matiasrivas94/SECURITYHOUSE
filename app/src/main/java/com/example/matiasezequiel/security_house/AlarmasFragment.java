@@ -44,6 +44,7 @@ public class AlarmasFragment extends Fragment {
         // Inflate the layout for this fragment
         View v=inflater.inflate(R.layout.fragment_alarmas, container, false);
 
+
         lista = (ListView) v.findViewById(R.id.LVMostrar);
         tvTitulo = (TextView)v.findViewById(R.id.tvTitulo);
 
