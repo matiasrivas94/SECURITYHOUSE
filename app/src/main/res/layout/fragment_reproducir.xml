@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TabCam1Fragment">
+    tools:context=".ReproducirFragment"
+    android:background="@mipmap/fondo1">
 
     <RelativeLayout
         android:layout_margin="10dp"

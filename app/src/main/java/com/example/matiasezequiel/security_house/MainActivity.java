@@ -197,11 +197,6 @@ public class MainActivity extends AppCompatActivity
                 clearBackStack();
                 return;
             }
-            if (getVisibleFragment().equals("VerCamaras")) {
-                fragmentManager.beginTransaction().replace(R.id.contenedor, new AlarmasFragment(), "Alarmas").commit();
-                clearBackStack();
-                return;
-            }
             if (getVisibleFragment().equals("Camaras")) {
                 fragmentManager.beginTransaction().replace(R.id.contenedor, new AlarmasFragment(), "Alarmas").commit();
                 clearBackStack();
@@ -349,10 +344,6 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_gallery) { //Lista de camaras
             CamarasFragment camaras = new CamarasFragment();
             fragmentManager.beginTransaction().replace(R.id.contenedor,camaras,"Camaras" ).addToBackStack(null)
-                    .commit();
-        }  else if (id == R.id.nav_manage) { //Reproducir
-            VerCamarasFragment ver_camaras = new VerCamarasFragment();
-            fragmentManager.beginTransaction().replace(R.id.contenedor,ver_camaras,"VerCamaras" ).addToBackStack(null)
                     .commit();
         } else if (id == R.id.nav_share) {
             ContactoFragment contacto = new ContactoFragment();

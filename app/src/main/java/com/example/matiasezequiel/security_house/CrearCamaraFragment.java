@@ -25,7 +25,7 @@ public class CrearCamaraFragment extends Fragment {
 
     EditText etNombreCam, etIP, etUser, etPass;
     Spinner spPuerto;
-    Button btnAceptarCam, btnCancelarCam;
+    Button btnAceptarCam;
     Activity a = (Activity)getActivity();
     MainActivity ma = (MainActivity)getActivity();
     int auxiliar = 0,modicamara;
@@ -155,8 +155,8 @@ public class CrearCamaraFragment extends Fragment {
                         FragmentTransaction fr = getFragmentManager().beginTransaction();
                         fr.replace(R.id.contenedor, new CamarasFragment(), "Camaras");
                         fr.commit();
-                        //InputMethodManager mgr = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                        //mgr.hideSoftInputFromWindow(etPort.getWindowToken(), 0);
+                        InputMethodManager mgr = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                        mgr.hideSoftInputFromWindow(etPass.getWindowToken(), 0);
                         agregar(v);
                     } else {
                         Toast.makeText(v.getContext(), "Por favor complete los campos.", Toast.LENGTH_LONG).show();
@@ -168,8 +168,8 @@ public class CrearCamaraFragment extends Fragment {
                     FragmentTransaction fr = getFragmentManager().beginTransaction();
                     fr.replace(R.id.contenedor, new CamarasFragment(), "Camaras");
                     fr.commit();
-                    //InputMethodManager mgr = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                    //mgr.hideSoftInputFromWindow(etPort.getWindowToken(), 0);
+                    InputMethodManager mgr = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    mgr.hideSoftInputFromWindow(etPass.getWindowToken(), 0);
                 }
             }
         });
@@ -185,8 +185,6 @@ public class CrearCamaraFragment extends Fragment {
 
     public void agregar(View v){
         if(!comprobarCampos()){
-            //int puerto = Integer.parseInt(spPuerto.getSelectedItem().toString());
-            //Toast.makeText(v.getContext(), "Puerto seleccionado: "+puerto, Toast.LENGTH_LONG).show();
             //inserto la camara
             boolean res =((BaseAplication)this.getActivity().getApplication()).insertarCamara(etNombreCam.getText().toString(),etIP.getText().toString(),etUser.getText().toString(),etPass.getText().toString(),Integer.parseInt(spPuerto.getSelectedItem().toString()));
             if(res){
@@ -196,7 +194,6 @@ public class CrearCamaraFragment extends Fragment {
             }
         }else{
             Toast.makeText(this.getActivity(),"hay campos vacios",Toast.LENGTH_LONG).show();
-
         }
         etNombreCam.requestFocus();
         etIP.setText("");
@@ -207,7 +204,6 @@ public class CrearCamaraFragment extends Fragment {
 
     public boolean comprobarCampos() {
         if(etNombreCam.getText().toString().isEmpty() || etIP.getText().toString().isEmpty() || etUser.getText().toString().isEmpty() || etPass.getText().toString().isEmpty()) {
-            //Log.d("prueba", "paso por aca");
             return true;
         }
         else
@@ -218,7 +214,6 @@ public class CrearCamaraFragment extends Fragment {
     public void reflejarCampos(){
         //inserto la camara
         Camara c =((BaseAplication)getActivity().getApplication()).getCamara(modicamara);
-        //Toast.makeText(this.getActivity(),c.getNombre()+c.getIp()+c.getUsuario()+c.getContraseña()+c.getPuerto(),Toast.LENGTH_LONG).show();
         etNombreCam.setText(c.getNombre());
         etIP.setText(c.getIp());
         etUser.setText(c.getUsuario());
@@ -227,7 +222,6 @@ public class CrearCamaraFragment extends Fragment {
     }
     public void editar(View v){
         int puerto = spPuerto.getSelectedItemPosition();
-        //idCamara,  nombre,                          ip,                       usuario,                    contraseña,                 puerto
         long response = ((BaseAplication)getActivity().getApplication()).updateCamara(modicamara,etNombreCam.getText().toString(),etIP.getText().toString(),etUser.getText().toString(),etPass.getText().toString(),puerto);
         if(response>0){
             Toast.makeText(this.getActivity(),"Editado con exito",Toast.LENGTH_LONG).show();

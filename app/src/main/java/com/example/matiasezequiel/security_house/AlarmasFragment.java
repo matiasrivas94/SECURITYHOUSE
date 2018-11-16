@@ -29,21 +29,19 @@ public class AlarmasFragment extends Fragment {
     //cosas del ListView Alarmas
     private ListView lista;
     TextView tvTitulo;
-    long cant=0;
 
     //nuevo
     ArrayList<Alarma> alarmas;
 
     // cosas de la alarma al hacer click ena alarma de la lista
     private int usuarioSelecionado = -1;
-    int idAlarm=0,deleteAlarma,deleteAlarm=0,deleteAlarmLista;
+    int idAlarm=0,deleteAlarm=0,deleteAlarmLista;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v=inflater.inflate(R.layout.fragment_alarmas, container, false);
-
 
         lista = (ListView) v.findViewById(R.id.LVMostrar);
         tvTitulo = (TextView)v.findViewById(R.id.tvTitulo);
@@ -55,7 +53,6 @@ public class AlarmasFragment extends Fragment {
 
     public void llenarLista(){
         alarmas = ((BaseAplication) getActivity().getApplication()).nombresAlarmas();
-        //Toast.makeText(this.getActivity(),"Alarmas:"+alarmas.size(),Toast.LENGTH_SHORT).show();
         if((alarmas.size() == 0) || (alarmas == null)) {
             tvTitulo.setVisibility(View.VISIBLE);
             AdapterLista ld = new AdapterLista();
@@ -147,7 +144,6 @@ public class AlarmasFragment extends Fragment {
                                     break;
                                 case 1:
                                     //Abrir un alertDialog preguntando si desea cancelar
-                                    //Log.d("prueba2","comprobar true");
                                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                                     builder.setMessage("Confirmar! \n");
                                     builder.setTitle("Eliminar la Alarma");
@@ -169,8 +165,6 @@ public class AlarmasFragment extends Fragment {
                                             SharedPreferences prefs = getContext().getSharedPreferences("eliminarAlarma", Context.MODE_PRIVATE);
                                             deleteAlarm = (int) prefs.getLong("elimAlarm", -1);
 
-                                            //int x = deleteAlarm;
-                                            //Toast.makeText(getActivity(),"Posiscion de la alarma seleccionada en la lista: " + deleteAlarmLista,Toast.LENGTH_LONG).show();
                                             Alarma alarm = alarmas.get(deleteAlarmLista);
                                             boolean response = ((BaseAplication) getActivity().getApplication()).borrarAlarma(alarm.getIdAlarma());
                                             if (response) {
@@ -186,8 +180,6 @@ public class AlarmasFragment extends Fragment {
                                     break;
                                 case 2:
                                     //shared para mostrar el tipo de la alarma en el spinner de configuracion
-
-
                                     FragmentTransaction fr = getFragmentManager().beginTransaction();
                                     fr.replace(R.id.contenedor, new ConfigFragment(),"Configuracion").addToBackStack(null);
                                     fr.commit();
@@ -205,7 +197,6 @@ public class AlarmasFragment extends Fragment {
             nombreAlarma.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //Toast.makeText(contexto,"Posicion: " + position,Toast.LENGTH_SHORT).show();
                     usuarioSelecionado = position;
                     //Shared para saber el idAlarma al hacer click sobre el listView
                     Alarma alar = alarmas.get(usuarioSelecionado);
@@ -245,7 +236,6 @@ public class AlarmasFragment extends Fragment {
         if (!getUserVisibleHint()) {
             mainActivity.showFloatingActionButton(); //fuerza la visibilidad
         }
-       // MainActivity mainActivity = (MainActivity) getActivity();
         if (mainActivity != null) {
             mainActivity.showFloatingActionButton(); //fuerza la visibilidad
             FloatingActionButton fab = mainActivity.findViewById(R.id.fab);
@@ -266,5 +256,4 @@ public class AlarmasFragment extends Fragment {
             });
         }
     }
-
 }

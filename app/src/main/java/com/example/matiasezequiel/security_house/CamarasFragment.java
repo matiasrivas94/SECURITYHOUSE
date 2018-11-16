@@ -38,7 +38,7 @@ public class CamarasFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_camaras, container, false);
 
-         tvTitulo = (TextView)v.findViewById(R.id.tvTituloCamaras);
+        tvTitulo = (TextView)v.findViewById(R.id.tvTituloCamaras);
         lvCamaras = (ListView)v.findViewById(R.id.ListViewCamaras);
         llenarLista();
 
@@ -47,7 +47,6 @@ public class CamarasFragment extends Fragment {
 
     public void llenarLista(){
         camaras = ((BaseAplication) getActivity().getApplication()).nombresCamaras();
-        //Toast.makeText(this.getActivity(),"Alarmas:"+alarmas.size(),Toast.LENGTH_SHORT).show();
         if((camaras.size() == 0) || (camaras == null)) {
             tvTitulo.setVisibility(View.VISIBLE);
             AdapterLista ld = new AdapterLista();
@@ -86,32 +85,36 @@ public class CamarasFragment extends Fragment {
             ivIconoMenuCam.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //Toast.makeText(getContext(), "Menu para elimianr y modificar camara", Toast.LENGTH_SHORT).show();
                     camaraSeleccionada = position;
                     //Shared para saber el idAlarma al hacer click sobre el listView
                     Camara cam = camaras.get(camaraSeleccionada);
                     idCamara = cam.getIdCamara();
-                    //Toast.makeText(getActivity(),"ID CAM: "+idCamara,Toast.LENGTH_SHORT).show();
 
                     //Shared para quedarme con la posicion de la lista al seleccionar una camara
                     SharedPreferences.Editor editor1 = getContext().getSharedPreferences("deleteCamList", Context.MODE_PRIVATE).edit();
                     editor1.putLong("deleteCamLista", idCamara);
                     editor1.commit();
 
-                    //Toast.makeText(getContext(), "Menu para elimianr y modificar camara", Toast.LENGTH_SHORT).show();
                     // Menu con alert builder
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                    //builder.setTitle("Elegir Opcion");
                     builder.setTitle("Elegir Opción");
                     // add a list
-                    String[] itemsCamara = {"Modificar Camara", "Eliminar Camara"};
+                    String[] itemsCamara = {"Reproducir","Modificar Camara", "Eliminar Camara"};
                     builder.setItems(itemsCamara, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             switch (which) {
                                 case 0:
+                                    SharedPreferences.Editor editor1 = getContext().getSharedPreferences("ReproCamList", Context.MODE_PRIVATE).edit();
+                                    editor1.putLong("reproCamLista", idCamara);
+                                    editor1.commit();
+
+                                    FragmentTransaction fr2 = getFragmentManager().beginTransaction();
+                                    fr2.replace(R.id.contenedor, new ReproducirFragment(),"Reproducir");
+                                    fr2.commit();
+                                    break;
+                                case 1:
                                     //Shared para editar la alarma
-                                    //Toast.makeText(getContext(), "Editar camara", Toast.LENGTH_SHORT).show();
                                     SharedPreferences.Editor editor2 = getContext().getSharedPreferences("cadenaEditarCamara", Context.MODE_PRIVATE).edit();
                                     editor2.putString ("editarStringCamara","update");
                                     editor2.commit();
@@ -120,9 +123,8 @@ public class CamarasFragment extends Fragment {
                                     fr1.replace(R.id.contenedor, new CrearCamaraFragment(),"CrearCamara");
                                     fr1.commit();
                                     break;
-                                case 1:
+                                case 2:
                                     //Abrir un alertDialog preguntando si desea cancelar
-                                    //Log.d("prueba2","comprobar true");
                                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                                     builder.setMessage("Confirmar! \n");
                                     builder.setTitle("Eliminar la Camara");
@@ -139,9 +141,6 @@ public class CamarasFragment extends Fragment {
                                             //Shared para quedarme con el idCamara seleccionada para eliminar
                                             SharedPreferences prefs1 = getContext().getSharedPreferences("deleteCamList", Context.MODE_PRIVATE);
                                             deleteCamList = (int) prefs1.getLong("deleteCamLista", -1);
-                                            //Toast.makeText(getActivity(),"ID CAM: "+deleteCamList,Toast.LENGTH_SHORT).show();
-                                            //Camara cam1 = camaras.get(deleteCamList);
-                                            //Toast.makeText(getActivity(),"ID CAM: "+deleteCamList,Toast.LENGTH_SHORT).show();
                                             boolean response = ((BaseAplication) getActivity().getApplication()).borrarCamara(deleteCamList);
                                             if (response) {
                                                 Toast.makeText(getActivity(), "Eliminado con exito", Toast.LENGTH_LONG).show();
