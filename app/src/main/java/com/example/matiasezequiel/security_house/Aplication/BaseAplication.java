@@ -142,6 +142,10 @@ public class BaseAplication extends Application {
         return dbAdapter.updateEstadoZona(idZona,estado);
     }
 
+    public long updateCamara(int idCamara, String nombre, String ip, String usuario, String contraseña, int puerto){
+        return dbAdapter.updateCamara(idCamara,nombre,ip,usuario,contraseña,puerto);
+    }
+
     //DELETE TABLES
     public boolean borrarAlarma(int idAlarma){
         return dbAdapter.borrarAlarma(idAlarma);

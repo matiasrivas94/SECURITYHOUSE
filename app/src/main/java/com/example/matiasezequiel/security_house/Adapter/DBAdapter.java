@@ -145,15 +145,16 @@ public class DBAdapter {
         return response;
     }
 
-    /*public long updateCamara(){
+    public long updateCamara(int idCamara, String nombre, String ip, String usuario, String contraseña, int puerto){
         ContentValues val = new ContentValues();
         val.put("nombre",nombre);
-        val.put("tipo",tipo);
-        val.put("numTelefono",numTelefono);
-        val.put("clave",clave);
-        long response = sqlDB.update("alarma",val,"idAlarma="+idAlarma,null);
+        val.put("ip",ip);
+        val.put("usuario",usuario);
+        val.put("password",contraseña);
+        val.put("puerto",puerto);
+        long response = sqlDB.update("camara",val,"idCamara="+idCamara,null);
         return response;
-    }*/
+    }
 
     //actulizo notificacion de una zona
     public long updateNotiZona(int idZona, int noti){

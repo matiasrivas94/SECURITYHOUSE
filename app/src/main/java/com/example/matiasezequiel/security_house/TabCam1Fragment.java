@@ -31,6 +31,7 @@ import java.util.ArrayList;
 public class TabCam1Fragment extends Fragment {
 
 
+    ProgressDialog pDialog;
     VideoView vVTab1;
     ImageView ivAddCam;
     TextView tvTituloCam;

@@ -13,20 +13,25 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.matiasezequiel.security_house.Aplication.BaseAplication;
 
 public class CrearCamaraFragment extends Fragment {
 
-    EditText etNombreCam, etIP, etUser, etPass, etPort;
+    EditText etNombreCam, etIP, etUser, etPass;
+    Spinner spPuerto;
     Button btnAceptarCam, btnCancelarCam;
     Activity a = (Activity)getActivity();
     MainActivity ma = (MainActivity)getActivity();
-    int auxiliar = 0;
+    int auxiliar = 0,modicamara;
     SharedPreferences.Editor editor;
+    String estadoEditarCamara="default";
+    SharedPreferences prefs4;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -38,7 +43,10 @@ public class CrearCamaraFragment extends Fragment {
         etIP = (EditText)v.findViewById(R.id.etIP);
         etUser = (EditText)v.findViewById(R.id.etUsuario);
         etPass = (EditText)v.findViewById(R.id.etPass);
-        etPort = (EditText)v.findViewById(R.id.etPuerto);
+
+        spPuerto = (Spinner) v.findViewById(R.id.SPPuerto);
+        String[] puerto = {"554"};
+        spPuerto.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, puerto));
 
 
         etNombreCam.addTextChangedListener(new TextWatcher() {
@@ -125,87 +133,112 @@ public class CrearCamaraFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable s) { }
         });
-        etPort.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (etPort.length() > 0) {
-                    auxiliar = -1;
-                    editor = getContext().getSharedPreferences("aaa", Context.MODE_PRIVATE).edit();
-                    editor.putLong("auxiliar", auxiliar);
-                    editor.commit();
-                }
-                else {
-                    auxiliar = 0;
-                    editor = getContext().getSharedPreferences("aaa", Context.MODE_PRIVATE).edit();
-                    editor.putLong("auxiliar", auxiliar);
-                    editor.commit();
-                }
-            }
-            @Override
-            public void afterTextChanged(Editable s) { }
-        });
+
+        //Shared para modificar la camara de camarasFragment
+        SharedPreferences prefs1 = getContext().getSharedPreferences("deleteCamList",Context.MODE_PRIVATE);
+        modicamara = (int)prefs1.getLong("deleteCamLista",-1);
+
+        //shared para editar la camara segun el click en la lista de las camaras
+        prefs4 = getContext().getSharedPreferences("cadenaEditarCamara",Context.MODE_PRIVATE);
+        estadoEditarCamara=prefs4.getString("editarStringCamara"," ");
 
         btnAceptarCam = (Button)v.findViewById(R.id.btnAceptarCam);
         btnAceptarCam.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Usar metodo comprobar campos de los otros fragments
-                if(!comprobarCampos()) {
-                    SharedPreferences.Editor editor = getContext().getSharedPreferences("camCreada",Context.MODE_PRIVATE).edit();
-                    editor.putLong("auxCam", 1);
-                    editor.commit();
+                if(estadoEditarCamara.equals("insert")) {
+                    if (!comprobarCampos()) {
+                        SharedPreferences.Editor editor = getContext().getSharedPreferences("camCreada", Context.MODE_PRIVATE).edit();
+                        editor.putLong("auxCam", 1);
+                        editor.commit();
+                        FragmentTransaction fr = getFragmentManager().beginTransaction();
+                        fr.replace(R.id.contenedor, new CamarasFragment(), "Camaras");
+                        fr.commit();
+                        //InputMethodManager mgr = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                        //mgr.hideSoftInputFromWindow(etPort.getWindowToken(), 0);
+                        agregar(v);
+                    } else {
+                        Toast.makeText(v.getContext(), "Por favor complete los campos.", Toast.LENGTH_LONG).show();
+                    }
+                    prefs4.edit().remove("editarStringCamara").commit();
+                }
+                if(estadoEditarCamara.equals("update")){
+                    editar(v);
                     FragmentTransaction fr = getFragmentManager().beginTransaction();
                     fr.replace(R.id.contenedor, new CamarasFragment(), "Camaras");
                     fr.commit();
-                    InputMethodManager mgr = (InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                    mgr.hideSoftInputFromWindow(etPort.getWindowToken(),0);
-                    agregar(v);
+                    //InputMethodManager mgr = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    //mgr.hideSoftInputFromWindow(etPort.getWindowToken(), 0);
                 }
-                else
-                    Toast.makeText(v.getContext(),"Por favor complete los campos.",Toast.LENGTH_LONG).show();
             }
         });
+
+        if(estadoEditarCamara.equals("update")){
+            btnAceptarCam.setText("Modificar");
+            reflejarCampos();
+            prefs4.edit().remove("editarStringCamara").commit();
+        }
+
         return v;
     }
 
     public void agregar(View v){
         if(!comprobarCampos()){
-            String nombre,ip,user,pass;
-            int puerto;
-            nombre = etNombreCam.getText().toString();
-            ip = etIP.getText().toString();
-            user = etUser.getText().toString();
-            pass = etPass.getText().toString();
-            puerto = Integer.parseInt(etPort.getText().toString());
-
+            //int puerto = Integer.parseInt(spPuerto.getSelectedItem().toString());
+            //Toast.makeText(v.getContext(), "Puerto seleccionado: "+puerto, Toast.LENGTH_LONG).show();
             //inserto la camara
-            boolean res =((BaseAplication)this.getActivity().getApplication()).insertarCamara(nombre,ip,user,pass,puerto);
+            boolean res =((BaseAplication)this.getActivity().getApplication()).insertarCamara(etNombreCam.getText().toString(),etIP.getText().toString(),etUser.getText().toString(),etPass.getText().toString(),Integer.parseInt(spPuerto.getSelectedItem().toString()));
             if(res){
                 Toast.makeText(v.getContext(), "Cámara Creada", Toast.LENGTH_LONG).show();
             }else{
                 Toast.makeText(v.getContext(), "Error al ingresar Alarma", Toast.LENGTH_LONG).show();
             }
-
-
         }else{
             Toast.makeText(this.getActivity(),"hay campos vacios",Toast.LENGTH_LONG).show();
+
         }
         etNombreCam.requestFocus();
         etIP.setText("");
         etUser.setText("");
         etPass.setText("");
-        etPort.setText("");
+        spPuerto.setSelection(0);
     }
 
     public boolean comprobarCampos() {
-        if(etNombreCam.getText().toString().isEmpty() || etIP.getText().toString().isEmpty() || etUser.getText().toString().isEmpty() || etPass.getText().toString().isEmpty() || etPort.getText().toString().isEmpty()) {
+        if(etNombreCam.getText().toString().isEmpty() || etIP.getText().toString().isEmpty() || etUser.getText().toString().isEmpty() || etPass.getText().toString().isEmpty()) {
             //Log.d("prueba", "paso por aca");
             return true;
         }
         else
             return false;
+    }
+
+    //metodos para mostrar datos en los campos y editarlos
+    public void reflejarCampos(){
+        //inserto la camara
+        Camara c =((BaseAplication)getActivity().getApplication()).getCamara(modicamara);
+        //Toast.makeText(this.getActivity(),c.getNombre()+c.getIp()+c.getUsuario()+c.getContraseña()+c.getPuerto(),Toast.LENGTH_LONG).show();
+        etNombreCam.setText(c.getNombre());
+        etIP.setText(c.getIp());
+        etUser.setText(c.getUsuario());
+        etPass.setText(c.getContraseña());
+        spPuerto.setSelection(0);
+    }
+    public void editar(View v){
+        int puerto = spPuerto.getSelectedItemPosition();
+        //idCamara,  nombre,                          ip,                       usuario,                    contraseña,                 puerto
+        long response = ((BaseAplication)getActivity().getApplication()).updateCamara(modicamara,etNombreCam.getText().toString(),etIP.getText().toString(),etUser.getText().toString(),etPass.getText().toString(),puerto);
+        if(response>0){
+            Toast.makeText(this.getActivity(),"Editado con exito",Toast.LENGTH_LONG).show();
+            etNombreCam.requestFocus();
+            etIP.setText("");
+            etUser.setText("");
+            etPass.setText("");
+            spPuerto.setSelection(0);
+        }else{
+            Toast.makeText(this.getActivity(),"Ocurrio un error",Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
