@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,15 +47,20 @@ public class CamarasFragment extends Fragment {
     }
 
     public void llenarLista(){
-        camaras = ((BaseAplication) getActivity().getApplication()).nombresCamaras();
-        if((camaras.size() == 0) || (camaras == null)) {
-            tvTitulo.setVisibility(View.VISIBLE);
-            AdapterLista ld = new AdapterLista();
-            lvCamaras.setAdapter(ld);
-        }else {
-            tvTitulo.setVisibility(View.INVISIBLE);
-            AdapterLista ld = new AdapterLista();
-            lvCamaras.setAdapter(ld);
+        try{
+            camaras = ((BaseAplication) getActivity().getApplication()).nombresCamaras();
+            if((camaras.size() == 0) || (camaras == null)) {
+                tvTitulo.setVisibility(View.VISIBLE);
+                AdapterLista ld = new AdapterLista();
+                lvCamaras.setAdapter(ld);
+            }else {
+                tvTitulo.setVisibility(View.INVISIBLE);
+                AdapterLista ld = new AdapterLista();
+                lvCamaras.setAdapter(ld);
+            }
+        }catch (Exception e) {
+            Log.e("Error", e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -141,13 +147,18 @@ public class CamarasFragment extends Fragment {
                                             //Shared para quedarme con el idCamara seleccionada para eliminar
                                             SharedPreferences prefs1 = getContext().getSharedPreferences("deleteCamList", Context.MODE_PRIVATE);
                                             deleteCamList = (int) prefs1.getLong("deleteCamLista", -1);
-                                            boolean response = ((BaseAplication) getActivity().getApplication()).borrarCamara(deleteCamList);
-                                            if (response) {
-                                                Toast.makeText(getActivity(), "Eliminado con exito", Toast.LENGTH_LONG).show();
-                                                camaras.removeAll(camaras);
-                                                llenarLista();
-                                            } else {
-                                                Toast.makeText(getActivity(), "Fallo", Toast.LENGTH_LONG).show();
+                                            try{
+                                                boolean response = ((BaseAplication) getActivity().getApplication()).borrarCamara(deleteCamList);
+                                                if (response) {
+                                                    Toast.makeText(getActivity(), "Eliminado con exito", Toast.LENGTH_LONG).show();
+                                                    camaras.removeAll(camaras);
+                                                    llenarLista();
+                                                } else {
+                                                    Toast.makeText(getActivity(), "Fallo", Toast.LENGTH_LONG).show();
+                                                }
+                                            }catch (Exception e) {
+                                                Log.e("Error", e.getMessage());
+                                                e.printStackTrace();
                                             }
                                         }});
                                     builder.create();

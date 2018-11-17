@@ -47,7 +47,7 @@ public class ConfigFragment extends Fragment {
         SharedPreferences prefs1 = getContext().getSharedPreferences("eliminarAlarma",Context.MODE_PRIVATE);
         idAlarmaConfig = (int)prefs1.getLong("elimAlarm",-1);
 
-        Log.d("idalarma", String.valueOf(idAlarmaConfig));
+        //Log.d("idalarma", String.valueOf(idAlarmaConfig));
         Alarma alarm = ((BaseAplication) getActivity().getApplication()).getAlarma(idAlarmaConfig);
         numero = alarm.getNumTelefono();
         claveBase = alarm.getClave();

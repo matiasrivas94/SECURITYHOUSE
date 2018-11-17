@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -186,11 +187,16 @@ public class CrearCamaraFragment extends Fragment {
     public void agregar(View v){
         if(!comprobarCampos()){
             //inserto la camara
-            boolean res =((BaseAplication)this.getActivity().getApplication()).insertarCamara(etNombreCam.getText().toString(),etIP.getText().toString(),etUser.getText().toString(),etPass.getText().toString(),Integer.parseInt(spPuerto.getSelectedItem().toString()));
-            if(res){
-                Toast.makeText(v.getContext(), "Cámara Creada", Toast.LENGTH_LONG).show();
-            }else{
-                Toast.makeText(v.getContext(), "Error al ingresar Alarma", Toast.LENGTH_LONG).show();
+            try{
+                boolean res =((BaseAplication)this.getActivity().getApplication()).insertarCamara(etNombreCam.getText().toString(),etIP.getText().toString(),etUser.getText().toString(),etPass.getText().toString(),Integer.parseInt(spPuerto.getSelectedItem().toString()));
+                if(res){
+                    Toast.makeText(v.getContext(), "Cámara Creada", Toast.LENGTH_LONG).show();
+                }else{
+                    Toast.makeText(v.getContext(), "Error al ingresar Alarma", Toast.LENGTH_LONG).show();
+                }
+            }catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
             }
         }else{
             Toast.makeText(this.getActivity(),"hay campos vacios",Toast.LENGTH_LONG).show();
@@ -213,25 +219,35 @@ public class CrearCamaraFragment extends Fragment {
     //metodos para mostrar datos en los campos y editarlos
     public void reflejarCampos(){
         //inserto la camara
-        Camara c =((BaseAplication)getActivity().getApplication()).getCamara(modicamara);
-        etNombreCam.setText(c.getNombre());
-        etIP.setText(c.getIp());
-        etUser.setText(c.getUsuario());
-        etPass.setText(c.getContraseña());
-        spPuerto.setSelection(0);
+        try{
+            Camara c =((BaseAplication)getActivity().getApplication()).getCamara(modicamara);
+            etNombreCam.setText(c.getNombre());
+            etIP.setText(c.getIp());
+            etUser.setText(c.getUsuario());
+            etPass.setText(c.getContraseña());
+            spPuerto.setSelection(0);
+        }catch (Exception e) {
+            Log.e("Error", e.getMessage());
+            e.printStackTrace();
+        }
     }
     public void editar(View v){
         int puerto = spPuerto.getSelectedItemPosition();
-        long response = ((BaseAplication)getActivity().getApplication()).updateCamara(modicamara,etNombreCam.getText().toString(),etIP.getText().toString(),etUser.getText().toString(),etPass.getText().toString(),puerto);
-        if(response>0){
-            Toast.makeText(this.getActivity(),"Editado con exito",Toast.LENGTH_LONG).show();
-            etNombreCam.requestFocus();
-            etIP.setText("");
-            etUser.setText("");
-            etPass.setText("");
-            spPuerto.setSelection(0);
-        }else{
-            Toast.makeText(this.getActivity(),"Ocurrio un error",Toast.LENGTH_LONG).show();
+        try{
+            long response = ((BaseAplication)getActivity().getApplication()).updateCamara(modicamara,etNombreCam.getText().toString(),etIP.getText().toString(),etUser.getText().toString(),etPass.getText().toString(),puerto);
+            if(response>0){
+                Toast.makeText(this.getActivity(),"Editado con exito",Toast.LENGTH_LONG).show();
+                etNombreCam.requestFocus();
+                etIP.setText("");
+                etUser.setText("");
+                etPass.setText("");
+                spPuerto.setSelection(0);
+            }else{
+                Toast.makeText(this.getActivity(),"Ocurrio un error",Toast.LENGTH_LONG).show();
+            }
+        }catch (Exception e) {
+            Log.e("Error", e.getMessage());
+            e.printStackTrace();
         }
     }
 

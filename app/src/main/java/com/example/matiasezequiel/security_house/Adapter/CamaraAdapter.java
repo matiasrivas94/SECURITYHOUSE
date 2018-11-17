@@ -91,6 +91,4 @@ public class CamaraAdapter {
         c.moveToFirst();
         return new Camara(c.getInt(c.getColumnIndex("idCamara")),c.getString(c.getColumnIndex("nombre")),c.getString(c.getColumnIndex("ip")),c.getString(c.getColumnIndex("usuario")),c.getString(c.getColumnIndex("password")),c.getInt(c.getColumnIndex("puerto")));
     }
-
-
 }

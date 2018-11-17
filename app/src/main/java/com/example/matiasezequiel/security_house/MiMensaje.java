@@ -69,39 +69,44 @@ public class MiMensaje extends BroadcastReceiver {
                     ultimo = textomensaje.charAt(textomensaje.length() - 1);
                     int x = ultimo - '0';
                     if ((x >= 1) && (x <= 6)) {
-                        a = ((BaseAplication) context.getApplicationContext()).getAlarmaNum(cel);
-                        if((a.size() == 1)) {
-                            //metodo que devuelve una alarma segun el numero de telefono
-                            nombreAlarm = a.get(0).getNombre();
+                        try {
+                            a = ((BaseAplication) context.getApplicationContext()).getAlarmaNum(cel);
+                            if((a.size() == 1)) {
+                                //metodo que devuelve una alarma segun el numero de telefono
+                                nombreAlarm = a.get(0).getNombre();
 
-                            //selecciono todas las zonas almacenadas segun el id de la alarma que traigo de arriba
-                            //
-                            ArrayList<Zona> zonas = ((BaseAplication) context.getApplicationContext()).getZonas(a.get(0).getIdAlarma());
-                            final ArrayList<Integer> idZonas = new ArrayList<>();
-                            for (int y = 0; y < zonas.size(); y++) {
-                                idZonas.add(zonas.get(y).getIdZona());
-                            }
-                            int y = idZonas.get(x - 1);
-                            for (int z = 0; z < idZonas.size(); z++) {
-                                if (idZonas.get(z) == y) {
-                                    long res = ((BaseAplication) context.getApplicationContext()).updateNotiZona(idZonas.get(z), 1);
-                                    Calendar c = Calendar.getInstance();
-                                    hora = c.getTime().toString();
-                                    SharedPreferences.Editor editor = context.getSharedPreferences("time", Context.MODE_PRIVATE).edit();
-                                    editor.putString("hora", hora);
-                                    editor.commit();
-                                    /*if (res > 0)
-                                        Toast.makeText(context, "Noti Actualizada", Toast.LENGTH_LONG).show();
-                                    else
-                                        Toast.makeText(context, "No se pudo actualizar la Notificacion", Toast.LENGTH_LONG).show();*/
+                                //selecciono todas las zonas almacenadas segun el id de la alarma que traigo de arriba
+                                //
+                                ArrayList<Zona> zonas = ((BaseAplication) context.getApplicationContext()).getZonas(a.get(0).getIdAlarma());
+                                final ArrayList<Integer> idZonas = new ArrayList<>();
+                                for (int y = 0; y < zonas.size(); y++) {
+                                    idZonas.add(zonas.get(y).getIdZona());
                                 }
+                                int y = idZonas.get(x - 1);
+                                for (int z = 0; z < idZonas.size(); z++) {
+                                    if (idZonas.get(z) == y) {
+                                        long res = ((BaseAplication) context.getApplicationContext()).updateNotiZona(idZonas.get(z), 1);
+                                        Calendar c = Calendar.getInstance();
+                                        hora = c.getTime().toString();
+                                        SharedPreferences.Editor editor = context.getSharedPreferences("time", Context.MODE_PRIVATE).edit();
+                                        editor.putString("hora", hora);
+                                        editor.commit();
+                                        /*if (res > 0)
+                                            Toast.makeText(context, "Noti Actualizada", Toast.LENGTH_LONG).show();
+                                        else
+                                            Toast.makeText(context, "No se pudo actualizar la Notificacion", Toast.LENGTH_LONG).show();*/
+                                    }
+                                }
+                                SharedPreferences.Editor editor = context.getSharedPreferences("cc", Context.MODE_PRIVATE).edit();
+                                editor.putLong("idAlarma", a.get(0).getIdAlarma());
+                                editor.commit();
+
+
+                                Notificar(context);
                             }
-                            SharedPreferences.Editor editor = context.getSharedPreferences("cc", Context.MODE_PRIVATE).edit();
-                            editor.putLong("idAlarma", a.get(0).getIdAlarma());
-                            editor.commit();
-
-
-                            Notificar(context);
+                        }catch (Exception e) {
+                            Log.e("Error", e.getMessage());
+                            e.printStackTrace();
                         }
                     }
                 }

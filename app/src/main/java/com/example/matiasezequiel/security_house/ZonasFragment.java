@@ -7,6 +7,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -82,7 +83,6 @@ public class ZonasFragment extends Fragment {
         String nombreAlarm = prefs.getString("nombreAlarma"," ");
         titulo.setText(nombreAlarm);
 
-        //actualizarZonas2(view);
 
         //Boton general de Editar Zonas
         iv_edit.setOnClickListener(new View.OnClickListener() {
@@ -525,59 +525,124 @@ public class ZonasFragment extends Fragment {
     public void verificaCheckBoxs(){
 
         if(c1.isChecked()) {
-            long res = ((BaseAplication) getActivity().getApplication()).updateEstadoZona(idZona.get(0), 1);
-            //Toast.makeText(getContext(), "CheckBox 1 ''SI'' está Tildado", Toast.LENGTH_LONG).show();
+            try{
+                long res = ((BaseAplication) getActivity().getApplication()).updateEstadoZona(idZona.get(0), 1);
+                //Toast.makeText(getContext(), "CheckBox 1 ''SI'' está Tildado", Toast.LENGTH_LONG).show();
+            }catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
         }else {
-            long res = ((BaseAplication) getActivity().getApplication()).updateEstadoZona(idZona.get(0), 0);
+            try{
+                long res = ((BaseAplication) getActivity().getApplication()).updateEstadoZona(idZona.get(0), 0);
+            }catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
         }
         if(c2.isChecked()) {
-            long res = ((BaseAplication) getActivity().getApplication()).updateEstadoZona(idZona.get(1), 1);
-            //Toast.makeText(getContext(), "CheckBox 1 ''SI'' está Tildado", Toast.LENGTH_LONG).show();
+            try{
+                long res = ((BaseAplication) getActivity().getApplication()).updateEstadoZona(idZona.get(1), 1);
+                //Toast.makeText(getContext(), "CheckBox 1 ''SI'' está Tildado", Toast.LENGTH_LONG).show();
+            }catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
         }else {
-            long res = ((BaseAplication) getActivity().getApplication()).updateEstadoZona(idZona.get(1), 0);
+            try{
+                long res = ((BaseAplication) getActivity().getApplication()).updateEstadoZona(idZona.get(1), 0);
+            }catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
         }
         if(c3.isChecked()) {
-            long res = ((BaseAplication) getActivity().getApplication()).updateEstadoZona(idZona.get(2), 1);
-            //Toast.makeText(getContext(), "CheckBox 1 ''SI'' está Tildado", Toast.LENGTH_LONG).show();
+            try{
+                long res = ((BaseAplication) getActivity().getApplication()).updateEstadoZona(idZona.get(2), 1);
+                //Toast.makeText(getContext(), "CheckBox 1 ''SI'' está Tildado", Toast.LENGTH_LONG).show();
+            }catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
         }else {
-            long res = ((BaseAplication) getActivity().getApplication()).updateEstadoZona(idZona.get(2), 0);
+            try{
+                long res = ((BaseAplication) getActivity().getApplication()).updateEstadoZona(idZona.get(2), 0);
+            }catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
         }
         if(c4.isChecked()) {
-            long res = ((BaseAplication) getActivity().getApplication()).updateEstadoZona(idZona.get(3), 1);
-            //Toast.makeText(getContext(), "CheckBox 1 ''SI'' está Tildado", Toast.LENGTH_LONG).show();
+            try{
+                long res = ((BaseAplication) getActivity().getApplication()).updateEstadoZona(idZona.get(3), 1);
+                //Toast.makeText(getContext(), "CheckBox 1 ''SI'' está Tildado", Toast.LENGTH_LONG).show();
+            }catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
         }else {
-            long res = ((BaseAplication) getActivity().getApplication()).updateEstadoZona(idZona.get(3), 0);
+            try{
+                long res = ((BaseAplication) getActivity().getApplication()).updateEstadoZona(idZona.get(3), 0);
+            }catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
         }
         if(c5.isChecked()) {
-            long res = ((BaseAplication) getActivity().getApplication()).updateEstadoZona(idZona.get(4), 1);
-            //Toast.makeText(getContext(), "CheckBox 1 ''SI'' está Tildado", Toast.LENGTH_LONG).show();
+            try{
+                long res = ((BaseAplication) getActivity().getApplication()).updateEstadoZona(idZona.get(4), 1);
+                //Toast.makeText(getContext(), "CheckBox 1 ''SI'' está Tildado", Toast.LENGTH_LONG).show();
+            }catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
         }else {
-            long res = ((BaseAplication) getActivity().getApplication()).updateEstadoZona(idZona.get(4), 0);
+            try{
+                long res = ((BaseAplication) getActivity().getApplication()).updateEstadoZona(idZona.get(4), 0);
+            }catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
         }
         if(c6.isChecked()) {
-            long res = ((BaseAplication) getActivity().getApplication()).updateEstadoZona(idZona.get(5), 1);
-            //Toast.makeText(getContext(), "CheckBox 1 ''SI'' está Tildado", Toast.LENGTH_LONG).show();
+            try{
+                long res = ((BaseAplication) getActivity().getApplication()).updateEstadoZona(idZona.get(5), 1);
+                //Toast.makeText(getContext(), "CheckBox 1 ''SI'' está Tildado", Toast.LENGTH_LONG).show();
+            }catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
         }else {
-            long res = ((BaseAplication) getActivity().getApplication()).updateEstadoZona(idZona.get(5), 0);
+            try{
+                long res = ((BaseAplication) getActivity().getApplication()).updateEstadoZona(idZona.get(5), 0);
+            }catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
         }
     }
 
     public void actualizarZonas2(View v){
-        ArrayList<Zona> zonas = ((BaseAplication) getActivity().getApplication()).getZonas(idAlarmaTabZona);
-        arreglo = new ArrayList<>();
-        estado = new ArrayList<>();
-        idZona = new ArrayList<>();
-        for (int i = 0;i<zonas.size();i++){
-            arreglo.add(zonas.get(i).getNombre());
-            idZona.add(zonas.get(i).getIdZona());
-            estado.add(zonas.get(i).getEstado());
+        try{
+            ArrayList<Zona> zonas = ((BaseAplication) getActivity().getApplication()).getZonas(idAlarmaTabZona);
+            arreglo = new ArrayList<>();
+            estado = new ArrayList<>();
+            idZona = new ArrayList<>();
+            for (int i = 0;i<zonas.size();i++){
+                arreglo.add(zonas.get(i).getNombre());
+                idZona.add(zonas.get(i).getIdZona());
+                estado.add(zonas.get(i).getEstado());
+            }
+            t1.setText(arreglo.get(0));
+            t2.setText(arreglo.get(1));
+            t3.setText(arreglo.get(2));
+            t4.setText(arreglo.get(3));
+            t5.setText(arreglo.get(4));
+            t6.setText(arreglo.get(5));
+        }catch (Exception e) {
+            Log.e("Error", e.getMessage());
+            e.printStackTrace();
         }
-        t1.setText(arreglo.get(0));
-        t2.setText(arreglo.get(1));
-        t3.setText(arreglo.get(2));
-        t4.setText(arreglo.get(3));
-        t5.setText(arreglo.get(4));
-        t6.setText(arreglo.get(5));
     }
     public void eliminarShared(View v){
         prefs2 = getContext().getSharedPreferences("idAlarmaPrin",Context.MODE_PRIVATE);
@@ -589,9 +654,14 @@ public class ZonasFragment extends Fragment {
 
     public void visibilidadSoloTextView(View v) {
 
+        int ultiIdAlarma=-1;
         //busco el idAlarma de la ultima alarma ingresada
-        int ultiIdAlarma = ((BaseAplication) getActivity().getApplication()).ultimaAlarmaIngresada();
-
+        try{
+            ultiIdAlarma = ((BaseAplication) getActivity().getApplication()).ultimaAlarmaIngresada();
+        }catch (Exception e) {
+            Log.e("Error", e.getMessage());
+            e.printStackTrace();
+        }
         // Se crean los TextView cuando se crea una alarma
         if(estadoAlarma != " ")
         {
@@ -600,12 +670,17 @@ public class ZonasFragment extends Fragment {
             editor.putLong("idAlarmaPrincipal", ultiIdAlarma);
             editor.commit();
 
-            boolean insertZona = ((BaseAplication) getActivity().getApplication()).insertarZona(ultiIdAlarma,1,0);
+            try{
+                boolean insertZona = ((BaseAplication) getActivity().getApplication()).insertarZona(ultiIdAlarma,1,0);
             /*if(insertZona)
                 Toast.makeText(this.getActivity(), "Zonas INSERTADAS", Toast.LENGTH_SHORT).show();
             else
                 Toast.makeText(this.getActivity(), "Error al insertar zonas", Toast.LENGTH_SHORT).show();
             */
+            }catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
 
             llenarLista(ultiIdAlarma);
             prefs4.edit().remove("estadoZonaString").commit();
@@ -624,19 +699,25 @@ public class ZonasFragment extends Fragment {
 
     //llenarLista de Zonas
     public void llenarLista(int idAla){
-        tabZonas = ((BaseAplication) getActivity().getApplication()).getZonas(idAla);
-        datosZonas = new ArrayList<>();
+        try{
+            tabZonas = ((BaseAplication) getActivity().getApplication()).getZonas(idAla);
+            datosZonas = new ArrayList<>();
 
-        for(int x = 0; x < tabZonas.size(); x++){
-            datosZonas.add(new DatosItemZona(x,tabZonas.get(x).getNombre(), R.drawable.snooze1));
+            for(int x = 0; x < tabZonas.size(); x++){
+                datosZonas.add(new DatosItemZona(x,tabZonas.get(x).getNombre(), R.drawable.snooze1));
+            }
+            AdaptadorZona adapter = new AdaptadorZona(this.getActivity(), datosZonas);
+            listaZonas.setAdapter(adapter);
+        }catch (Exception e) {
+            Log.e("Error", e.getMessage());
+            e.printStackTrace();
         }
-        AdaptadorZona adapter = new AdaptadorZona(this.getActivity(), datosZonas);
-        listaZonas.setAdapter(adapter);
     }
     //clase interna para manejar el item de la lista de las zonas
     private class AdaptadorZona extends BaseAdapter {
         Context contexto;
         List<DatosItemZona> listaObjetos;
+        ArrayList<Zona> zonas;
 
         public AdaptadorZona(Context contexto, List<DatosItemZona> listaObjetos) {
             this.contexto = contexto;
@@ -670,7 +751,12 @@ public class ZonasFragment extends Fragment {
             estadoZona.setVisibility(vista.INVISIBLE);
 
             //selecciono todas las zonas almacenadas segun el id de la alarma que traigo del tabZonas
-            ArrayList<Zona> zonas = ((BaseAplication) getActivity().getApplication()).getZonas(clickAlarma);
+            try{
+                zonas = ((BaseAplication) getActivity().getApplication()).getZonas(clickAlarma);
+            }catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
 
             final ArrayList<Integer> noti = new ArrayList<>();
             final ArrayList<Integer> idZonas = new ArrayList<>();

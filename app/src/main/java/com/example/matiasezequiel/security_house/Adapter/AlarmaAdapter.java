@@ -34,7 +34,7 @@ public class AlarmaAdapter {
 
     public final static String CR_TABLE="create table if not exists "+ NAME + "(" +
             Columns.IDA + " integer primary key autoincrement, "
-            + Columns.NOMBRE + " text not null, "
+            +Columns.NOMBRE + " text not null, "
             +Columns.TIPO + " text not null, "
             +Columns.NUMTELEFONO + " text not null,"
             +Columns.CLAVE + " text not null)";

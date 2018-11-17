@@ -22,6 +22,7 @@ public class DBAdapter {
     private AlarmaAdapter alarma;
     private ZonaAdapter zona;
     private CamaraAdapter camara;
+    private AppAdapter app;
 
 
     public DBAdapter(Context context){
@@ -34,6 +35,7 @@ public class DBAdapter {
         alarma = new AlarmaAdapter(sqlDB);
         zona = new ZonaAdapter(sqlDB);
         camara = new CamaraAdapter(sqlDB);
+        app = new AppAdapter(sqlDB);
     }
 
     public void close(){
@@ -199,6 +201,7 @@ public class DBAdapter {
             db.execSQL(AlarmaAdapter.CR_TABLE);
             db.execSQL(ZonaAdapter.CR_TABLE);
             db.execSQL(CamaraAdapter.CR_TABLE);
+            db.execSQL(AppAdapter.CR_TABLE);
         }
 
         @Override
@@ -206,6 +209,7 @@ public class DBAdapter {
             db.execSQL("drop table ifexists"+AlarmaAdapter.CR_TABLE);
             db.execSQL("drop table ifexists"+ZonaAdapter.CR_TABLE);
             db.execSQL("drop table ifexists"+CamaraAdapter.CR_TABLE);
+            db.execSQL("drop table ifexists"+AppAdapter.CR_TABLE);
         }
     }
 }
