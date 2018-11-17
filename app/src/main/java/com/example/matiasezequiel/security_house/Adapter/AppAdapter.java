@@ -6,6 +6,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.provider.BaseColumns;
 
+import com.example.matiasezequiel.security_house.App;
+
 public class AppAdapter {
     private static final String NAME="app";
     private SQLiteDatabase sqlDB;
@@ -45,6 +47,11 @@ public class AppAdapter {
         return  sqlDB.delete(NAME,whereClause,whereArgs)>0;
     }
 
+    public App getApp(int idApp){
+        Cursor c = sqlDB.rawQuery("SELECT * FROM app WHERE idApp = "+idApp,null);
+        c.moveToFirst();
+        return new App(c.getInt(c.getColumnIndex("idApp")),c.getInt(c.getColumnIndex("premium")));
+    }
 
     public Cursor getNombres(){
         String [] columns ={Columns.PREMIUM};

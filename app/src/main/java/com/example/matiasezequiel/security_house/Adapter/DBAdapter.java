@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.example.matiasezequiel.security_house.Alarma;
+import com.example.matiasezequiel.security_house.App;
 import com.example.matiasezequiel.security_house.Camara;
 import com.example.matiasezequiel.security_house.Zona;
 
@@ -105,6 +106,9 @@ public class DBAdapter {
         return alarma.getAlarma(idAlarma);
     }
 
+    public App getApp(int idApp){
+        return app.getApp(idApp);
+    }
     //devuelvo una alarma segun numTelefono
     public ArrayList<Alarma> getAlarmaNum(String numTelefono){
         return alarma.getAlarmaNumTelefono(numTelefono);
@@ -179,6 +183,14 @@ public class DBAdapter {
         ContentValues val = new ContentValues();
         val.put("estado",estado);
         long response = sqlDB.update("zona",val,"idZona="+idZona,null);
+        return response;
+    }
+
+    //actualizo el atributo premium de la tabla app
+    public long updatePremiumApp(int idApp, int premium){
+        ContentValues val = new ContentValues();
+        val.put("premium",premium);
+        long response = sqlDB.update("app",val,"idApp="+idApp,null);
         return response;
     }
 

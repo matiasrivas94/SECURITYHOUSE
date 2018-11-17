@@ -5,6 +5,7 @@ import android.database.Cursor;
 
 import com.example.matiasezequiel.security_house.Adapter.DBAdapter;
 import com.example.matiasezequiel.security_house.Alarma;
+import com.example.matiasezequiel.security_house.App;
 import com.example.matiasezequiel.security_house.Camara;
 import com.example.matiasezequiel.security_house.Zona;
 
@@ -105,6 +106,10 @@ public class BaseAplication extends Application {
     }
     public Camara getCamara(int idCamara){
         return dbAdapter.getCamara(idCamara);
+    }
+
+    public App getApp(int idApp){
+        return dbAdapter.getApp(idApp);
     }
 
     //busco por NUMTELEFONO
