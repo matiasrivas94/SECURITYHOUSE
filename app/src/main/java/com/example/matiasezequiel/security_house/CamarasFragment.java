@@ -33,6 +33,7 @@ public class CamarasFragment extends Fragment {
     TextView tvTitulo;
 
     int camaraSeleccionada,idCamara=0,deleteCamList;
+    String nombreCamSeleccionada;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -95,6 +96,7 @@ public class CamarasFragment extends Fragment {
                     //Shared para saber el idAlarma al hacer click sobre el listView
                     Camara cam = camaras.get(camaraSeleccionada);
                     idCamara = cam.getIdCamara();
+                    nombreCamSeleccionada = cam.getNombre();
 
                     //Shared para quedarme con la posicion de la lista al seleccionar una camara
                     SharedPreferences.Editor editor1 = getContext().getSharedPreferences("deleteCamList", Context.MODE_PRIVATE).edit();
@@ -114,6 +116,13 @@ public class CamarasFragment extends Fragment {
                                     SharedPreferences.Editor editor1 = getContext().getSharedPreferences("ReproCamList", Context.MODE_PRIVATE).edit();
                                     editor1.putLong("reproCamLista", idCamara);
                                     editor1.commit();
+
+                                    //Shared para el nombre de la camara
+                                    SharedPreferences.Editor editor3 = getContext().getSharedPreferences("nomCamara",Context.MODE_PRIVATE).edit();
+                                    editor3.putString ("nombreCamara",nombreCamSeleccionada);
+                                    editor3.commit();
+
+
 
                                     FragmentTransaction fr2 = getFragmentManager().beginTransaction();
                                     fr2.replace(R.id.contenedor, new ReproducirFragment(),"Reproducir");

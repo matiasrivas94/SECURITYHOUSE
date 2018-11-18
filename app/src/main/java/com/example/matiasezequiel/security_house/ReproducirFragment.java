@@ -17,6 +17,8 @@ import android.widget.VideoView;
 
 import com.example.matiasezequiel.security_house.Aplication.BaseAplication;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
 
@@ -24,11 +26,14 @@ public class ReproducirFragment extends Fragment {
 
     ProgressDialog pDialog = null;
     VideoView vVTab1 = null;
+    TextView tvMensajeCam = null;
     TextView tvTituloCam = null;
 
-    SharedPreferences prefs1 = null;
+    SharedPreferences prefs1,prefs2 = null;
     int reproducir;
     ProgressBar progressBar = null;
+
+    String tituloCamara;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -36,12 +41,18 @@ public class ReproducirFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_reproducir, container, false);
 
-        tvTituloCam = (TextView)v.findViewById(R.id.tvTituloCamaras1);
+        tvMensajeCam = (TextView)v.findViewById(R.id.tvTituloCamaras1);
         vVTab1 = (VideoView)v.findViewById(R.id.videoViewTab1);
+        tvTituloCam = (TextView)v.findViewById(R.id.tvNombreTituloCam);
 
         //Shared para quedarme con el idCamara seleccionada para reproducir
         prefs1 = getContext().getSharedPreferences("ReproCamList", Context.MODE_PRIVATE);
         reproducir = (int) prefs1.getLong("reproCamLista", -1);
+
+        prefs2 = getContext().getSharedPreferences("nomCamara", Context.MODE_PRIVATE);
+        tituloCamara = prefs2.getString("nombreCamara", " ");
+
+        tvTituloCam.setText(tituloCamara);
 
         progressBar = (ProgressBar) v.findViewById(R.id.progressbar);
         addCamView(reproducir);

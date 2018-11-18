@@ -8,7 +8,7 @@
 
     <LinearLayout
         android:layout_width="324dp"
-        android:layout_height="431dp"
+        android:layout_height="460dp"
         android:layout_gravity="center"
         android:background="@drawable/gris1"
         android:orientation="vertical">
@@ -44,19 +44,48 @@
             android:layout_width="match_parent"
             android:layout_height="20dp"
             android:layout_gravity="center"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="5dp"
             android:background="#5516405c"
             android:text="Eres un usuario Premium"
             android:textAlignment="center"
             android:textSize="15dp"
             android:textStyle="italic" />
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/etEmailPremium"
+                android:layout_width="205dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="60dp"
+                android:text="Ingrese su email" />
+
+            <ImageView
+                android:id="@+id/ivVerificarImagen"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/ic_done_green" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnVerificarEmail"
+            android:layout_width="199dp"
+            android:layout_height="37dp"
+            android:layout_gravity="center"
+            android:text="Verificar email" />
+
+
         <Button
             android:id="@+id/btnPremium3"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="20dp"
             android:background="@drawable/shape"
             android:text="3 MESES" />
 

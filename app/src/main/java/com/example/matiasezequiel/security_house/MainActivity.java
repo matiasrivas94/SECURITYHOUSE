@@ -172,6 +172,7 @@ public class MainActivity extends AppCompatActivity
                 dialog.setCanceledOnTouchOutside(false);
                 return;
             }
+
             if (getVisibleFragment().equals("Zonas")) {
                 fragmentManager.beginTransaction().replace(R.id.contenedor, new AlarmasFragment(), "Alarmas").commit();
                 clearBackStack();
@@ -198,13 +199,59 @@ public class MainActivity extends AppCompatActivity
                 return;
             }
             if (getVisibleFragment().equals("Camaras")) {
-                fragmentManager.beginTransaction().replace(R.id.contenedor, new AlarmasFragment(), "Alarmas").commit();
+                // Menu con alert builder
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                //builder.setTitle("Elegir Opcion");
+                builder.setTitle("Desea Salir de la Aplicacion?");
+                // add a list
+                String[] opcion = {"Salir", "Cancelar"};
+                builder.setItems(opcion, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case 0:
+                                finish();
+                                break;
+                            case 1:
+                                //Abrir un alertDialog preguntando si desea cancelar
+                                dialog.cancel();
+                                break;
+                        }
+                    }
+                });
+                // create and show the alert dialog
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
+                dialog.setCanceledOnTouchOutside(false);
+                return;
+            }
+            if (getVisibleFragment().equals("QuienesSomos")) { fragmentManager.beginTransaction().replace(R.id.contenedor, new AlarmasFragment(), "Alarmas").commit();
                 clearBackStack();
                 return;
             }
-            if (getVisibleFragment().equals("QuienesSomos")) {
-                fragmentManager.beginTransaction().replace(R.id.contenedor, new AlarmasFragment(), "Alarmas").commit();
-                clearBackStack();
+            if(getVisibleFragment().equals("Reproducir")){
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Desea cerrar la transmision?");
+                // add a list
+                String[] opcion = {"Si", "No"};
+                builder.setItems(opcion, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case 0:
+                                fragmentManager.beginTransaction().replace(R.id.contenedor, new CamarasFragment(), "Camaras").commit();
+                                break;
+                            case 1:
+                                dialog.cancel();
+                                break;
+                        }
+                    }
+                });
+                // create and show the alert dialog
+                AlertDialog dialog = builder.create();
+                dialog.show();
+                dialog.setCanceledOnTouchOutside(false);
                 return;
             }
             if (getVisibleFragment().equals("Premium")) {
