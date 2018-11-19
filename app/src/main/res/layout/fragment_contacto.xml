@@ -51,8 +51,7 @@
             android:layout_column="0"
             android:layout_gravity="left"
             android:layout_marginTop="10dp"
-            android:layout_row="1"
-            android:background="#f5f5f5" />
+            android:layout_row="1" />
 
         <TextView
             android:id="@+id/textEmail"
@@ -74,8 +73,7 @@
             android:layout_column="0"
             android:layout_gravity="left"
             android:layout_marginTop="10dp"
-            android:layout_row="3"
-            android:background="#f5f5f5" />
+            android:layout_row="3" />
 
         <TextView
             android:id="@+id/textAsunto"
@@ -97,8 +95,7 @@
             android:layout_column="0"
             android:layout_gravity="left"
             android:layout_marginTop="10dp"
-            android:layout_row="5"
-            android:background="#f5f5f5" />
+            android:layout_row="5" />
 
         <TextView
             android:id="@+id/txtMje"
@@ -123,7 +120,6 @@
             android:layout_marginTop="10dp"
             android:layout_row="7"
             android:height="150dp"
-            android:background="#f5f5f5"
             android:padding="0dp"
             android:scrollbars="vertical"
             android:lines="6"/>
