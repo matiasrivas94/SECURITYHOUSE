@@ -40,10 +40,9 @@ public class PremiumFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 email = emailPremium.getText().toString();
-                email.replace(" ","");
+                email = email.replace(" ","");
                 ivVerificar.setVisibility(View.VISIBLE);
                 if(email.equals("mauryntvg7@gmail.com")){
-                    Toast.makeText(getContext(), "igual", Toast.LENGTH_SHORT).show();
                     ivVerificar.setImageResource(R.drawable.ic_done_green);
                     btnPremium3.setEnabled(false);
                     btnPremium1.setEnabled(false);
@@ -51,7 +50,6 @@ public class PremiumFragment extends Fragment {
                     //editar premium 1
                 }
                 else{
-                    Toast.makeText(getContext(), "distinto", Toast.LENGTH_SHORT).show();
                     ivVerificar.setImageResource(R.drawable.ic_error);
                     btnPremium3.setEnabled(true);
                     btnPremium1.setEnabled(true);

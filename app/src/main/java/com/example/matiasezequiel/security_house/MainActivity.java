@@ -279,7 +279,7 @@ public class MainActivity extends AppCompatActivity
                 return;
             }
             if (getVisibleFragment().equals("Premium")) {
-                fragmentManager.beginTransaction().replace(R.id.contenedor, new PremiumFragment(), "Premium").commit();
+                fragmentManager.beginTransaction().replace(R.id.contenedor, new AlarmasFragment(), "Alarmas").commit();
                 clearBackStack();
                 return;
             }

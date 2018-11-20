@@ -804,10 +804,6 @@ public class ZonasFragment extends Fragment {
                                 public void onClick(View v) {
                                     //estadoZona.setVisibility(v.INVISIBLE);
                                     long res =((BaseAplication)getActivity().getApplication()).updateNotiZona(idZonas.get(position),0);
-                                    if(res > 0)
-                                         Toast.makeText(getActivity().getApplication(), "Noti Actualizada", Toast.LENGTH_LONG).show();
-                                    else
-                                        Toast.makeText(getActivity().getApplication(), "No se pudo actualizar la Notificacion", Toast.LENGTH_LONG).show();
 
                                     FragmentTransaction fr = getFragmentManager().beginTransaction();
                                     fr.replace(R.id.contenedor, new ZonasFragment(), "Zonas");
