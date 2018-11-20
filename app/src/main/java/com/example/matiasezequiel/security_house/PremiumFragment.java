@@ -4,15 +4,25 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 public class PremiumFragment extends Fragment {
 
-    Button btnPremium1, btnPremium3;
+    Button btnPremium1, btnPremium3, btnVerificarImg;
+    EditText emailPremium;
+    ImageView ivVerificar;
+    TextView tvEstadoPremium;
+    String email;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -21,6 +31,35 @@ public class PremiumFragment extends Fragment {
 
         btnPremium1 = (Button)v.findViewById(R.id.btnPremium1);
         btnPremium3 = (Button)v.findViewById(R.id.btnPremium3);
+        emailPremium = (EditText)v.findViewById(R.id.etEmailPremium);
+        ivVerificar = (ImageView)v.findViewById(R.id.ivVerificarImagen);
+        btnVerificarImg = (Button)v.findViewById(R.id.btnVerificarEmail);
+        tvEstadoPremium = (TextView)v.findViewById(R.id.tvEstadoPremium);
+
+        btnVerificarImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                email = emailPremium.getText().toString();
+                email.replace(" ","");
+                ivVerificar.setVisibility(View.VISIBLE);
+                if(email.equals("mauryntvg7@gmail.com")){
+                    Toast.makeText(getContext(), "igual", Toast.LENGTH_SHORT).show();
+                    ivVerificar.setImageResource(R.drawable.ic_done_green);
+                    btnPremium3.setEnabled(false);
+                    btnPremium1.setEnabled(false);
+                    tvEstadoPremium.setVisibility(View.VISIBLE);
+                    //editar premium 1
+                }
+                else{
+                    Toast.makeText(getContext(), "distinto", Toast.LENGTH_SHORT).show();
+                    ivVerificar.setImageResource(R.drawable.ic_error);
+                    btnPremium3.setEnabled(true);
+                    btnPremium1.setEnabled(true);
+                    tvEstadoPremium.setVisibility(View.GONE);
+                    //editar premium 0
+                }
+            }
+        });
 
         btnPremium1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -40,6 +79,19 @@ public class PremiumFragment extends Fragment {
         });
 
         return v;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (!getUserVisibleHint()) {
+            return;
+        }
+        MainActivity mainActivity = (MainActivity) getActivity();
+        if (mainActivity != null) {
+            mainActivity.hideFloatingActionButton(); //oculto boton
+            FloatingActionButton fab = mainActivity.findViewById(R.id.fab);
+        }
     }
 
 
