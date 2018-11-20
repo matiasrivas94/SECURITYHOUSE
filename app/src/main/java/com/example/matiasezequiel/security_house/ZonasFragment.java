@@ -32,6 +32,7 @@ public class ZonasFragment extends Fragment {
     TextView titulo;
     ImageView iv_edit;
     Button aplicarZonas;
+    static int agregando = 0;
 
     //----- VARIABLES DEL TAB ZONAS ----//
     ListView listaZonas;
@@ -760,11 +761,24 @@ public class ZonasFragment extends Fragment {
 
             final ArrayList<Integer> noti = new ArrayList<>();
             final ArrayList<Integer> idZonas = new ArrayList<>();
-            for (int i = 0;i<zonas.size();i++){
-                idZonas.add (zonas.get(i).getIdZona());
-                noti.add(zonas.get(i).getNotificacion());
-            }
 
+            if(agregando == 0) {
+                for (int i = 0; i < zonas.size(); i++) {
+                    idZonas.add(zonas.get(i).getIdZona());
+                    noti.add(zonas.get(i).getNotificacion());
+                }
+                //Log.d("Probando log", "Agregando 0");
+            }else{
+                for (int i = 0; i < zonas.size(); i++) {
+                    idZonas.add(zonas.get(i).getIdZona());
+                    estadoZona.setVisibility(View.INVISIBLE);
+                    //noti.add(0);
+                }
+                //Log.d("Probando log",position+" ");
+                if(position == 5){
+                    agregando=0;
+                }
+            }
             if(noti.size() > 0) {
                 if (noti.get(position).equals(1)) {
                     estadoZona.setVisibility(vista.VISIBLE);

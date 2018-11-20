@@ -70,7 +70,7 @@
                     android:textColor="#f5f5f5" />
 
                 <TextView
-                    android:id="@+id/textView"
+                    android:id="@+id/textViewTituloCamaraIP"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_column="0"
@@ -135,6 +135,7 @@
                     android:layout_marginTop="20dp"
                     android:layout_row="3"
                     android:ems="10"
+                    android:inputType="textPassword"
                     android:textColor="#f5f5f5" />
 
                 <TextView

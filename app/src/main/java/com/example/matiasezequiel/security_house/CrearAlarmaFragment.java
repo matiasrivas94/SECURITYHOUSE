@@ -141,6 +141,7 @@ public class CrearAlarmaFragment extends Fragment {
                 public void onClick(View v) {
                     if(estadoEditarAlarma.equals("insert")) {
                         if (ComprobarCampos()) {
+                            ZonasFragment.agregando=1;
                             FragmentTransaction fr = getFragmentManager().beginTransaction();
                             fr.replace(R.id.contenedor, new ZonasFragment(), "Zonas");
                             fr.commit();
@@ -154,6 +155,7 @@ public class CrearAlarmaFragment extends Fragment {
                     }
                     if(estadoEditarAlarma.equals("update")){
                         editar(v);
+                        ZonasFragment.agregando=0;
                         FragmentTransaction fr = getFragmentManager().beginTransaction();
                         fr.replace(R.id.contenedor, new AlarmasFragment(), "Alarmas");
                         fr.commit();
